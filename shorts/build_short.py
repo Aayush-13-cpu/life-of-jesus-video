@@ -178,7 +178,7 @@ TEMPLATE = """<!doctype html>
   <div id="title" class="clip" data-start="0" data-duration="3.2" data-track-index="3"><div id="title-t">{title}</div></div>
   <div id="verse" class="clip" data-start="{last}" data-duration="{lastdur}" data-track-index="3"><div id="verse-t">{ref} · KJV</div></div>
   <audio id="voice" src="assets/voice.wav" data-start="0" data-duration="{total}" data-volume="1"></audio>
-  <audio id="music" src="assets/music.wav" data-start="0" data-duration="{total}" data-volume="0.32"></audio>
+  <audio id="music" src="assets/music.wav" data-start="0" data-duration="{total}" data-volume="1"></audio>
 </div>
 <script>
   const PLAN = {plan};

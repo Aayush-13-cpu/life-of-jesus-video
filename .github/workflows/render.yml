@@ -58,6 +58,7 @@ jobs:
             cat render.log; tail -n 25 render.log | sed 's/^/::error::/'; exit 1
           fi
           tail -n 20 render.log
+          ffmpeg -v error -y -i "out/life-of-jesus.mp4" -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 -c:a aac -b:a 192k "out/life-of-jesus.mp4.tmp.mp4" && mv "out/life-of-jesus.mp4.tmp.mp4" "out/life-of-jesus.mp4"
       - name: Preview frames
         run: |
           mkdir -p out/frames

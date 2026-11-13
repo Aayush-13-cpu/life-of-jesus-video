@@ -76,6 +76,8 @@ jobs:
             cat render.log; tail -n 25 render.log | sed 's/^/::error::/'; exit 1
           fi
           tail -n 5 render.log
+          # YouTube plays Shorts at about -14 LUFS; normalize so this one is not quieter than its neighbours
+          ffmpeg -v error -y -i "$GITHUB_WORKSPACE/out/${{ matrix.id }}.mp4" -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 -c:a aac -b:a 192k "$GITHUB_WORKSPACE/out/${{ matrix.id }}.mp4.tmp.mp4" && mv "$GITHUB_WORKSPACE/out/${{ matrix.id }}.mp4.tmp.mp4" "$GITHUB_WORKSPACE/out/${{ matrix.id }}.mp4"
       - name: Publish to the release
         env:
           GH_TOKEN: ${{ github.token }}

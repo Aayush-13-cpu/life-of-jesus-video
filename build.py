@@ -149,7 +149,7 @@ TEMPLATE = """<!doctype html>
 {sections}
   <div id="timeline"><div id="track"></div><div id="progress"></div>{dots}</div>
   <audio id="voice" src="assets/voice.wav" data-start="0" data-duration="{total}" data-volume="1"></audio>
-  <audio id="music" src="assets/music.wav" data-start="0" data-duration="{total}" data-volume="0.35"></audio>
+  <audio id="music" src="assets/music.wav" data-start="0" data-duration="{total}" data-volume="1"></audio>
 </div>
 <script>
   const PLAN = {plan};
