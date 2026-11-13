@@ -169,13 +169,14 @@ TEMPLATE = """<!doctype html>
       tl.fromTo("#" + id + " .w", {{ opacity: 0, y: 46, rotateX: -60 }},
                 {{ opacity: 1, y: 0, rotateX: 0, duration: 0.8, stagger: 0.12, ease: "power3.out" }}, s + 0.45);
       if (!p.icon) {{
-        tl.fromTo("#" + id + "-sub", {{ opacity: 0, letterSpacing: "22px" }}, {{ opacity: 1, letterSpacing: "8px", duration: 1.4, ease: "power2.out" }}, s + 1.1);
+        tl.fromTo("#" + id + "-sub", {{ opacity: 0, y: 18 }}, {{ opacity: 1, y: 0, duration: 1.4, ease: "power2.out" }}, s + 1.1);
         return;
       }}
       const k = events.indexOf(p);
       tl.fromTo("#" + id + "-icon path", {{ strokeDashoffset: 1 }}, {{ strokeDashoffset: 0, duration: 1.4, stagger: 0.12, ease: "power2.inOut" }}, s + 0.1);
       tl.fromTo("#" + id + "-icon", {{ scale: 0.85, opacity: 0 }}, {{ scale: 1, opacity: 1, duration: 0.9, ease: "power2.out" }}, s + 0.1);
-      tl.fromTo("#" + id + "-year", {{ opacity: 0, letterSpacing: "24px" }}, {{ opacity: 1, letterSpacing: "10px", duration: 1.0, ease: "power2.out" }}, s + 0.3);
+      // transforms only: letter-spacing snaps to whole pixels and stutters in frame-by-frame capture (lint error)
+      tl.fromTo("#" + id + "-year", {{ opacity: 0, y: 14 }}, {{ opacity: 1, y: 0, duration: 1.0, ease: "power2.out" }}, s + 0.3);
       tl.fromTo("#" + id + "-quote", {{ opacity: 0, y: 24 }}, {{ opacity: 1, y: 0, duration: 1.0, ease: "power2.out" }}, s + 1.3);
       tl.to("#progress", {{ scaleX: k / (events.length - 1), duration: 0.9, ease: "power2.inOut" }}, s + 0.2);
       tl.to("#dot-" + id, {{ backgroundColor: "#e3c78a", borderColor: "#e3c78a", scale: 1.35, duration: 0.5, ease: "back.out(3)" }}, s + 0.6);

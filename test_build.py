@@ -19,6 +19,7 @@ assert 'window.__timelines["life-of-jesus"]' in page and 'data-composition-id="l
 ids = re.findall(r'\sid="([^"]+)"', page)
 assert len(ids) == len(set(ids)), [i for i in ids if ids.count(i) > 1]  # HyperFrames needs unique ids
 assert page.count('class="clip scene"') == len(scenes)
+assert "letterSpacing" not in page, "HyperFrames lint rejects animating letter-spacing; tween transforms instead"
 for s in scenes:
     assert s["quote"].replace("'", "&#x27;") in page
 print("ok")

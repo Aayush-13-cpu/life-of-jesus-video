@@ -41,15 +41,22 @@ jobs:
         run: python test_build.py
       - name: Narrate and write the composition
         run: python build.py
+      # Failures are re-printed as ::error:: annotations, which anyone can read without a GitHub login.
       - name: Check the composition
         run: |
           npx --yes hyperframes --version
           npx --yes hyperframes doctor || true
-          npx --yes hyperframes lint
+          if ! npx --yes hyperframes lint > lint.txt 2>&1; then
+            cat lint.txt; grep '✗' lint.txt | sed 's/^ */::error::/'; exit 1
+          fi
+          cat lint.txt
       - name: Render
         run: |
           npx --yes hyperframes browser ensure || true
-          npx --yes hyperframes render --quality high --output out/life-of-jesus.mp4
+          if ! npx --yes hyperframes render --quality high --output out/life-of-jesus.mp4 > render.log 2>&1; then
+            cat render.log; tail -n 25 render.log | sed 's/^/::error::/'; exit 1
+          fi
+          tail -n 20 render.log
       - name: Preview frames
         run: |
           mkdir -p out/frames
