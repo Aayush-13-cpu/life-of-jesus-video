@@ -1,0 +1,64 @@
+# Renders the video on GitHub's free runners (free and unlimited for public repos), so no local computer is used.
+# Download the result from the run's "Artifacts" section.
+name: render
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      HYPERFRAMES_AGENT: "1"
+      HYPERFRAMES_NO_TELEMETRY: "1"
+      HYPERFRAMES_SKIP_SKILLS: "1"
+      HYPERFRAMES_NO_UPDATE_CHECK: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      - uses: actions/cache@v4
+        with:
+          path: models
+          key: kokoro-v1.0
+      - name: Download Kokoro voice model (open source, Apache 2.0)
+        run: |
+          mkdir -p models
+          base=https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0
+          [ -f models/kokoro-v1.0.onnx ] || curl -fsSL --retry 5 -o models/kokoro-v1.0.onnx $base/kokoro-v1.0.onnx
+          [ -f models/voices-v1.0.bin ] || curl -fsSL --retry 5 -o models/voices-v1.0.bin $base/voices-v1.0.bin
+      - name: Install Python packages
+        run: pip install -q kokoro-onnx soundfile numpy
+      - name: Self-check
+        run: python test_build.py
+      - name: Narrate and write the composition
+        run: python build.py
+      - name: Check the composition
+        run: |
+          npx --yes hyperframes --version
+          npx --yes hyperframes doctor || true
+          npx --yes hyperframes lint
+      - name: Render
+        run: |
+          npx --yes hyperframes browser ensure || true
+          npx --yes hyperframes render --quality high --output out/life-of-jesus.mp4
+      - name: Preview frames
+        run: |
+          mkdir -p out/frames
+          for t in 2 9 30 60 90; do ffmpeg -v error -y -ss $t -i out/life-of-jesus.mp4 -frames:v 1 out/frames/t$t.png || true; done
+          ffprobe -v error -show_entries format=duration -of csv=p=0 out/life-of-jesus.mp4
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: life-of-jesus
+          path: |
+            out/
+            index.html

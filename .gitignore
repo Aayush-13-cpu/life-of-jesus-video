@@ -1,0 +1,7 @@
+models/
+assets/
+out/
+renders/
+node_modules/
+index.html
+__pycache__/

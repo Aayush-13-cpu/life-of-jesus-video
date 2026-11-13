@@ -1,0 +1,70 @@
+{
+  "title": "The Life of Jesus",
+  "subtitle": "A timeline from Bethlehem to the Ascension",
+  "scenes": [
+    {
+      "id": "intro", "icon": "", "year": "", "title": "The Life of Jesus", "ref": "", "quote": "",
+      "narration": "From a manger in Bethlehem to an empty tomb in Jerusalem. Here is the life of Jesus, step by step."
+    },
+    {
+      "id": "birth", "icon": "star", "year": "c. 6–4 BC", "title": "Born in Bethlehem",
+      "ref": "Luke 2:7", "quote": "and laid him in a manger; because there was no room for them in the inn.",
+      "narration": "Sometime between six and four B.C., Jesus is born to Mary in Bethlehem, and laid in a manger, because there is no room in the inn."
+    },
+    {
+      "id": "nazareth", "icon": "house", "year": "Childhood", "title": "Egypt, then Nazareth",
+      "ref": "Matthew 2:23", "quote": "He shall be called a Nazarene.",
+      "narration": "Warned in a dream, Joseph takes the family to Egypt. After King Herod dies, they settle in Nazareth, in Galilee."
+    },
+    {
+      "id": "temple", "icon": "temple", "year": "Age 12", "title": "In His Father's House",
+      "ref": "Luke 2:49", "quote": "wist ye not that I must be about my Father's business?",
+      "narration": "At twelve, Jesus stays behind in the temple in Jerusalem, listening to the teachers and asking them questions."
+    },
+    {
+      "id": "baptism", "icon": "waves", "year": "c. AD 27–29", "title": "Baptized in the Jordan",
+      "ref": "Matthew 3:17", "quote": "This is my beloved Son, in whom I am well pleased.",
+      "narration": "At about thirty years of age, he is baptized by John in the Jordan River, and a voice from heaven speaks."
+    },
+    {
+      "id": "wilderness", "icon": "mountains", "year": "Forty days", "title": "Tempted in the Wilderness",
+      "ref": "Matthew 4:4", "quote": "Man shall not live by bread alone.",
+      "narration": "Then for forty days he fasts in the wilderness, and answers every temptation with the word of God."
+    },
+    {
+      "id": "ministry", "icon": "fish", "year": "About three years", "title": "Ministry in Galilee",
+      "ref": "Matthew 4:19", "quote": "Follow me, and I will make you fishers of men.",
+      "narration": "He calls twelve disciples, teaches the Sermon on the Mount, heals the sick, and preaches the kingdom of God."
+    },
+    {
+      "id": "transfiguration", "icon": "sun", "year": "A high mountain", "title": "The Transfiguration",
+      "ref": "Matthew 17:2", "quote": "and his face did shine as the sun.",
+      "narration": "On a high mountain, Peter, James and John see him transfigured, his face shining like the sun."
+    },
+    {
+      "id": "entry", "icon": "gate", "year": "The final week", "title": "Into Jerusalem",
+      "ref": "Matthew 21:9", "quote": "Hosanna to the Son of David.",
+      "narration": "In his final week, he rides into Jerusalem on a donkey, and the crowds spread branches on the road."
+    },
+    {
+      "id": "supper", "icon": "cup", "year": "Thursday", "title": "The Last Supper",
+      "ref": "Luke 22:19", "quote": "this do in remembrance of me.",
+      "narration": "On Thursday night he shares bread and wine with his disciples, then prays in Gethsemane: not my will, but thine, be done."
+    },
+    {
+      "id": "cross", "icon": "cross", "year": "Friday · c. AD 30–33", "title": "Crucified",
+      "ref": "John 19:30", "quote": "It is finished.",
+      "narration": "On Friday he is crucified outside Jerusalem. His last words, in the Gospel of John: it is finished."
+    },
+    {
+      "id": "resurrection", "icon": "sunrise", "year": "The third day", "title": "He Is Risen",
+      "ref": "Luke 24:6", "quote": "He is not here, but is risen.",
+      "narration": "On the third day, the women find the tomb empty, and they are told: he is not here, but is risen."
+    },
+    {
+      "id": "ascension", "icon": "cloud", "year": "Forty days later", "title": "The Ascension",
+      "ref": "Matthew 28:20", "quote": "lo, I am with you alway, even unto the end of the world.",
+      "narration": "For forty days he appears to his followers. Then he is taken up into heaven, leaving a promise that still stands."
+    }
+  ]
+}
