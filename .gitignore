@@ -5,3 +5,5 @@ renders/
 node_modules/
 index.html
 __pycache__/
+shorts/build/
+shorts/output/

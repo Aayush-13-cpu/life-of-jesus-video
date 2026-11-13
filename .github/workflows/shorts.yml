@@ -1,0 +1,85 @@
+# Renders the story Shorts listed in shorts/render.txt on GitHub's free runners (free and unlimited for public
+# repos), in parallel, and publishes each MP4 to a GitHub Release. `python shorts/fetch.py` downloads them locally.
+name: shorts
+on:
+  push:
+    branches: [main]
+    paths: ["shorts/**", ".github/workflows/shorts.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  HYPERFRAMES_AGENT: "1"
+  HYPERFRAMES_NO_TELEMETRY: "1"
+  HYPERFRAMES_SKIP_SKILLS: "1"
+  HYPERFRAMES_NO_UPDATE_CHECK: "1"
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      ids: ${{ steps.p.outputs.ids }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: p
+        run: |
+          echo "ids=$(grep -v '^\s*#' shorts/render.txt | grep -v '^\s*$' | python3 -c 'import sys,json; print(json.dumps([l.strip() for l in sys.stdin]))')" >> "$GITHUB_OUTPUT"
+      - name: Create the release that collects this batch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "shorts-${{ github.run_number }}" --target "${{ github.sha }}" --title "Shorts batch ${{ github.run_number }}" --notes "Rendered from shorts/render.txt at ${{ github.sha }}."
+
+  render:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        id: ${{ fromJson(needs.plan.outputs.ids) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      - uses: actions/cache@v4
+        with:
+          path: models
+          key: kokoro-v1.0
+      - name: Download Kokoro voice model (open source, Apache 2.0)
+        run: |
+          mkdir -p models
+          base=https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0
+          [ -f models/kokoro-v1.0.onnx ] || curl -fsSL --retry 5 -o models/kokoro-v1.0.onnx $base/kokoro-v1.0.onnx
+          [ -f models/voices-v1.0.bin ] || curl -fsSL --retry 5 -o models/voices-v1.0.bin $base/voices-v1.0.bin
+      - run: pip install -q kokoro-onnx soundfile numpy
+      - name: Self-check
+        run: python shorts/test_shorts.py
+      - name: Narrate and compose
+        run: python shorts/build_short.py "${{ matrix.id }}"
+      - name: Lint and render
+        working-directory: shorts/build/${{ matrix.id }}
+        run: |
+          if ! npx --yes hyperframes lint > lint.txt 2>&1; then
+            cat lint.txt; grep '✗' lint.txt | sed 's/^ */::error::/'; exit 1
+          fi
+          npx --yes hyperframes browser ensure || true
+          if ! npx --yes hyperframes render --quality high --output "$GITHUB_WORKSPACE/out/${{ matrix.id }}.mp4" > render.log 2>&1; then
+            cat render.log; tail -n 25 render.log | sed 's/^/::error::/'; exit 1
+          fi
+          tail -n 5 render.log
+      - name: Publish to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ffprobe -v error -show_entries format=duration -of csv=p=0 "out/${{ matrix.id }}.mp4"
+          for t in 1 6 14 24; do ffmpeg -v error -y -ss $t -i "out/${{ matrix.id }}.mp4" -frames:v 1 -vf scale=360:-1 "out/${{ matrix.id }}-t$t.jpg" || true; done
+          gh release upload "shorts-${{ github.run_number }}" out/${{ matrix.id }}* --clobber

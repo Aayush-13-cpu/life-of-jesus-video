@@ -4,6 +4,7 @@ name: render
 on:
   push:
     branches: [main]
+    paths: ["script.json", "build.py", "test_build.py", ".github/workflows/render.yml"]
   workflow_dispatch:
 
 jobs:

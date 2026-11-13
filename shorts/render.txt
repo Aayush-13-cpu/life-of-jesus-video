@@ -1,0 +1,3 @@
+# Story ids to render (from shorts/stories.json), one per line. Pushing a change here starts a render.
+# Sample first: the full batch of 20 goes in after the sample is approved.
+calms-the-storm
