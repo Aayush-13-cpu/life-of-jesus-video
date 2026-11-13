@@ -2,15 +2,16 @@
 import json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import kit
-from build_short import estimate, render_html, timings, chunks, TEMPLATE, MAX_TOTAL, WPS
+from build_short import all_stories, estimate, render_html, timings, chunks, TEMPLATE, MAX_TOTAL, WPS
 
 ACTIONS = set(re.findall(r"^\s{6}(\w+): a =>", TEMPLATE, re.M))
 assert {"walk", "raise", "rock", "flash", "rain"} <= ACTIONS, ACTIONS
 KINDS = set(kit.PROPS) | kit.PEOPLE | {"crowd"}
 FX = {"rain", "lightning", "rays", "sparkle"}
 
-stories = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "stories.json"), encoding="utf-8"))["stories"]
-assert len(stories) == 20 and len({s["id"] for s in stories}) == 20
+stories = all_stories()
+assert len(stories) == 40 and len({s["id"] for s in stories}) == 40, "two sets of 20 with unique ids"
+assert sum(s.get("style") == "parchment" for s in stories) == 20
 for st in stories:
     sid = st["id"]
     assert estimate(st) <= MAX_TOTAL - 2, f"{sid}: ~{estimate(st):.0f} s is too close to the 60 s Shorts limit"
@@ -31,5 +32,6 @@ for st in stories:
     assert len(ids) == len(set(ids)), (sid, sorted({i for i in ids if ids.count(i) > 1})[:5])
     assert f'data-duration="{total}"' in page and 'window.__timelines["story-short"]' in page
     assert "letterSpacing" not in page
+    assert ("#3b2414" in page) == (st.get("style") == "parchment"), sid  # the right palette is in use
 assert chunks("Peace, be still. And the wind ceased") == ["Peace, be still.", "And the wind ceased"]
 print(f"ok: {len(stories)} stories, {min(estimate(s) for s in stories):.0f}-{max(estimate(s) for s in stories):.0f} s each")

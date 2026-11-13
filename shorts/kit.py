@@ -19,6 +19,26 @@ SKIES = {  # top, middle, horizon colours, and an optional sun/moon (kind, x, y,
 }
 
 
+SILHOUETTE = dict(ink=INK, skies=SKIES, c=dict(wave="#dfe8ff", sea="#3a4a6a", hole="#030206", rain="#c9d6ec",
+                 rays="#fff1c8", spark="#fff3c4", star="#fff", sun="#fff4d6", moon="#e9ecf5"))
+PARCHMENT = dict(ink="#3b2414", c=dict(wave="#5a3a1e", sea="#bfa57c", hole="#2a170b", rain="#5a4630", rays="#fff6dc",
+                                       spark="#b8862b", star="#6b4a2a", sun="#d9a441", moon="#f6efe0"),
+                 skies={"day": ("#f4e9cf", "#ead7ad", "#dcc08a", ("sun", 820, 470, 58)),
+                        "dawn": ("#f1e2c4", "#e9c79a", "#d9a978", ("sun", 760, 1170, 70)),
+                        "dusk": ("#eedbb8", "#dcb184", "#c58f61", ("sun", 300, 1160, 110)),
+                        "night": ("#d9c7a2", "#c8b088", "#b59a72", ("moon", 800, 400, 52)),
+                        "storm": ("#cbbf9f", "#b5a785", "#9d8f6e", None)})
+STYLES = {"silhouette": SILHOUETTE, "parchment": PARCHMENT}
+C = SILHOUETTE["c"]
+
+
+def use(style):
+    """Switch every drawing function to a style's palette (module-level, one story is built per process)."""
+    global INK, SKIES, C
+    st = STYLES[style]
+    INK, SKIES, C = st["ink"], st["skies"], st["c"]
+
+
 def rng(seed):
     """Seeded pseudo-random numbers, so 'random' stars and raindrops are identical on every render."""
     s = seed & 0x7FFFFFFF
@@ -40,20 +60,21 @@ def sky(p, name):
     anims = []
     if name in ("night", "storm"):
         r = rng(7 if name == "night" else 11)
-        stars = "".join(f'<circle cx="{r() * W:.0f}" cy="{r() * 950:.0f}" r="{1 + r() * 2.2:.1f}" fill="#fff" '
+        stars = "".join(f'<circle cx="{r() * W:.0f}" cy="{r() * 950:.0f}" r="{1 + r() * 2.2:.1f}" fill="{C["star"]}" '
                         f'opacity="{0.35 + r() * 0.65:.2f}"/>' for _ in range(110 if name == "night" else 0))
         out.append(f'<g id="{p}-stars">{stars}</g>')
         if name == "night":
             anims.append({"t": f"#{p}-stars", "do": "twinkle"})
     if orb:
         kind, x, y, rad = orb
-        col = "#fff4d6" if kind == "sun" else "#e9ecf5"
+        col = C["sun"] if kind == "sun" else C["moon"]
         out.append(f'<circle cx="{x}" cy="{y}" r="{rad * 3.2}" fill="url(#{p}-halo)" opacity="0.55"/>'
                    f'<circle cx="{x}" cy="{y}" r="{rad}" fill="{col}"/>')
     return "".join(out), anims
 
 
-def ridge(base, amp, waves, phase, op=1.0, fill=INK):
+def ridge(base, amp, waves, phase, op=1.0, fill=None):
+    fill = fill or INK
     pts = " L".join(f"{x} {base + amp * math.sin(x / W * waves * math.pi + phase):.0f}" for x in range(-40, W + 81, 60))
     return f'<path d="M-40 {H} L{pts} L{W + 40} {H} Z" fill="{fill}" opacity="{op}"/>'
 
@@ -81,17 +102,17 @@ def ground(p, name):
     elif name == "sea":
         r = rng(3)
         waves = "".join(f'<path d="M-120 {y:.0f} q30 -12 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 '
-                        f't60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0" fill="none" stroke="#dfe8ff" '
+                        f't60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0" fill="none" stroke="{C["wave"]}" '
                         f'stroke-opacity="{0.08 + r() * 0.12:.2f}" stroke-width="3"/>' for y in range(HZ + 40, H, 70))
         g = (ridge(HZ - 25, 18, 2, 1.5, 0.45)
-             + f'<defs><linearGradient id="{p}-sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a4a6a"/>'
+             + f'<defs><linearGradient id="{p}-sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{C["sea"]}"/>'
                f'<stop offset="1" stop-color="{INK}"/></linearGradient></defs>'
              + f'<rect x="0" y="{HZ}" width="{W}" height="{H - HZ}" fill="url(#{p}-sea)"/><g id="{p}-waves">{waves}</g>')
         anims.append({"t": f"#{p}-waves", "do": "drift", "amp": 40, "period": 3.2})
     elif name == "garden":
         g = (ridge(HZ - 60, 40, 2.5, 0.2, 0.42) + ridge(FEET - 10, 14, 1.5, 1.0)
              + f'<path d="M560 {FEET} C560 1010 1120 980 1120 1040 L1120 {FEET} Z" fill="{INK}"/>'
-             + f'<ellipse cx="800" cy="{FEET - 95}" rx="80" ry="105" fill="#030206"/>')
+             + f'<ellipse cx="800" cy="{FEET - 95}" rx="80" ry="105" fill="{C["hole"]}"/>')
     else:
         raise ValueError(f"unknown ground {name!r}")
     return g, anims
@@ -139,6 +160,15 @@ PROPS = {
             'fill="#fff6d8" opacity="0.5"/>',
     "chest": '<rect x="-80" y="-90" width="160" height="90"/><path d="M-90 -90 Q0 -140 90 -90 Z"/>'
              '<rect x="-14" y="-100" width="28" height="22" fill="#f2c96b"/>',
+    "well": '<rect x="-110" y="-120" width="220" height="120"/><rect x="-125" y="-135" width="250" height="22"/>'
+            '<rect x="-95" y="-300" width="12" height="170"/><rect x="83" y="-300" width="12" height="170"/>'
+            '<rect x="-110" y="-310" width="220" height="16"/>',
+    "lamp": '<path d="M-40 -10 Q0 10 40 -10 L30 -30 L-30 -30 Z"/><path d="M40 -22 L70 -34 L60 -18 Z"/>'
+            '<path id="{pid}-flame" d="M66 -36 C60 -60 72 -66 74 -84 C80 -66 88 -60 80 -36 Z" fill="#f0a23c"/>',
+    "cross": '<rect x="-14" y="-430" width="28" height="430"/><rect x="-110" y="-350" width="220" height="24"/>',
+    "mat": '<rect x="-110" y="-16" width="220" height="16" rx="6"/>',
+    "stones": '<ellipse cx="-40" cy="-14" rx="26" ry="16"/><ellipse cx="10" cy="-12" rx="20" ry="13"/>'
+              '<ellipse cx="50" cy="-16" rx="28" ry="17"/>',
     "birds": '<g fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"><path d="M0 0 q14 -12 28 0 q14 -12 28 0"/>'
              '<path d="M70 -40 q10 -9 20 0 q10 -9 20 0"/><path d="M-60 -30 q11 -10 22 0 q11 -10 22 0"/></g>',
 }
@@ -203,7 +233,7 @@ def fx(p, name):
     if name == "rain":
         r = rng(13)
         drops = "".join(f'<path d="M{x:.0f} {y:.0f} l-14 46" />' for x, y in ((r() * (W + 200), r() * 2 * H) for _ in range(170)))
-        return (f'<g id="{p}-rain" stroke="#c9d6ec" stroke-width="2.5" stroke-opacity="0.45" stroke-linecap="round">{drops}</g>',
+        return (f'<g id="{p}-rain" stroke="{C["rain"]}" stroke-width="2.5" stroke-opacity="0.45" stroke-linecap="round">{drops}</g>',
                 [{"t": f"#{p}-rain", "do": "rain"}])
     if name == "lightning":
         return (f'<path id="{p}-bolt" d="M640 0 L560 360 L640 360 L520 760 L700 300 L615 300 L700 0 Z" fill="#f4f7ff" opacity="0"/>'
@@ -213,10 +243,10 @@ def fx(p, name):
         rays = "".join(f'<path d="M540 -60 L{540 + 700 * math.sin(a):.0f} {1300 * math.cos(a):.0f} '
                        f'L{540 + 700 * math.sin(a + 0.09):.0f} {1300 * math.cos(a + 0.09):.0f} Z"/>'
                        for a in [i * 0.2 - 0.9 for i in range(10)])
-        return (f'<g id="{p}-rays" fill="#fff1c8" opacity="0">{rays}</g>', [{"t": f"#{p}-rays", "do": "rays"}])
+        return (f'<g id="{p}-rays" fill="{C["rays"]}" opacity="0">{rays}</g>', [{"t": f"#{p}-rays", "do": "rays"}])
     if name == "sparkle":
         r = rng(17)
         sp = "".join(f'<path d="M{x:.0f} {y - 14:.0f} l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4 Z"/>'
                      for x, y in ((140 + r() * 800, 700 + r() * 600) for _ in range(26)))
-        return f'<g id="{p}-sparkle" fill="#fff3c4" opacity="0">{sp}</g>', [{"t": f"#{p}-sparkle", "do": "sparkle"}]
+        return f'<g id="{p}-sparkle" fill="{C["spark"]}" opacity="0">{sp}</g>', [{"t": f"#{p}-sparkle", "do": "sparkle"}]
     raise ValueError(f"unknown fx {name!r}")

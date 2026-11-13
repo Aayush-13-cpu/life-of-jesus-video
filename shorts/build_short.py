@@ -19,9 +19,14 @@ MAX_TOTAL = 59.0                    # YouTube Shorts must stay under 60 s
 WPS = 2.55                          # measured-style estimate of Kokoro's pace at SPEED, for checks before TTS
 
 
+def all_stories():
+    """Every story: the silhouette set (stories.json) and the parchment set (stories_parchment.json)."""
+    first = json.load(open(os.path.join(HERE, "stories.json"), encoding="utf-8"))["stories"]
+    return first + json.load(open(os.path.join(HERE, "stories_parchment.json"), encoding="utf-8"))
+
+
 def load(story_id):
-    stories = json.load(open(os.path.join(HERE, "stories.json"), encoding="utf-8"))["stories"]
-    return next(s for s in stories if s["id"] == story_id)
+    return next(s for s in all_stories() if s["id"] == story_id)
 
 
 def estimate(story):
@@ -125,7 +130,20 @@ def compose_beat(i, beat, start, dur):
     return svg, anims
 
 
+CSS = {  # page-level colours per style (the scene colours live in kit.STYLES)
+    "silhouette": dict(root_bg="#05060c", cap_color="#fff8ec", gold="#f0d79c",
+                       cap_shadow="0 0 18px rgba(0,0,0,0.85), 0 4px 6px rgba(0,0,0,0.7)", label_shadow="0 0 14px rgba(0,0,0,0.9)",
+                       vignette="radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%)"),
+    "parchment": dict(root_bg="#e9d9b4", cap_color="#2a170b", gold="#7a4f1a",
+                      cap_shadow="0 0 16px rgba(250,240,215,0.95), 0 0 5px rgba(250,240,215,0.9)",
+                      label_shadow="0 0 10px rgba(250,240,215,0.95)",
+                      vignette="radial-gradient(ellipse at 50% 45%, rgba(90,55,20,0) 48%, rgba(70,40,15,0.6) 100%)"),
+}
+
+
 def render_html(story, voice, slots, total):
+    style = story.get("style", "silhouette")
+    kit.use(style)
     e = html.escape
     sections, anims = [], []
     for i, (b, (start, dur)) in enumerate(zip(story["beats"], slots)):
@@ -140,7 +158,7 @@ def render_html(story, voice, slots, total):
             "anims": anims, "caps": len(captions(story, voice, slots)), "total": total, "last": last}
     return TEMPLATE.format(
         title=e(story["title"]), total=total, sections="\n".join(sections), caps=caps, plan=json.dumps(plan),
-        ref=e(story["ref"]), last=last, lastdur=round(total - last, 3), W=kit.W, H=kit.H)
+        ref=e(story["ref"]), last=last, lastdur=round(total - last, 3), W=kit.W, H=kit.H, **CSS[style])
 
 
 TEMPLATE = """<!doctype html>
@@ -153,21 +171,21 @@ TEMPLATE = """<!doctype html>
   @font-face {{ font-family: "Cormorant"; src: url("fonts/CormorantGaramond.ttf"); }}
   @font-face {{ font-family: "Cinzel"; src: url("fonts/Cinzel.ttf"); }}
   body {{ margin: 0; background: #000; }}
-  #root {{ position: relative; width: {W}px; height: {H}px; overflow: hidden; isolation: isolate; background: #05060c; }}
+  #root {{ position: relative; width: {W}px; height: {H}px; overflow: hidden; isolation: isolate; background: {root_bg}; }}
   .clip {{ position: absolute; inset: 0; }}
   .scene {{ position: absolute; inset: 0; }}
   .stage {{ position: absolute; inset: 0; width: 100%; height: 100%; }}
   #vignette {{ position: absolute; inset: 0; z-index: 3; pointer-events: none;
-              background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%); }}
+              background: {vignette}; }}
   .cap {{ z-index: 5; display: flex; justify-content: center; align-items: flex-start; }}
-  .cap span {{ margin-top: 470px; max-width: 900px; text-align: center; color: #fff8ec; font: 600 84px/1.1 "Cormorant", serif;
-              text-shadow: 0 0 18px rgba(0,0,0,0.85), 0 4px 6px rgba(0,0,0,0.7); }}
+  .cap span {{ margin-top: 470px; max-width: 900px; text-align: center; color: {cap_color}; font: 600 84px/1.1 "Cormorant", serif;
+              text-shadow: {cap_shadow}; }}
   #title {{ z-index: 6; }}
   #title-t {{ position: absolute; top: 250px; left: 0; right: 0; text-align: center; font: 38px "Cinzel", serif;
-             letter-spacing: 8px; color: #f0d79c; text-transform: uppercase; text-shadow: 0 0 14px rgba(0,0,0,0.9); }}
+             letter-spacing: 8px; color: {gold}; text-transform: uppercase; text-shadow: {label_shadow}; }}
   #verse {{ z-index: 6; }}
   #verse-t {{ position: absolute; top: 330px; left: 0; right: 0; text-align: center; font: 32px "Cinzel", serif;
-             letter-spacing: 7px; color: #f0d79c; text-shadow: 0 0 14px rgba(0,0,0,0.9); }}
+             letter-spacing: 7px; color: {gold}; text-shadow: {label_shadow}; }}
 </style>
 </head>
 <body>
