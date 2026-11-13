@@ -148,8 +148,6 @@ def person(pid, kind, p):
     """A robed figure 190 units tall: body group -b (for bob/kneel/lie), arm groups -al / -ar (for gestures)."""
     fill = "#fff3d0" if kind == "angel" else INK
     parts = []
-    if kind == "jesus":  # shown as a figure in soft light, never with an invented face
-        parts.append(f'<circle id="{pid}-glow" cx="0" cy="-120" r="160" fill="url(#{p}-halo)" opacity="0.75"/>')
     if kind == "angel":
         parts.append(f'<circle cx="0" cy="-120" r="190" fill="url(#{p}-halo)" opacity="0.9"/>'
                      '<path d="M-10 -150 C-120 -230 -170 -120 -150 -40 C-110 -110 -60 -120 -10 -110 Z" opacity="0.8"/>'
@@ -180,8 +178,11 @@ def place(pid, k, x, y, s, flip, inner, p):
     else:
         raise ValueError(f"unknown cast kind {k!r}")
     sx = -s if flip else s
-    cls = ' class="body"'
-    return f'<g id="{pid}" transform="translate({x},{y}) scale({sx},{s})"><g id="{pid}-b"{cls}>{inner}{body}</g></g>'
+    # Jesus is shown as a figure in soft light, never with an invented face; the glow stays outside the body group
+    # so that kneel/lie pivot around the feet, not around the glow's bounding box
+    glow = (f'<circle id="{pid}-glow" cx="0" cy="-120" r="160" fill="url(#{p}-halo)" opacity="0.75"/>'
+            if k == "jesus" else "")
+    return f'<g id="{pid}" transform="translate({x},{y}) scale({sx},{s})">{glow}<g id="{pid}-b" class="body">{inner}{body}</g></g>'
 
 
 def crowd(pid, x, y, s, n, p, seed=9):

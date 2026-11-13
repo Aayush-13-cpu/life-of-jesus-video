@@ -233,7 +233,7 @@ TEMPLATE = """<!doctype html>
     PLAN.beats.forEach(b => {{
       tl.fromTo("#" + b.id + "-in", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.35, immediateRender: false }}, b.s);
       tl.to("#" + b.id + "-in", {{ opacity: 0, duration: 0.3 }}, b.s + b.d - 0.3);
-      tl.fromTo("#" + b.id + "-in", {{ scale: 1 }}, {{ scale: 1.07, duration: b.d, ease: "none", transformOrigin: "50% 62%", immediateRender: false }}, b.s);
+      tl.fromTo("#" + b.id + "-in", {{ scale: 1.24 }}, {{ scale: 1.31, duration: b.d, ease: "none", transformOrigin: "50% 72%", immediateRender: false }}, b.s);
     }});
     PLAN.anims.forEach(a => F[a.do](a));
     for (let i = 0; i < PLAN.caps; i++)
