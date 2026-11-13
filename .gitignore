@@ -7,3 +7,4 @@ index.html
 __pycache__/
 shorts/build/
 shorts/output/
+*.zip
