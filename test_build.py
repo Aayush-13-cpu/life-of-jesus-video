@@ -22,4 +22,6 @@ assert page.count('class="clip scene"') == len(scenes)
 assert "letterSpacing" not in page, "HyperFrames lint rejects animating letter-spacing; tween transforms instead"
 for s in scenes:
     assert s["quote"].replace("'", "&#x27;") in page
+lefts = [float(x) for x in re.findall(r'class="dot"[^>]*left:([\d.]+)px', page)]
+assert lefts[0] == 0 and lefts[-1] == 1560, lefts  # dots sit inside #timeline (1560 px wide), not offset again
 print("ok")

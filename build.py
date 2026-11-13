@@ -85,7 +85,7 @@ def render_html(meta, scenes, slots, total):
     """The HyperFrames composition: one root, one timed <section class="clip"> per scene, one paused GSAP timeline."""
     e = html.escape
     events = [s for s in scenes if s["icon"]]  # every scene but the intro gets a dot on the timeline
-    dots = "".join(f'<div class="dot" id="dot-{s["id"]}" style="left:{180 + i * 1560 / (len(events) - 1):.1f}px"></div>'
+    dots = "".join(f'<div class="dot" id="dot-{s["id"]}" style="left:{i * 1560 / (len(events) - 1):.1f}px"></div>'
                    for i, s in enumerate(events))
     sections = []
     for s, (start, dur) in zip(scenes, slots):
