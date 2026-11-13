@@ -1,3 +1,21 @@
 # Story ids to render (from shorts/stories.json), one per line. Pushing a change here starts a render.
-# Sample first: the full batch of 20 goes in after the sample is approved.
 calms-the-storm
+walks-on-water
+feeds-five-thousand
+water-into-wine
+blind-bartimaeus
+raising-lazarus
+great-catch
+zacchaeus
+lost-sheep
+prodigal-son
+good-samaritan
+the-sower
+mustard-seed
+house-on-the-rock
+blesses-the-children
+widows-mite
+ten-lepers
+consider-the-lilies
+road-to-emmaus
+shepherds-and-angels
