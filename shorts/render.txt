@@ -1,22 +1,7 @@
 # Story ids to render (from shorts/stories.json and stories_parchment.json), one per line.
 # Pushing a change here starts a render; each run becomes one release you can download anywhere.
-through-the-roof
-the-hem-of-his-garment
-jairus-daughter
-widow-of-nain
-woman-at-the-well
-nicodemus-by-night
-cleansing-the-temple
-light-of-the-world
-parable-of-the-talents
-ten-virgins
-pharisee-and-publican
-the-lost-coin
-the-rich-fool
-martha-and-mary
-first-stone
-gethsemane
-peter-denies
-thief-on-the-cross
-doubting-thomas
-lovest-thou-me
+the-annunciation
+mary-visits-elisabeth
+josephs-dream
+simeon-in-the-temple
+the-wise-mens-gifts
