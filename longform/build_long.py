@@ -351,7 +351,7 @@ def finish(vid, src, out):
     open(os.path.join(tmp, "title.txt"), "w", encoding="utf-8").write(v.get("thumbnail", v["title"]))
     # thumbnail: a drawn-in frame from the first chapter, the title set large in Cinzel on a dark band
     run("ffmpeg", "-v", "error", "-y", "-ss", str(min(8.0, durs[0] / 2)), "-i", files[0], "-frames:v", "1", "-vf",
-        "scale=1280:720,drawbox=y=ih*0.64:w=iw:h=ih*0.36:color=black@0.55:t=fill,"
+        "scale=1280:720,drawbox=y=ih*0.64:w=iw:h=ih*0.36:color=black@0.9:t=fill,"  # hides the caption under it
         f"drawtext=fontfile={os.path.join(ROOT, 'fonts', 'Cinzel.ttf')}:textfile={os.path.join(tmp, 'title.txt')}:"
         "fontsize=70:fontcolor=0xf6e2b0:x=(w-text_w)/2:y=h*0.64+(h*0.36-text_h)/2", os.path.join(out, f"{vid}.jpg"))
     shutil.rmtree(tmp)
