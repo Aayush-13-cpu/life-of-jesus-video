@@ -39,3 +39,10 @@ short peter-denies before-generator
 short thief-on-the-cross before-generator
 short doubting-thomas before-generator
 short lovest-thou-me before-generator
+long the-prayers-of-jesus 2026-11-14
+long the-life-of-jesus 2026-11-14
+short the-annunciation 2026-11-14
+short mary-visits-elisabeth 2026-11-14
+short josephs-dream 2026-11-14
+short simeon-in-the-temple 2026-11-14
+short the-wise-mens-gifts 2026-11-14
