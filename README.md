@@ -22,6 +22,9 @@ It works through the library in order (`longform/videos/`, then `shorts/stories_
 finished in `generated.txt`, and never renders on your computer. It needs `git` and the GitHub CLI `gh`, logged in
 with a token allowed to push and run workflows.
 
+**The full book:** [`docs/book/The-Life-of-Jesus-Video-Machine.pdf`](docs/book/The-Life-of-Jesus-Video-Machine.pdf) explains everything from your first
+terminal command to building your own machine (rebuild it with `.venv/bin/python docs/book/build_book.py`).
+
 Read it like a short book. Part One explains the ideas, Part Two walks through how this project uses them, Part
 Three shows how to change it, and Part Four shows how to start something new of your own. Every code snippet
 comes from this repository, so you can open the file and see it in context.

@@ -1,0 +1,6 @@
+models/
+assets/
+index.html
+*.mp4
+.venv/
+videos/
