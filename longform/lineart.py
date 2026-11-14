@@ -135,7 +135,7 @@ def background(p, sky):
     if sky in ("night", "dusk"):
         out.append(f'<path {D} d="M1500 120 A64 64 0 1 0 1500 248 A48 64 0 1 1 1500 120 Z" opacity="0.9"/>')  # crescent moon
     elif sky in ("day", "dawn"):
-        x, y, rad = (1460, 230, 54) if sky == "day" else (1300, HZ - 40, 80)
+        x, y, rad = (1460, 230, 54) if sky == "day" else (1600, HZ - 40, 80)  # dawn sun clear of the centre stage
         rays = "".join(f'<path d="M{x + (rad + 14) * math.cos(a):.0f} {y + (rad + 14) * math.sin(a):.0f} '
                        f'L{x + (rad + 40) * math.cos(a):.0f} {y + (rad + 40) * math.sin(a):.0f}"/>' for a in (i * math.pi / 6 for i in range(12)))
         out.append(f'<circle {D} cx="{x}" cy="{y}" r="{rad}"/><g stroke="{c}" stroke-width="3" opacity="0.7">{rays}</g>')

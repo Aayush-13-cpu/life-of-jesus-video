@@ -157,7 +157,7 @@ def render_html(v, n, ch, voice, slots, total):
     plan = {"beats": [{"id": f"beat-{i}", "s": s, "d": d} for i, (s, d) in enumerate(slots)],
             "anims": anims, "caps": len(cl), "last": last}
     return TEMPLATE.format(
-        title=e(ch["title"]), kicker=e(v["title"] if n == 0 else f"Chapter {n}"), total=total,
+        title=e(ch["title"]), kicker=e(f"Chapter {n}" if n else ("" if ch["title"] == v["title"] else v["title"])), total=total,
         sections="\n".join(sections), caps=caps, plan=json.dumps(plan), ref=e(ch["ref"]), last=last,
         lastdur=round(total - last, 3), W=art.W, H=art.H, line=t["line"], glow=t["glow"],
         bg=t["skies"]["night"][0])
