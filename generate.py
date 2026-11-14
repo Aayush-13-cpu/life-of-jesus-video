@@ -9,8 +9,8 @@ renders them on GitHub's computers (never this one), waits, and downloads the fi
   ./generate.py --status           what has been made and what is left
   ./generate.py --dry-run          show the picks, change nothing
 
-Needs git and the GitHub CLI (gh), logged in with a token that may push and run workflows
-(fine-grained token: Contents, Actions and Workflows set to "Read and write"). Python standard library only.
+Needs git and the GitHub CLI (gh), logged in with a token that may push to this repo (fine-grained token:
+Contents and Workflows "Read and write", Actions "Read"). Python standard library only.
 A failed render changes nothing: run the same command again and it retries the same picks.
 """
 import argparse, datetime, json, os, subprocess, sys, time
@@ -65,23 +65,22 @@ def status():
         print(f"{kind}: {len(pool) - len(left)} made, {len(left)} left" + (f"; next: {', '.join(left[:5])}" if left else ""))
 
 
-def write_render_list(path, ids, what):
-    head = [l for l in open(path, encoding="utf-8").read().split("\n") if l.startswith("#")]
-    open(path, "w", encoding="utf-8").write("\n".join(head + ids) + "\n")
+def write_render_list(path, ids, what, stamp):
+    """The ids to render, plus a 'queued' line that changes every run, so pushing it always starts the workflow."""
+    head = [l for l in open(path, encoding="utf-8").read().split("\n") if l.startswith("#") and not l.startswith("# queued")]
+    open(path, "w", encoding="utf-8").write("\n".join(head + [f"# queued {stamp}"] + ids) + "\n")
     print(f"  {what}: {', '.join(ids)}")
 
 
-def dispatch(workflow, since):
-    """Start a workflow on main and return its run (id, number) once GitHub lists it."""
-    sh("gh", "workflow", "run", workflow, "--ref", "main")
-    for _ in range(40):
-        time.sleep(3)
-        runs = json.loads(sh("gh", "run", "list", "--workflow", workflow, "--event", "workflow_dispatch", "--limit", "5",
-                             "--json", "databaseId,number,createdAt", out=True))
-        new = [r for r in runs if r["createdAt"] >= since]
-        if new:
-            return new[0]["databaseId"], new[0]["number"]
-    sys.exit(f"{workflow} was started but never appeared in the run list; check the Actions tab")
+def find_run(workflow, sha):
+    """The run that pushing commit `sha` started for this workflow: (id, number)."""
+    for _ in range(60):
+        time.sleep(5)
+        runs = json.loads(sh("gh", "run", "list", "--workflow", workflow, "--commit", sha, "--limit", "1",
+                             "--json", "databaseId,number", out=True))
+        if runs:
+            return runs[0]["databaseId"], runs[0]["number"]
+    sys.exit(f"Pushed, but {workflow} did not start within 5 minutes; check the Actions tab on GitHub")
 
 
 def main():
@@ -105,23 +104,23 @@ def main():
         sys.exit("render.txt or generated.txt has uncommitted edits; commit or discard them first")
     sh("git", "pull", "-q", "--rebase", "--autostash")
 
+    # Pushing a changed render.txt is what starts each render on GitHub (long.yml and shorts.yml watch those files),
+    # so no extra token permission is needed beyond pushing.
     print("Queueing the renders...")
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     if longs:
-        write_render_list(os.path.join(ROOT, "longform", "render.txt"), longs, "long")
+        write_render_list(os.path.join(ROOT, "longform", "render.txt"), longs, "long", stamp)
     if shorts:
-        write_render_list(os.path.join(ROOT, "shorts", "render.txt"), shorts, "shorts")
+        write_render_list(os.path.join(ROOT, "shorts", "render.txt"), shorts, "shorts", stamp)
     sh("git", "add", "longform/render.txt", "shorts/render.txt")
-    if sh("git", "diff", "--cached", "--name-only", out=True):
-        # [skip ci]: this push must not start the push-triggered workflows; the dispatches below start them, once each
-        sh("git", "commit", "-q", "-m", f"Render queue: {', '.join(longs + shorts)} [skip ci]")
-        push()
-
-    since = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    sh("git", "commit", "-q", "-m", f"Render queue: {', '.join(longs + shorts)}")
+    push()
+    sha = sh("git", "rev-parse", "HEAD", out=True)
     runs = []
     if longs:
-        runs.append(("long",) + dispatch("long.yml", since))
+        runs.append(("long",) + find_run("long.yml", sha))
     if shorts:
-        runs.append(("shorts",) + dispatch("shorts.yml", since))
+        runs.append(("shorts",) + find_run("shorts.yml", sha))
     repo = sh("gh", "repo", "view", "--json", "url", "-q", ".url", out=True)
     for kind, rid, _ in runs:
         print(f"Rendering {kind} on GitHub: {repo}/actions/runs/{rid}")

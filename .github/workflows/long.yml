@@ -2,8 +2,12 @@
 # repos): every chapter in parallel, then one job per video joins them, adds the music bed and the YouTube text, and
 # publishes the MP4, description and thumbnail to a GitHub Release. Nothing renders on your own computer.
 name: long
-# Started by ./generate.py (or by hand from the Actions tab), never by a push, so editing the library costs nothing.
+# Started when ./generate.py pushes a new longform/render.txt (or by hand from the Actions tab). Editing the library
+# itself starts nothing.
 on:
+  push:
+    branches: [main]
+    paths: ["longform/render.txt"]
   workflow_dispatch:
     inputs:
       ids:
