@@ -26,6 +26,12 @@ def sh(*cmd, out=False):
     return r.stdout.strip() if out else ""
 
 
+def push():
+    """Push, first replaying any commits made elsewhere meanwhile (local edits are set aside and restored)."""
+    sh("git", "pull", "-q", "--rebase", "--autostash")
+    sh("git", "push", "-q")
+
+
 def load(*parts):
     return json.load(open(os.path.join(ROOT, *parts), encoding="utf-8"))
 
@@ -97,7 +103,7 @@ def main():
         return
     if sh("git", "status", "--porcelain", "--", "longform/render.txt", "shorts/render.txt", "generated.txt", out=True):
         sys.exit("render.txt or generated.txt has uncommitted edits; commit or discard them first")
-    sh("git", "pull", "-q", "--rebase")
+    sh("git", "pull", "-q", "--rebase", "--autostash")
 
     print("Queueing the renders...")
     if longs:
@@ -108,7 +114,7 @@ def main():
     if sh("git", "diff", "--cached", "--name-only", out=True):
         # [skip ci]: this push must not start the push-triggered workflows; the dispatches below start them, once each
         sh("git", "commit", "-q", "-m", f"Render queue: {', '.join(longs + shorts)} [skip ci]")
-        sh("git", "push", "-q")
+        push()
 
     since = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     runs = []
@@ -138,7 +144,7 @@ def main():
         f.writelines([f"long {i} {today}\n" for i in longs] + [f"short {i} {today}\n" for i in shorts])
     sh("git", "add", "generated.txt")
     sh("git", "commit", "-q", "-m", f"Made: {', '.join(longs + shorts)} [skip ci]")
-    sh("git", "push", "-q")
+    push()
     print(f"Done. Files are in {out}")
     status()
 
