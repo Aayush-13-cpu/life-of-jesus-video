@@ -10,8 +10,8 @@ KINDS = set(kit.PROPS) | kit.PEOPLE | {"crowd"}
 FX = {"rain", "lightning", "rays", "sparkle"}
 
 stories = all_stories()
-assert len(stories) == 40 and len({s["id"] for s in stories}) == 40, "two sets of 20 with unique ids"
-assert sum(s.get("style") == "parchment" for s in stories) == 20
+assert len(stories) >= 40 and len({s["id"] for s in stories}) == len(stories), "story ids must be unique"
+assert all(s.get("style", "silhouette") in kit.STYLES for s in stories)
 for st in stories:
     sid = st["id"]
     assert estimate(st) <= MAX_TOTAL - 2, f"{sid}: ~{estimate(st):.0f} s is too close to the 60 s Shorts limit"

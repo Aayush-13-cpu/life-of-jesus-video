@@ -8,3 +8,5 @@ __pycache__/
 shorts/build/
 shorts/output/
 *.zip
+longform/build/
+/videos/

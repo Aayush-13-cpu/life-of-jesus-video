@@ -20,9 +20,11 @@ WPS = 2.55                          # measured-style estimate of Kokoro's pace a
 
 
 def all_stories():
-    """Every story: the silhouette set (stories.json) and the parchment set (stories_parchment.json)."""
+    """Every story: the silhouette set (stories.json), the parchment set (stories_parchment.json) and the library
+    that ./generate.py works through (stories_library.json, both styles)."""
     first = json.load(open(os.path.join(HERE, "stories.json"), encoding="utf-8"))["stories"]
-    return first + json.load(open(os.path.join(HERE, "stories_parchment.json"), encoding="utf-8"))
+    return (first + json.load(open(os.path.join(HERE, "stories_parchment.json"), encoding="utf-8"))
+            + json.load(open(os.path.join(HERE, "stories_library.json"), encoding="utf-8")))
 
 
 def load(story_id):

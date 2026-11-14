@@ -1,0 +1,126 @@
+# Renders the 16:9 long videos listed in longform/render.txt on GitHub's free runners (free and unlimited for public
+# repos): every chapter in parallel, then one job per video joins them, adds the music bed and the YouTube text, and
+# publishes the MP4, description and thumbnail to a GitHub Release. Nothing renders on your own computer.
+name: long
+# Started by ./generate.py (or by hand from the Actions tab), never by a push, so editing the library costs nothing.
+on:
+  workflow_dispatch:
+    inputs:
+      ids:
+        description: "Video ids to render, space-separated (empty = longform/render.txt)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+env:
+  HYPERFRAMES_AGENT: "1"
+  HYPERFRAMES_NO_TELEMETRY: "1"
+  HYPERFRAMES_SKIP_SKILLS: "1"
+  HYPERFRAMES_NO_UPDATE_CHECK: "1"
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      videos: ${{ steps.p.outputs.videos }}
+      chapters: ${{ steps.p.outputs.chapters }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q numpy
+      - name: Self-check
+        run: python longform/test_long.py
+      - id: p
+        env:
+          IDS: ${{ github.event.inputs.ids }}
+        run: python longform/build_long.py plan $IDS >> "$GITHUB_OUTPUT"
+      - name: Create the release that collects this batch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "long-${{ github.run_number }}" --target "${{ github.sha }}" --title "Long videos ${{ github.run_number }}" --notes "Rendered from longform/ at ${{ github.sha }}."
+
+  render:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        ch: ${{ fromJson(needs.plan.outputs.chapters) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      - uses: actions/cache@v4
+        with:
+          path: models
+          key: kokoro-v1.0
+      - name: Download Kokoro voice model (open source, Apache 2.0)
+        run: |
+          mkdir -p models
+          base=https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0
+          [ -f models/kokoro-v1.0.onnx ] || curl -fsSL --retry 5 -o models/kokoro-v1.0.onnx $base/kokoro-v1.0.onnx
+          [ -f models/voices-v1.0.bin ] || curl -fsSL --retry 5 -o models/voices-v1.0.bin $base/voices-v1.0.bin
+      - run: pip install -q kokoro-onnx soundfile numpy
+      - name: Narrate and compose
+        run: python longform/build_long.py chapter "${{ matrix.ch.video }}" "${{ matrix.ch.n }}"
+      # Failures are re-printed as ::error:: annotations, which anyone can read without a GitHub login.
+      - name: Lint and render
+        working-directory: longform/build/${{ matrix.ch.name }}
+        run: |
+          if ! npx --yes hyperframes lint > lint.txt 2>&1; then
+            cat lint.txt; grep '✗' lint.txt | sed 's/^ */::error::/'; exit 1
+          fi
+          npx --yes hyperframes browser ensure || true
+          mkdir -p "$GITHUB_WORKSPACE/out"
+          if ! npx --yes hyperframes render --quality high --output "$GITHUB_WORKSPACE/out/${{ matrix.ch.name }}.mp4" > render.log 2>&1; then
+            cat render.log; tail -n 25 render.log | sed 's/^/::error::/'; exit 1
+          fi
+          tail -n 5 render.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ch-${{ matrix.ch.name }}
+          path: out/${{ matrix.ch.name }}.mp4
+          retention-days: 3
+
+  finish:
+    needs: [plan, render]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        video: ${{ fromJson(needs.plan.outputs.videos) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      - run: pip install -q numpy
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ch-${{ matrix.video }}--*
+          path: chapters
+          merge-multiple: true
+      - name: Join chapters, add music, write YouTube text and thumbnail
+        run: python longform/build_long.py finish "${{ matrix.video }}" chapters out
+      - name: Publish to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ffprobe -v error -show_entries format=duration -of csv=p=0 "out/${{ matrix.video }}.mp4"
+          for t in 5 60 180 300 480; do ffmpeg -v error -y -ss $t -i "out/${{ matrix.video }}.mp4" -frames:v 1 -vf scale=640:-1 "out/${{ matrix.video }}-t$t.jpg" || true; done
+          gh release upload "long-${{ github.run_number }}" out/${{ matrix.video }}.mp4 out/${{ matrix.video }}.txt out/${{ matrix.video }}*.jpg --clobber

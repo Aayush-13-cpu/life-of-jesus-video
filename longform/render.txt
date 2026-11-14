@@ -1,0 +1,4 @@
+# Long video ids to render (from longform/videos.json), one per line.
+# Pushing a change under longform/ starts a render; each run becomes one release you can download anywhere.
+the-prayers-of-jesus
+the-life-of-jesus

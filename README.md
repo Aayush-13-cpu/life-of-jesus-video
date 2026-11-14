@@ -7,6 +7,20 @@ This repository makes narrated, animated Bible videos with **free, open-source t
 
 - **The Life of Jesus**: a 2-minute horizontal timeline video (`script.json`, `build.py`).
 - **40 story Shorts**: vertical 30–40 second animations in two visual styles (`shorts/`).
+- **Long videos**: horizontal 10–12 minute videos of Jesus' life and his prayers, in glowing line art (`longform/`).
+  See [The long videos](#the-long-videos).
+
+**Running the channel (one command):**
+
+```bash
+./generate.py              # the next 2 long videos + 5 Shorts, rendered on GitHub, downloaded to videos/<date>/
+./generate.py --status     # what has been made, what is left
+./generate.py --dry-run    # see the next picks without starting anything
+```
+
+It works through the library in order (`longform/videos/`, then `shorts/stories_library.json`), records what is
+finished in `generated.txt`, and never renders on your computer. It needs `git` and the GitHub CLI `gh`, logged in
+with a token allowed to push and run workflows.
 
 Read it like a short book. Part One explains the ideas, Part Two walks through how this project uses them, Part
 Three shows how to change it, and Part Four shows how to start something new of your own. Every code snippet
@@ -191,10 +205,17 @@ shorts/
   test_shorts.py            checks every story before any rendering
   render.txt                which story ids the next cloud run renders
   fetch.py                  downloads a finished batch to shorts/output/ (optional)
+longform/
+  videos.json               the long videos: chapters of beats, one template per video
+  lineart.py                the glowing line-art kit: templates, skies, lands, figures, props, effects
+  build_long.py             narrates a chapter and writes its page; joins chapters into the finished video
+  test_long.py              checks every video (10-12 minutes, own template, valid staging) before rendering
+  render.txt                which video ids the next cloud run renders
 fonts/                      Cinzel and Cormorant Garamond (SIL Open Font License)
 .github/workflows/
   render.yml                renders the timeline video
   shorts.yml                renders the Shorts in parallel and publishes them to a Release
+  long.yml                  renders every long-video chapter in parallel, joins them, publishes to a Release
 ```
 
 ## 9. The timeline video, step by step
@@ -285,6 +306,30 @@ in.
 
 **To render something:** edit `shorts/render.txt` (one story id per line), commit, push. **To download:** open
 the Releases page and take the newest `shorts-N`.
+
+---
+
+## The long videos
+
+`longform/` is its own format, separate from the Shorts (it imports nothing from `shorts/`), with the same voice
+(Kokoro `af_heart`, same speed) and the same captions (Cormorant, five-word blocks), set at the bottom of a 16:9 frame.
+
+- **Look.** Divine glowing line art: every line of the sky, land, figures and props traces itself in when a beat
+  begins (`pathLength="1"`, dash offset 1 → 0), inside a soft glow filter. Faces are never drawn; Jesus carries a
+  halo ring and a soft light.
+- **One template per video.** `TEMPLATES` in `lineart.py` sets the palette and the moving light behind every scene:
+  `sanctuary` (gold on midnight, slow-turning rays) and `dawnlight` (rose-gold on plum, rising embers and sunrise
+  rings). A new video adds a new template; the test refuses two videos sharing one.
+- **Chapters.** A video is a list of chapters, each a title, a verse reference and beats written like the Shorts'
+  (`say`, `sky`, `land`, `cast`, `fx`) but in the frame's own 1920×1080 coordinates (ground line at y 850).
+  Lands: `hills field desert city sea garden mountain river`; effects: `rain lightning rays sparkle dove`.
+- **Length.** Every video is 10–12 minutes. `python longform/test_long.py` estimates it before any rendering;
+  the cloud run warns if the real video falls outside.
+- **Cloud.** `long.yml` renders each chapter as its own job (all in parallel), then joins them, lays one unbroken
+  music bed under the whole video, normalizes to −14 LUFS, and publishes `<id>.mp4`, `<id>.txt` (YouTube
+  description with chapter timestamps) and `<id>.jpg` (thumbnail) to a Release named `long-N`.
+
+**To render:** list ids in `longform/render.txt` and push, or run the *long* workflow from the Actions tab.
 
 ---
 
