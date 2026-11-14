@@ -58,6 +58,12 @@
       {"say": "His faith shook, but it did not fail, because someone had prayed. Days later, by the sea, Peter said: Lord, thou knowest all things; thou knowest that I love thee.", "sky": "dawn", "land": "sea", "fx": ["rays"], "cast": [{"k": "fire", "x": 960, "s": 1.1, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 760, "acts": [{"do": "kneel", "at": 2.0}]}, {"k": "jesus", "x": 1160, "flip": true, "acts": [{"do": "reach", "at": 3.0}]}]},
       {"say": "And when thou art converted, strengthen thy brethren. Whoever is failing near you tonight, you can do for them what he did for Peter. Pray for them by name.", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1120, "s": 1.7, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 880, "acts": [{"do": "kneel", "at": 0.8}]}]}
      ]},
+    {"title": "Suffer the Little Children", "ref": "Mark 10:14",
+     "beats": [
+      {"say": "Then were there brought unto him little children, that he should put his hands on them, and pray: and the disciples rebuked them. A teacher this important had no time for children, they thought.", "sky": "day", "land": "hills", "cast": [{"k": "child", "x": 760, "s": 1.6}, {"k": "child", "x": 880, "s": 1.5}, {"k": "man", "x": 1040, "flip": true, "acts": [{"do": "reach", "at": 1.6}]}, {"k": "jesus", "x": 1300, "flip": true}]},
+      {"say": "But when Jesus saw it, he was much displeased, and said unto them: Suffer the little children to come unto me, and forbid them not: for of such is the kingdom of God.", "sky": "day", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "child", "x": 820, "s": 1.6, "acts": [{"do": "walk", "at": 0.6, "to": 1000, "dur": 3}]}, {"k": "jesus", "x": 1200, "flip": true, "acts": [{"do": "raise", "at": 1.2}]}]},
+      {"say": "And he took them up in his arms, put his hands upon them, and blessed them. Bring him the children you love tonight, by name. He has never once been too busy for them.", "sky": "dusk", "land": "field", "fx": ["rays"], "cast": [{"k": "child", "x": 900, "s": 1.6}, {"k": "child", "x": 1020, "s": 1.5}, {"k": "jesus", "x": 1180, "flip": true, "acts": [{"do": "bless", "at": 1.0}]}]}
+     ]},
     {"title": "Not as I Will", "ref": "Matthew 26:39",
      "beats": [
       {"say": "On the night he was betrayed, Jesus led his friends into a garden called Gethsemane. My soul is exceeding sorrowful, even unto death: tarry ye here, and watch with me.", "sky": "night", "land": "garden", "cast": [{"k": "tree", "x": 620}, {"k": "man", "x": 560, "s": 1.4}, {"k": "man", "x": 720, "s": 1.4}, {"k": "jesus", "x": 920, "acts": [{"do": "walk", "to": 1100, "at": 4.0, "dur": 3}]}]},
@@ -67,6 +73,12 @@
       {"say": "He came back and found them asleep. Watch and pray, that ye enter not into temptation: the spirit indeed is willing, but the flesh is weak.", "sky": "night", "land": "garden", "cast": [{"k": "tree", "x": 560}, {"k": "man", "x": 700, "s": 1.4, "acts": [{"do": "lie"}]}, {"k": "man", "x": 860, "s": 1.4, "flip": true, "acts": [{"do": "lie"}]}, {"k": "jesus", "x": 1180, "flip": true, "acts": [{"do": "reach", "at": 2.4}]}]},
       {"say": "Then a second time: O my Father, if this cup may not pass away from me, except I drink it, thy will be done.", "sky": "night", "land": "garden", "fx": ["rays"], "cast": [{"k": "jesus", "x": 960, "acts": [{"do": "kneel", "at": 0.4}, {"do": "raise", "at": 3.4}]}]},
       {"say": "He told the Father exactly what he wanted, and then he trusted him with the answer. You are allowed to pray both: here is what I want, and thy will be done.", "sky": "dawn", "land": "garden", "cast": [{"k": "tree", "x": 640}, {"k": "jesus", "x": 980, "acts": [{"do": "kneel"}, {"do": "stand", "at": 2.6}]}]}
+     ]},
+    {"title": "Abba, Father", "ref": "Mark 14:36",
+     "beats": [
+      {"say": "Mark kept the very word Jesus used in the garden, in his own language: Abba, Father, all things are possible unto thee; take away this cup from me: nevertheless not what I will, but what thou wilt.", "sky": "night", "land": "garden", "fx": ["rays"], "cast": [{"k": "jesus", "x": 960, "acts": [{"do": "kneel", "at": 0.6}, {"do": "raise", "at": 3.4}]}]},
+      {"say": "Abba was the word a child used at home. Not a title for a distant king, but the first word a little one learns for the father who holds him.", "sky": "night", "land": "garden", "fx": ["sparkle"], "cast": [{"k": "elder", "x": 900}, {"k": "child", "x": 1060, "s": 1.6, "acts": [{"do": "reach", "at": 1.4}]}]},
+      {"say": "And Paul wrote that we have received the Spirit of adoption, whereby we cry, Abba, Father. His word for God became ours. You may pray to God the way a child runs to a father.", "sky": "dawn", "land": "hills", "fx": ["rays"], "cast": [{"k": "woman", "x": 880, "acts": [{"do": "kneel", "at": 0.6}, {"do": "raise", "at": 3.0}]}]}
      ]},
     {"title": "Father, Forgive Them", "ref": "Luke 23:34",
      "beats": [

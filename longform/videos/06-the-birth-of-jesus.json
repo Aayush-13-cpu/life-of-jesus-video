@@ -1,6 +1,8 @@
 {
-  "id": "the-birth-of-jesus", "template": "bethlehem",
-  "title": "The Birth of Jesus", "thumbnail": "The Birth of Jesus",
+  "id": "the-birth-of-jesus",
+  "template": "bethlehem",
+  "title": "The Birth of Jesus",
+  "thumbnail": "The Birth of Jesus",
   "description": "The whole Christmas story from the King James Bible: an old priest struck silent, a young girl's yes, Mary's song, Joseph's dream, the road to Bethlehem, a manger, shepherds and angels, Simeon and Anna in the temple, the wise men's star, and a family fleeing by night. Told slowly, with a prayer to welcome Emmanuel, God with us.",
   "tags": ["#jesus", "#christmas", "#nativity", "#bethlehem", "#bible", "#kjv", "#christian"],
   "chapters": [
@@ -8,83 +10,97 @@
      "beats": [
       {"say": "Seven hundred years before Bethlehem, a prophet wrote: For unto us a child is born, unto us a son is given: and the government shall be upon his shoulder.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "star", "x": 960, "y": 300, "s": 0.9}, {"k": "elder", "x": 760, "acts": [{"do": "raise", "at": 2.4}]}]},
       {"say": "And his name shall be called Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace.", "sky": "night", "land": "hills", "fx": ["rays"], "cast": [{"k": "scroll", "x": 960, "s": 1.4}]},
-      {"say": "Then for centuries, silence. No prophet, no vision, no word. Until one day, in the temple in Jerusalem, an angel appeared to an old priest.", "sky": "dusk", "land": "city", "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "elder", "x": 880}]}]},
-
+      {"say": "Then for centuries, silence. No prophet, no vision, no word. Until one day, in the temple in Jerusalem, an angel appeared to an old priest.", "sky": "dusk", "land": "city", "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "elder", "x": 880}]}
+     ]},
     {"title": "Thy Prayer Is Heard", "ref": "Luke 1:13",
      "beats": [
       {"say": "Zacharias and Elisabeth were both righteous before God, and both well stricken in years. They had prayed for a child all their lives, and none had come.", "sky": "dusk", "land": "hills", "cast": [{"k": "house", "x": 1240, "s": 1.0}, {"k": "elder", "x": 820}, {"k": "woman", "x": 960}]},
       {"say": "While he burned incense in the temple, an angel stood at the altar: Fear not, Zacharias: for thy prayer is heard; and thy wife Elisabeth shall bear thee a son, and thou shalt call his name John.", "sky": "night", "land": "city", "fx": ["rays"], "cast": [{"k": "fire", "x": 960, "s": 1.0, "acts": [{"do": "flicker"}]}, {"k": "angel", "x": 1260, "y": 780, "s": 1.3, "flip": true, "acts": [{"do": "appear", "at": 0.6}]}, {"k": "elder", "x": 760, "acts": [{"do": "kneel", "at": 1.6}]}]},
       {"say": "Whereby shall I know this? for I am an old man. I am Gabriel, that stand in the presence of God. And because he believed not, he was struck dumb until the day it came to pass.", "sky": "night", "land": "city", "cast": [{"k": "angel", "x": 1200, "y": 780, "s": 1.3, "flip": true, "acts": [{"do": "raise", "at": 2.0}]}, {"k": "elder", "x": 800, "acts": [{"do": "lower", "at": 3.6}]}]},
-      {"say": "Months later, when the baby was born, Zacharias wrote: His name is John. And his mouth was opened immediately, and he spake, and praised God. Long-delayed prayers are not forgotten prayers.", "sky": "dawn", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "scroll", "x": 1100, "s": 1.0}, {"k": "elder", "x": 860, "acts": [{"do": "raise", "at": 3.0}]}]}]},
-
+      {"say": "Months later, when the baby was born, Zacharias wrote: His name is John. And his mouth was opened immediately, and he spake, and praised God. Long-delayed prayers are not forgotten prayers.", "sky": "dawn", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "scroll", "x": 1100, "s": 1.0}, {"k": "elder", "x": 860, "acts": [{"do": "raise", "at": 3.0}]}]}
+     ]},
     {"title": "Be It unto Me", "ref": "Luke 1:38",
      "beats": [
       {"say": "Six months later, the same angel was sent to Nazareth, to a virgin espoused to a man whose name was Joseph; and the virgin's name was Mary.", "sky": "dusk", "land": "city", "cast": [{"k": "house", "x": 1260, "s": 1.0}, {"k": "mary", "x": 900}]},
       {"say": "Hail, thou that art highly favoured, the Lord is with thee. Fear not, Mary: for thou hast found favour with God. Thou shalt bring forth a son, and shalt call his name JESUS.", "sky": "night", "land": "city", "fx": ["rays"], "cast": [{"k": "angel", "x": 1200, "y": 780, "s": 1.3, "flip": true, "acts": [{"do": "appear", "at": 0.4}, {"do": "bless", "at": 2.0}]}, {"k": "mary", "x": 820, "acts": [{"do": "kneel", "at": 1.4}]}]},
       {"say": "How shall this be, seeing I know not a man? The Holy Ghost shall come upon thee, and the power of the Highest shall overshadow thee. For with God nothing shall be impossible.", "sky": "night", "land": "city", "fx": ["sparkle"], "cast": [{"k": "angel", "x": 1200, "y": 780, "s": 1.3, "flip": true}, {"k": "mary", "x": 820, "acts": [{"do": "kneel"}]}]},
-      {"say": "And Mary said, Behold the handmaid of the Lord; be it unto me according to thy word. She did not understand everything. She said yes anyway.", "sky": "dawn", "land": "city", "fx": ["rays"], "cast": [{"k": "mary", "x": 900, "acts": [{"do": "kneel"}, {"do": "stand", "at": 2.0}, {"do": "raise", "at": 3.4}]}]}]},
-
+      {"say": "And Mary said, Behold the handmaid of the Lord; be it unto me according to thy word. She did not understand everything. She said yes anyway.", "sky": "dawn", "land": "city", "fx": ["rays"], "cast": [{"k": "mary", "x": 900, "acts": [{"do": "kneel"}, {"do": "stand", "at": 2.0}, {"do": "raise", "at": 3.4}]}]}
+     ]},
     {"title": "My Soul Doth Magnify the Lord", "ref": "Luke 1:46",
      "beats": [
       {"say": "Mary went with haste into the hill country, to Elisabeth. And when Elisabeth heard her greeting, the babe leaped in her womb.", "sky": "day", "land": "hills", "cast": [{"k": "mary", "x": 600, "acts": [{"do": "walk", "to": 860, "at": 0.4, "dur": 4}]}, {"k": "woman", "x": 1120, "flip": true, "acts": [{"do": "raise", "at": 4.0}]}]},
       {"say": "And Mary sang: My soul doth magnify the Lord, And my spirit hath rejoiced in God my Saviour. For he hath regarded the low estate of his handmaiden.", "sky": "dusk", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "mary", "x": 900, "acts": [{"do": "raise", "at": 1.0}]}]},
       {"say": "He hath put down the mighty from their seats, and exalted them of low degree. He hath filled the hungry with good things; and the rich he hath sent empty away.", "sky": "dawn", "land": "hills", "fx": ["rays"], "cast": [{"k": "crowd", "x": 860, "s": 0.85, "n": 9}, {"k": "mary", "x": 1260, "flip": true, "acts": [{"do": "raise", "at": 1.4}]}]},
-      {"say": "A teenage girl from a nowhere town, singing that God turns the world upside down. Her song is still being sung. Christmas is good news for the low, the hungry and the overlooked.", "sky": "night", "land": "hills", "cast": [{"k": "mary", "x": 960, "acts": [{"do": "kneel", "at": 1.0}]}]}]},
-
+      {"say": "A teenage girl from a nowhere town, singing that God turns the world upside down. Her song is still being sung. Christmas is good news for the low, the hungry and the overlooked.", "sky": "night", "land": "hills", "cast": [{"k": "mary", "x": 960, "acts": [{"do": "kneel", "at": 1.0}]}]}
+     ]},
     {"title": "God with Us", "ref": "Matthew 1:23",
      "beats": [
       {"say": "Joseph learned that Mary was with child, and the child was not his. Being a just man, and not willing to make her a publick example, he was minded to put her away privily.", "sky": "dusk", "land": "city", "cast": [{"k": "man", "x": 900, "acts": [{"do": "kneel", "at": 2.4}]}]},
       {"say": "But while he thought on these things, the angel of the Lord appeared unto him in a dream: Joseph, thou son of David, fear not to take unto thee Mary thy wife.", "sky": "night", "land": "city", "fx": ["rays"], "cast": [{"k": "man", "x": 800, "acts": [{"do": "lie"}]}, {"k": "angel", "x": 1160, "y": 760, "s": 1.3, "flip": true, "acts": [{"do": "appear", "at": 0.6}]}]},
       {"say": "Behold, a virgin shall be with child, and shall bring forth a son, and they shall call his name Emmanuel, which being interpreted is, God with us.", "sky": "night", "land": "city", "fx": ["sparkle"], "cast": [{"k": "star", "x": 960, "y": 320, "s": 0.8}, {"k": "man", "x": 800, "acts": [{"do": "lie"}]}]},
-      {"say": "Then Joseph being raised from sleep did as the angel of the Lord had bidden him. A quiet man who never speaks a word in the gospels, and whose obedience protected the Saviour.", "sky": "dawn", "land": "city", "cast": [{"k": "man", "x": 800, "acts": [{"do": "lie"}, {"do": "stand", "at": 1.0}, {"do": "walk", "to": 1000, "at": 2.6, "dur": 3}]}, {"k": "mary", "x": 1200, "flip": true}]}]},
-
+      {"say": "Then Joseph being raised from sleep did as the angel of the Lord had bidden him. A quiet man who never speaks a word in the gospels, and whose obedience protected the Saviour.", "sky": "dawn", "land": "city", "cast": [{"k": "man", "x": 800, "acts": [{"do": "lie"}, {"do": "stand", "at": 1.0}, {"do": "walk", "to": 1000, "at": 2.6, "dur": 3}]}, {"k": "mary", "x": 1200, "flip": true}]}
+     ]},
     {"title": "No Room in the Inn", "ref": "Luke 2:7",
      "beats": [
       {"say": "And it came to pass in those days, that there went out a decree from Caesar Augustus, that all the world should be taxed. An emperor's paperwork moved a pregnant girl ninety miles.", "sky": "day", "land": "desert", "cast": [{"k": "mary", "x": 540, "acts": [{"do": "walk", "to": 900, "at": 0.4, "dur": 7}]}, {"k": "man", "x": 420, "acts": [{"do": "walk", "to": 780, "at": 0.4, "dur": 7}]}]},
       {"say": "Joseph went up from Galilee unto the city of David, which is called Bethlehem, with Mary his espoused wife, being great with child. And every door was full.", "sky": "dusk", "land": "city", "cast": [{"k": "house", "x": 1260, "s": 1.0}, {"k": "man", "x": 1040, "acts": [{"do": "reach", "at": 1.4}, {"do": "lower", "at": 3.4}]}, {"k": "mary", "x": 860}]},
       {"say": "And she brought forth her firstborn son, and wrapped him in swaddling clothes, and laid him in a manger; because there was no room for them in the inn.", "sky": "night", "land": "field", "fx": ["sparkle"], "cast": [{"k": "manger", "x": 960, "s": 1.3}, {"k": "mary", "x": 760, "acts": [{"do": "kneel", "at": 0.8}]}, {"k": "man", "x": 1180, "flip": true, "acts": [{"do": "kneel", "at": 1.4}]}]},
-      {"say": "The Creator of the stars, sleeping in a feeding trough. He did not wait for the world to make room for him. He came anyway, to the place where the animals ate.", "sky": "night", "land": "field", "fx": ["rays"], "cast": [{"k": "manger", "x": 960, "s": 1.3}, {"k": "sheep", "x": 1240, "s": 0.9}]}]},
-
+      {"say": "The Creator of the stars, sleeping in a feeding trough. He did not wait for the world to make room for him. He came anyway, to the place where the animals ate.", "sky": "night", "land": "field", "fx": ["rays"], "cast": [{"k": "manger", "x": 960, "s": 1.3}, {"k": "sheep", "x": 1240, "s": 0.9}]}
+     ]},
     {"title": "Shepherds Abiding in the Field", "ref": "Luke 2:10",
      "beats": [
       {"say": "And there were in the same country shepherds abiding in the field, keeping watch over their flock by night. The night shift. The people nobody invited anywhere.", "sky": "night", "land": "hills", "cast": [{"k": "fire", "x": 960, "s": 1.1, "acts": [{"do": "flicker"}]}, {"k": "shepherd", "x": 760}, {"k": "shepherd", "x": 1160, "flip": true}, {"k": "sheep", "x": 1360}]},
       {"say": "And the glory of the Lord shone round about them: and they were sore afraid. And the angel said unto them: Fear not: for, behold, I bring you good tidings of great joy, which shall be to all people.", "sky": "night", "land": "hills", "fx": ["rays"], "cast": [{"k": "angel", "x": 960, "y": 640, "s": 1.4, "acts": [{"do": "appear", "at": 0.4}, {"do": "raise", "at": 2.4}]}, {"k": "shepherd", "x": 700, "acts": [{"do": "kneel", "at": 1.2}]}, {"k": "shepherd", "x": 1220, "flip": true, "acts": [{"do": "kneel", "at": 1.4}]}]},
       {"say": "And suddenly there was with the angel a multitude of the heavenly host praising God, and saying: Glory to God in the highest, and on earth peace, good will toward men.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "angel", "x": 640, "y": 600, "s": 1.0}, {"k": "angel", "x": 960, "y": 520, "s": 1.2}, {"k": "angel", "x": 1280, "y": 600, "s": 1.0, "flip": true}]},
-      {"say": "They came with haste, and found Mary, and Joseph, and the babe lying in a manger. But Mary kept all these things, and pondered them in her heart.", "sky": "night", "land": "field", "cast": [{"k": "manger", "x": 960, "s": 1.3}, {"k": "mary", "x": 760, "acts": [{"do": "kneel"}]}, {"k": "shepherd", "x": 1200, "flip": true, "acts": [{"do": "kneel", "at": 1.6}]}]}]},
-
+      {"say": "They came with haste, and found Mary, and Joseph, and the babe lying in a manger. But Mary kept all these things, and pondered them in her heart.", "sky": "night", "land": "field", "cast": [{"k": "manger", "x": 960, "s": 1.3}, {"k": "mary", "x": 760, "acts": [{"do": "kneel"}]}, {"k": "shepherd", "x": 1200, "flip": true, "acts": [{"do": "kneel", "at": 1.6}]}]}
+     ]},
     {"title": "Simeon and Anna", "ref": "Luke 2:30",
      "beats": [
       {"say": "Forty days later, Mary and Joseph brought the child to the temple. An old man named Simeon was there, just and devout, who had been promised he would not die before he saw the Christ.", "sky": "day", "land": "city", "cast": [{"k": "mary", "x": 700, "acts": [{"do": "walk", "to": 880, "at": 0.4, "dur": 3}]}, {"k": "elder", "x": 1240, "flip": true}]},
       {"say": "He took him up in his arms, and said: Lord, now lettest thou thy servant depart in peace, according to thy word: For mine eyes have seen thy salvation. A light to lighten the Gentiles.", "sky": "dusk", "land": "city", "fx": ["rays"], "cast": [{"k": "elder", "x": 960, "acts": [{"do": "raise", "at": 1.6}]}]},
       {"say": "And there was one Anna, a widow of about fourscore and four years, which departed not from the temple, but served God with fastings and prayers night and day.", "sky": "night", "land": "city", "cast": [{"k": "lamp", "x": 1160, "s": 1.5, "acts": [{"do": "flicker"}]}, {"k": "woman", "x": 900, "acts": [{"do": "kneel", "at": 0.8}]}]},
-      {"say": "She gave thanks, and spake of him to all them that looked for redemption. Two old people who had waited a lifetime. God keeps his promises to the patient.", "sky": "dawn", "land": "city", "fx": ["sparkle"], "cast": [{"k": "woman", "x": 860, "acts": [{"do": "raise", "at": 1.0}]}, {"k": "elder", "x": 1080, "acts": [{"do": "raise", "at": 1.6}]}]}]},
-
+      {"say": "She gave thanks, and spake of him to all them that looked for redemption. Two old people who had waited a lifetime. God keeps his promises to the patient.", "sky": "dawn", "land": "city", "fx": ["sparkle"], "cast": [{"k": "woman", "x": 860, "acts": [{"do": "raise", "at": 1.0}]}, {"k": "elder", "x": 1080, "acts": [{"do": "raise", "at": 1.6}]}]}
+     ]},
     {"title": "We Have Seen His Star", "ref": "Matthew 2:11",
      "beats": [
       {"say": "There came wise men from the east to Jerusalem, saying, Where is he that is born King of the Jews? for we have seen his star in the east, and are come to worship him.", "sky": "night", "land": "desert", "cast": [{"k": "star", "x": 1300, "y": 260, "s": 0.8}, {"k": "elder", "x": 520, "acts": [{"do": "walk", "to": 800, "at": 0.4, "dur": 6}]}, {"k": "elder", "x": 380, "acts": [{"do": "walk", "to": 660, "at": 0.6, "dur": 6}]}, {"k": "elder", "x": 240, "acts": [{"do": "walk", "to": 520, "at": 0.8, "dur": 6}]}]},
       {"say": "King Herod was troubled, and all Jerusalem with him. A baby had frightened a king. He sent the wise men on, asking them to bring him word.", "sky": "dusk", "land": "city", "cast": [{"k": "elder", "x": 1200, "flip": true, "acts": [{"do": "reach", "at": 2.0}]}, {"k": "elder", "x": 760}]},
       {"say": "When they saw the star, they rejoiced with exceeding great joy. They found the young child with Mary his mother, and fell down, and worshipped him: gold, and frankincense, and myrrh.", "sky": "night", "land": "city", "fx": ["sparkle"], "cast": [{"k": "star", "x": 960, "y": 300, "s": 0.9}, {"k": "house", "x": 960, "s": 1.0}, {"k": "elder", "x": 700, "acts": [{"do": "kneel", "at": 2.4}]}, {"k": "elder", "x": 1220, "flip": true, "acts": [{"do": "kneel", "at": 2.8}]}]},
-      {"say": "Gold for a king, frankincense for God, myrrh for a death. And being warned of God in a dream that they should not return to Herod, they departed into their own country another way.", "sky": "dawn", "land": "desert", "fx": ["rays"], "cast": [{"k": "elder", "x": 1100, "flip": true, "acts": [{"do": "walk", "to": 700, "at": 0.4, "dur": 6}]}]}]},
-
+      {"say": "Gold for a king, frankincense for God, myrrh for a death. And being warned of God in a dream that they should not return to Herod, they departed into their own country another way.", "sky": "dawn", "land": "desert", "fx": ["rays"], "cast": [{"k": "elder", "x": 1100, "flip": true, "acts": [{"do": "walk", "to": 700, "at": 0.4, "dur": 6}]}]}
+     ]},
     {"title": "Out of Egypt", "ref": "Matthew 2:15",
      "beats": [
       {"say": "The angel came again to Joseph: Arise, and take the young child and his mother, and flee into Egypt: for Herod will seek the young child to destroy him.", "sky": "night", "land": "city", "fx": ["rays"], "cast": [{"k": "angel", "x": 1160, "y": 760, "s": 1.3, "flip": true, "acts": [{"do": "appear", "at": 0.4}]}, {"k": "man", "x": 820, "acts": [{"do": "lie"}, {"do": "stand", "at": 3.6}]}]},
       {"say": "He took the young child and his mother by night, and departed into Egypt. The Saviour of the world, a refugee before he could walk.", "sky": "night", "land": "desert", "cast": [{"k": "mary", "x": 1300, "flip": true, "acts": [{"do": "walk", "to": 860, "at": 0.4, "dur": 6}]}, {"k": "man", "x": 1440, "flip": true, "acts": [{"do": "walk", "to": 1000, "at": 0.4, "dur": 6}]}]},
-      {"say": "When Herod was dead, they came home, and settled in a small town called Nazareth. And the child grew, and waxed strong in spirit, filled with wisdom: and the grace of God was upon him.", "sky": "dawn", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "house", "x": 1240, "s": 1.0}, {"k": "child", "x": 860, "s": 1.6, "acts": [{"do": "walk", "to": 1000, "at": 0.6, "dur": 3}]}]}]},
-
+      {"say": "When Herod was dead, they came home, and settled in a small town called Nazareth. And the child grew, and waxed strong in spirit, filled with wisdom: and the grace of God was upon him.", "sky": "dawn", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "house", "x": 1240, "s": 1.0}, {"k": "child", "x": 860, "s": 1.6, "acts": [{"do": "walk", "to": 1000, "at": 0.6, "dur": 3}]}]}
+     ]},
+    {"title": "Rachel Weeping", "ref": "Matthew 2:18",
+     "beats": [
+      {"say": "When Herod saw that the wise men had not returned, he was exceeding wroth, and sent forth, and slew all the children that were in Bethlehem, from two years old and under.", "sky": "storm", "land": "city", "cast": [{"k": "house", "x": 1260, "s": 1.0}, {"k": "woman", "x": 860, "acts": [{"do": "kneel", "at": 1.6}]}]},
+      {"say": "Then was fulfilled the prophecy: In Rama was there a voice heard, lamentation, and weeping, and great mourning, Rachel weeping for her children, and would not be comforted.", "sky": "storm", "land": "city", "fx": ["rain"], "cast": [{"k": "woman", "x": 760, "acts": [{"do": "kneel"}]}, {"k": "woman", "x": 1000, "acts": [{"do": "kneel", "at": 0.8}]}]},
+      {"say": "The Christmas story does not hide the world's cruelty. Jesus was born into it, on purpose, to end it. The light came because the dark was real.", "sky": "night", "land": "city", "fx": ["sparkle"], "cast": [{"k": "star", "x": 960, "y": 300, "s": 0.8}, {"k": "woman", "x": 880, "acts": [{"do": "kneel"}]}]}
+     ]},
+    {"title": "About My Father's Business", "ref": "Luke 2:49",
+     "beats": [
+      {"say": "Twelve years later, the family went up to Jerusalem for the Passover. On the way home they realised the boy was not with them, and turned back in a panic.", "sky": "day", "land": "desert", "cast": [{"k": "mary", "x": 1100, "flip": true, "acts": [{"do": "walk", "at": 0.4, "to": 760, "dur": 4}]}, {"k": "man", "x": 1240, "flip": true, "acts": [{"do": "walk", "at": 0.4, "to": 900, "dur": 4}]}]},
+      {"say": "After three days they found him in the temple, sitting in the midst of the doctors, both hearing them, and asking them questions. And all that heard him were astonished at his understanding.", "sky": "day", "land": "city", "cast": [{"k": "elder", "x": 700}, {"k": "elder", "x": 1220, "flip": true}, {"k": "child", "x": 960, "s": 1.6, "acts": [{"do": "reach", "at": 2.0}]}]},
+      {"say": "Son, why hast thou thus dealt with us? How is it that ye sought me? wist ye not that I must be about my Father's business? The first words of Jesus the Bible records, and already he knew who his Father was.", "sky": "dusk", "land": "city", "fx": ["rays"], "cast": [{"k": "mary", "x": 800, "acts": [{"do": "reach", "at": 0.6}]}, {"k": "child", "x": 1060, "s": 1.6, "flip": true, "acts": [{"do": "bless", "at": 3.0}]}]},
+      {"say": "And he went down with them, and came to Nazareth, and was subject unto them. The Son of God, obeying his parents in a small town for eighteen more years. Ordinary faithfulness is holy too.", "sky": "dawn", "land": "hills", "cast": [{"k": "house", "x": 1240, "s": 1.0}, {"k": "child", "x": 860, "s": 1.6, "acts": [{"do": "walk", "at": 0.6, "to": 1040, "dur": 4}]}]}
+     ]},
     {"title": "The Word Was Made Flesh", "ref": "John 1:14",
      "beats": [
       {"say": "Matthew and Luke tell the story from the stable. John tells it from eternity. In the beginning was the Word, and the Word was with God, and the Word was God.", "sky": "night", "land": "mountain", "fx": ["sparkle"], "cast": [{"k": "star", "x": 960, "y": 280, "s": 1.0}]},
       {"say": "All things were made by him; and without him was not any thing made that was made. In him was life; and the life was the light of men.", "sky": "dawn", "land": "sea", "fx": ["rays"], "cast": [{"k": "tree", "x": 760, "s": 0.8, "acts": [{"do": "grow"}]}, {"k": "birds", "x": 1000, "y": 400, "s": 1.2, "acts": [{"do": "fly", "to": 1400, "toy": 300, "at": 2.0, "dur": 4}]}]},
       {"say": "And the light shineth in darkness; and the darkness comprehended it not. He came unto his own, and his own received him not.", "sky": "night", "land": "city", "cast": [{"k": "lamp", "x": 960, "y": 760, "s": 2.0, "acts": [{"do": "flicker"}]}, {"k": "house", "x": 1300, "s": 0.9}]},
       {"say": "But as many as received him, to them gave he power to become the sons of God. And the Word was made flesh, and dwelt among us, full of grace and truth.", "sky": "night", "land": "field", "fx": ["rays"], "cast": [{"k": "manger", "x": 960, "s": 1.3}, {"k": "mary", "x": 760, "acts": [{"do": "kneel"}]}]},
-      {"say": "The one who spoke galaxies into being learned to speak his mother's language. That is how far God came to find us.", "sky": "night", "land": "field", "fx": ["sparkle"], "cast": [{"k": "star", "x": 960, "y": 300, "s": 0.8}, {"k": "manger", "x": 960, "s": 1.2}]}]},
-
+      {"say": "The one who spoke galaxies into being learned to speak his mother's language. That is how far God came to find us.", "sky": "night", "land": "field", "fx": ["sparkle"], "cast": [{"k": "star", "x": 960, "y": 300, "s": 0.8}, {"k": "manger", "x": 960, "s": 1.2}]}
+     ]},
     {"title": "O Come, Emmanuel", "ref": "Matthew 1:23",
      "beats": [
       {"say": "Let us pray. Lord Jesus, you came to a world with no room for you. Tonight I make room. Come into my home, my worries, and my heart.", "sky": "night", "land": "field", "fx": ["sparkle"], "cast": [{"k": "manger", "x": 1100, "s": 1.1}, {"k": "woman", "x": 860, "acts": [{"do": "kneel", "at": 0.8}]}]},
       {"say": "Like Zacharias, I have prayers I stopped expecting answers to. Like Mary, I do not understand all you are asking. Give me her answer: be it unto me according to thy word.", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 880, "acts": [{"do": "kneel", "at": 0.6}]}]},
       {"say": "You came first to shepherds, to the overlooked and the tired. Come to the ones I love who feel forgotten tonight. Let them hear the angels: Fear not.", "sky": "night", "land": "hills", "fx": ["rays"], "cast": [{"k": "shepherd", "x": 860, "acts": [{"do": "kneel", "at": 1.0}]}, {"k": "angel", "x": 1180, "y": 720, "s": 1.2, "flip": true, "acts": [{"do": "bless", "at": 1.6}]}]},
-      {"say": "Glory to God in the highest, and on earth peace, good will toward men. Emmanuel, God with us, be with me. Amen.", "sky": "dawn", "land": "hills", "fx": ["rays", "sparkle"], "cast": [{"k": "star", "x": 960, "y": 300, "s": 0.8}, {"k": "man", "x": 820, "acts": [{"do": "raise", "at": 1.0}]}, {"k": "woman", "x": 1100, "acts": [{"do": "raise", "at": 1.4}]}]}]}
+      {"say": "Glory to God in the highest, and on earth peace, good will toward men. Emmanuel, God with us, be with me. Amen.", "sky": "dawn", "land": "hills", "fx": ["rays", "sparkle"], "cast": [{"k": "star", "x": 960, "y": 300, "s": 0.8}, {"k": "man", "x": 820, "acts": [{"do": "raise", "at": 1.0}]}, {"k": "woman", "x": 1100, "acts": [{"do": "raise", "at": 1.4}]}]}
+     ]}
   ]
 }

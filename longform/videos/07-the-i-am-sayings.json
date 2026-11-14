@@ -1,6 +1,8 @@
 {
-  "id": "the-i-am-sayings", "template": "zion",
-  "title": "The I AM Sayings of Jesus", "thumbnail": "I AM: Who Jesus Said He Was",
+  "id": "the-i-am-sayings",
+  "template": "zion",
+  "title": "The I AM Sayings of Jesus",
+  "thumbnail": "I AM: Who Jesus Said He Was",
   "description": "Seven times in the Gospel of John, Jesus begins with the words I am, the very name God gave Moses at the burning bush: the bread of life, the light of the world, the door, the good shepherd, the resurrection and the life, the way, the truth and the life, and the true vine. Who Jesus said he was, in his own words from the King James Bible, with a closing prayer.",
   "tags": ["#jesus", "#iam", "#gospelofjohn", "#bible", "#kjv", "#christian", "#faith"],
   "chapters": [
@@ -8,81 +10,95 @@
      "beats": [
       {"say": "At a burning bush in the desert, Moses asked God his name. And God said unto Moses, I AM THAT I AM. A name that means: I simply am. I always have been.", "sky": "night", "land": "mountain", "fx": ["rays"], "cast": [{"k": "fire", "x": 1060, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "elder", "x": 820, "acts": [{"do": "kneel", "at": 2.4}]}]},
       {"say": "Fifteen centuries later, a carpenter from Nazareth stood in the temple and said: Verily, verily, I say unto you, Before Abraham was, I am. And they took up stones to cast at him.", "sky": "day", "land": "city", "cast": [{"k": "stones", "x": 760, "s": 1.4}, {"k": "elder", "x": 620, "acts": [{"do": "raise", "at": 3.0}]}, {"k": "jesus", "x": 1240, "flip": true, "acts": [{"do": "bless", "at": 1.4}]}]},
-      {"say": "They understood exactly what he meant. In the Gospel of John, Jesus takes that name, I am, and fills it in seven times. Each one tells us who he is, and what he is for us.", "sky": "dusk", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "scroll", "x": 960, "s": 1.4}]}]},
-
+      {"say": "They understood exactly what he meant. In the Gospel of John, Jesus takes that name, I am, and fills it in seven times. Each one tells us who he is, and what he is for us.", "sky": "dusk", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "scroll", "x": 960, "s": 1.4}]}
+     ]},
     {"title": "The Bread of Life", "ref": "John 6:35",
      "beats": [
       {"say": "The day after he fed five thousand, the crowd came looking for more. They reminded him that Moses gave their fathers manna, bread from heaven, in the wilderness.", "sky": "day", "land": "sea", "cast": [{"k": "crowd", "x": 760, "s": 0.9, "n": 11}, {"k": "jesus", "x": 1300, "flip": true}]},
       {"say": "Jesus said unto them, I am the bread of life: he that cometh to me shall never hunger; and he that believeth on me shall never thirst.", "sky": "dusk", "land": "sea", "fx": ["rays"], "cast": [{"k": "bread", "x": 960, "s": 1.6}, {"k": "jesus", "x": 1240, "flip": true, "acts": [{"do": "raise", "at": 1.4}]}]},
       {"say": "It was not the answer they wanted. They wanted bread for today. He offered himself, bread for every day. And many of his disciples went back, and walked no more with him.", "sky": "dusk", "land": "hills", "cast": [{"k": "crowd", "x": 800, "s": 0.85, "n": 9, "acts": [{"do": "walk", "to": 400, "at": 1.0, "dur": 6}]}, {"k": "jesus", "x": 1300, "flip": true}]},
       {"say": "Jesus turned to the twelve: Will ye also go away? And Peter answered: Lord, to whom shall we go? thou hast the words of eternal life.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "man", "x": 760}, {"k": "man", "x": 880, "acts": [{"do": "reach", "at": 2.4}]}, {"k": "jesus", "x": 1200, "flip": true}]},
-      {"say": "Every soul is hungry for something. Success, love, rest, meaning. He is not one more thing to add to the plate. He is the bread that makes the hunger stop.", "sky": "night", "land": "field", "cast": [{"k": "bread", "x": 1100, "s": 1.3}, {"k": "lamp", "x": 1280, "s": 1.3, "acts": [{"do": "flicker"}]}, {"k": "woman", "x": 860, "acts": [{"do": "kneel", "at": 0.8}]}]}]},
-
+      {"say": "Every soul is hungry for something. Success, love, rest, meaning. He is not one more thing to add to the plate. He is the bread that makes the hunger stop.", "sky": "night", "land": "field", "cast": [{"k": "bread", "x": 1100, "s": 1.3}, {"k": "lamp", "x": 1280, "s": 1.3, "acts": [{"do": "flicker"}]}, {"k": "woman", "x": 860, "acts": [{"do": "kneel", "at": 0.8}]}]}
+     ]},
     {"title": "The Light of the World", "ref": "John 8:12",
      "beats": [
       {"say": "At the Feast of Tabernacles, great golden lamps were lit in the temple courts, so bright it was said every courtyard in Jerusalem glowed.", "sky": "night", "land": "city", "fx": ["sparkle"], "cast": [{"k": "lamp", "x": 760, "y": 760, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "lamp", "x": 1160, "y": 760, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "crowd", "x": 960, "s": 0.8, "n": 10}]},
       {"say": "In that light Jesus stood and said: I am the light of the world: he that followeth me shall not walk in darkness, but shall have the light of life.", "sky": "night", "land": "city", "fx": ["rays"], "cast": [{"k": "jesus", "x": 960, "acts": [{"do": "raise", "at": 1.6}]}]},
       {"say": "Then he proved it. He passed a man blind from his birth and said: As long as I am in the world, I am the light of the world. And he gave him sight.", "sky": "day", "land": "city", "cast": [{"k": "man", "x": 780, "acts": [{"do": "kneel"}, {"do": "stand", "at": 4.4}, {"do": "raise", "at": 5.4}]}, {"k": "jesus", "x": 1080, "flip": true, "acts": [{"do": "reach", "at": 2.4}]}]},
-      {"say": "Light does not argue with the dark. It just shines, and the dark gives way. Whatever room of your life is dark tonight, he is not afraid to walk into it.", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1100, "s": 1.7, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 860, "acts": [{"do": "kneel", "at": 1.0}]}]}]},
-
+      {"say": "Light does not argue with the dark. It just shines, and the dark gives way. Whatever room of your life is dark tonight, he is not afraid to walk into it.", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1100, "s": 1.7, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 860, "acts": [{"do": "kneel", "at": 1.0}]}]}
+     ]},
     {"title": "The Door", "ref": "John 10:9",
      "beats": [
       {"say": "Shepherds in Israel kept their flocks at night in a stone fold with one gap in the wall. And the shepherd himself would lie down across that gap, to sleep. He was the door.", "sky": "night", "land": "hills", "cast": [{"k": "well", "x": 1100, "s": 1.0}, {"k": "sheep", "x": 820}, {"k": "sheep", "x": 940, "s": 0.9}, {"k": "shepherd", "x": 1300, "acts": [{"do": "lie"}]}]},
       {"say": "I am the door: by me if any man enter in, he shall be saved, and shall go in and out, and find pasture.", "sky": "dawn", "land": "field", "fx": ["rays"], "cast": [{"k": "sheep", "x": 700, "acts": [{"do": "walk", "to": 980, "at": 0.6, "dur": 4}]}, {"k": "jesus", "x": 1240, "flip": true, "acts": [{"do": "bless", "at": 1.6}]}]},
       {"say": "The thief cometh not, but for to steal, and to kill, and to destroy: I am come that they might have life, and that they might have it more abundantly.", "sky": "day", "land": "field", "fx": ["sparkle"], "cast": [{"k": "tree", "x": 1240, "s": 0.8}, {"k": "sheep", "x": 760}, {"k": "sheep", "x": 900, "s": 0.9}, {"k": "jesus", "x": 1060, "flip": true}]},
-      {"say": "Not a narrow life. An abundant one. Whatever has been stealing your life, your joy, your peace, there is a door. And the one standing in it is gentle.", "sky": "night", "land": "hills", "cast": [{"k": "man", "x": 880, "acts": [{"do": "walk", "to": 1040, "at": 0.4, "dur": 3}]}, {"k": "jesus", "x": 1260, "flip": true, "acts": [{"do": "reach", "at": 1.6}]}]}]},
-
+      {"say": "Not a narrow life. An abundant one. Whatever has been stealing your life, your joy, your peace, there is a door. And the one standing in it is gentle.", "sky": "night", "land": "hills", "cast": [{"k": "man", "x": 880, "acts": [{"do": "walk", "to": 1040, "at": 0.4, "dur": 3}]}, {"k": "jesus", "x": 1260, "flip": true, "acts": [{"do": "reach", "at": 1.6}]}]}
+     ]},
     {"title": "The Good Shepherd", "ref": "John 10:11",
      "beats": [
       {"say": "A thousand years earlier, David the shepherd king wrote: The Lord is my shepherd; I shall not want. Now Jesus said: I am the good shepherd.", "sky": "dawn", "land": "hills", "cast": [{"k": "shepherd", "x": 800}, {"k": "sheep", "x": 1000}, {"k": "sheep", "x": 1140, "s": 0.9}]},
       {"say": "The good shepherd giveth his life for the sheep. The hireling seeth the wolf coming, and leaveth the sheep, and fleeth. Because he careth not for the sheep.", "sky": "storm", "land": "hills", "cast": [{"k": "sheep", "x": 860}, {"k": "sheep", "x": 980, "s": 0.9}, {"k": "man", "x": 1200, "acts": [{"do": "walk", "to": 1600, "at": 1.0, "dur": 3}]}, {"k": "jesus", "x": 640, "acts": [{"do": "raise", "at": 2.4}]}]},
       {"say": "I am the good shepherd, and know my sheep, and am known of mine. He does not know about you. He knows you.", "sky": "dusk", "land": "field", "fx": ["sparkle"], "cast": [{"k": "sheep", "x": 860}, {"k": "jesus", "x": 1080, "flip": true, "acts": [{"do": "reach", "at": 1.4}]}]},
       {"say": "And other sheep I have, which are not of this fold: them also I must bring, and they shall hear my voice; and there shall be one fold, and one shepherd.", "sky": "dawn", "land": "mountain", "fx": ["rays"], "cast": [{"k": "crowd", "x": 860, "s": 0.85, "n": 11}, {"k": "jesus", "x": 1320, "flip": true, "acts": [{"do": "bless", "at": 1.0}]}]},
-      {"say": "No man taketh it from me, but I lay it down of myself. The cross was not something that happened to him. It was something he chose, for his sheep.", "sky": "night", "land": "hills", "cast": [{"k": "cross", "x": 1200, "y": 790, "s": 0.8}, {"k": "sheep", "x": 860}]}]},
-
+      {"say": "No man taketh it from me, but I lay it down of myself. The cross was not something that happened to him. It was something he chose, for his sheep.", "sky": "night", "land": "hills", "cast": [{"k": "cross", "x": 1200, "y": 790, "s": 0.8}, {"k": "sheep", "x": 860}]}
+     ]},
     {"title": "The Resurrection and the Life", "ref": "John 11:25",
      "beats": [
       {"say": "Lazarus had been dead four days when Jesus arrived in Bethany. Martha met him on the road: Lord, if thou hadst been here, my brother had not died.", "sky": "dusk", "land": "garden", "cast": [{"k": "tomb", "x": 1380}, {"k": "woman", "x": 820, "acts": [{"do": "walk", "to": 900, "at": 0.4, "dur": 2}, {"do": "reach", "at": 2.4}]}, {"k": "jesus", "x": 1120, "flip": true}]},
       {"say": "Jesus said unto her, I am the resurrection, and the life: he that believeth in me, though he were dead, yet shall he live.", "sky": "dusk", "land": "garden", "fx": ["rays"], "cast": [{"k": "woman", "x": 860}, {"k": "jesus", "x": 1100, "flip": true, "acts": [{"do": "raise", "at": 1.6}]}]},
       {"say": "And whosoever liveth and believeth in me shall never die. Believest thou this? She said: Yea, Lord: I believe that thou art the Christ, the Son of God.", "sky": "night", "land": "garden", "fx": ["sparkle"], "cast": [{"k": "woman", "x": 860, "acts": [{"do": "kneel", "at": 2.4}]}, {"k": "jesus", "x": 1100, "flip": true}]},
       {"say": "Then, at the tomb, the shortest verse in the Bible: Jesus wept. He knew he would raise Lazarus in minutes. He wept anyway, because grief matters to him.", "sky": "dusk", "land": "garden", "cast": [{"k": "tomb", "x": 1360}, {"k": "jesus", "x": 980, "acts": [{"do": "kneel", "at": 1.6}]}]},
-      {"say": "Lazarus, come forth. And he that was dead came forth. The grave is real, and grief is real. But for those who are his, neither one gets the final word.", "sky": "dawn", "land": "garden", "fx": ["rays"], "cast": [{"k": "tomb", "x": 1360}, {"k": "man", "x": 1360, "acts": [{"do": "appear", "at": 1.6}]}, {"k": "jesus", "x": 960, "acts": [{"do": "raise", "at": 0.6}]}]}]},
-
+      {"say": "Lazarus, come forth. And he that was dead came forth. The grave is real, and grief is real. But for those who are his, neither one gets the final word.", "sky": "dawn", "land": "garden", "fx": ["rays"], "cast": [{"k": "tomb", "x": 1360}, {"k": "man", "x": 1360, "acts": [{"do": "appear", "at": 1.6}]}, {"k": "jesus", "x": 960, "acts": [{"do": "raise", "at": 0.6}]}]}
+     ]},
     {"title": "The Way, the Truth, and the Life", "ref": "John 14:6",
      "beats": [
       {"say": "On his last night, Jesus saw how frightened his friends were. Let not your heart be troubled: ye believe in God, believe also in me.", "sky": "night", "land": "city", "cast": [{"k": "table", "x": 900, "s": 1.3}, {"k": "man", "x": 640}, {"k": "jesus", "x": 1200, "flip": true, "acts": [{"do": "bless", "at": 1.6}]}]},
       {"say": "In my Father's house are many mansions: if it were not so, I would have told you. I go to prepare a place for you.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "house", "x": 960, "s": 1.1}, {"k": "star", "x": 960, "y": 280, "s": 0.7}]},
       {"say": "Thomas, honest as always, said: Lord, we know not whither thou goest; and how can we know the way?", "sky": "night", "land": "city", "cast": [{"k": "man", "x": 820, "acts": [{"do": "reach", "at": 1.4}]}, {"k": "jesus", "x": 1120, "flip": true}]},
       {"say": "Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me. Not a map to the way. The way himself.", "sky": "dawn", "land": "mountain", "fx": ["rays"], "cast": [{"k": "jesus", "x": 960, "acts": [{"do": "raise", "at": 1.6}]}]},
-      {"say": "Philip asked to see the Father. He that hath seen me hath seen the Father. If you want to know what God is like, look at Jesus. That is the whole answer.", "sky": "night", "land": "city", "fx": ["sparkle"], "cast": [{"k": "man", "x": 820, "acts": [{"do": "kneel", "at": 2.4}]}, {"k": "jesus", "x": 1100, "flip": true, "acts": [{"do": "reach", "at": 1.0}]}]}]},
-
+      {"say": "Philip asked to see the Father. He that hath seen me hath seen the Father. If you want to know what God is like, look at Jesus. That is the whole answer.", "sky": "night", "land": "city", "fx": ["sparkle"], "cast": [{"k": "man", "x": 820, "acts": [{"do": "kneel", "at": 2.4}]}, {"k": "jesus", "x": 1100, "flip": true, "acts": [{"do": "reach", "at": 1.0}]}]}
+     ]},
     {"title": "The True Vine", "ref": "John 15:5",
      "beats": [
       {"say": "Walking out toward the garden that night, they may have passed the great golden vine carved over the temple gate. I am the true vine, and my Father is the husbandman.", "sky": "night", "land": "garden", "cast": [{"k": "tree", "x": 1100, "s": 0.9}, {"k": "jesus", "x": 820, "acts": [{"do": "walk", "to": 900, "at": 0.4, "dur": 2}, {"do": "bless", "at": 3.0}]}]},
       {"say": "Abide in me, and I in you. As the branch cannot bear fruit of itself, except it abide in the vine; no more can ye, except ye abide in me.", "sky": "dawn", "land": "garden", "fx": ["sparkle"], "cast": [{"k": "tree", "x": 960, "s": 1.0, "acts": [{"do": "grow", "at": 0.4}]}]},
       {"say": "I am the vine, ye are the branches: He that abideth in me, and I in him, the same bringeth forth much fruit: for without me ye can do nothing.", "sky": "day", "land": "field", "fx": ["rays"], "cast": [{"k": "tree", "x": 760, "s": 0.8}, {"k": "tree", "x": 1160, "s": 0.8}, {"k": "jesus", "x": 960, "acts": [{"do": "raise", "at": 2.0}]}]},
-      {"say": "Branches do not strain to produce grapes. They stay connected, and the fruit comes. These things have I spoken unto you, that my joy might remain in you, and that your joy might be full.", "sky": "night", "land": "garden", "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "woman", "x": 880, "acts": [{"do": "kneel", "at": 0.8}]}]}]},
-
+      {"say": "Branches do not strain to produce grapes. They stay connected, and the fruit comes. These things have I spoken unto you, that my joy might remain in you, and that your joy might be full.", "sky": "night", "land": "garden", "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "woman", "x": 880, "acts": [{"do": "kneel", "at": 0.8}]}]}
+     ]},
+    {"title": "Meek and Lowly in Heart", "ref": "Matthew 11:28-30",
+     "beats": [
+      {"say": "One more time Jesus said I am, in Matthew, and it may be the most tender of all. Come unto me, all ye that labour and are heavy laden, and I will give you rest.", "sky": "dusk", "land": "field", "cast": [{"k": "man", "x": 760, "acts": [{"do": "walk", "at": 0.4, "to": 900, "dur": 3}, {"do": "kneel", "at": 3.6}]}, {"k": "jesus", "x": 1160, "flip": true, "acts": [{"do": "reach", "at": 1.6}]}]},
+      {"say": "Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls.", "sky": "night", "land": "field", "fx": ["sparkle"], "cast": [{"k": "jesus", "x": 960, "acts": [{"do": "bless", "at": 1.4}]}]},
+      {"say": "A yoke joined two oxen, so the stronger one carried the weight. For my yoke is easy, and my burden is light. He does not add to your load. He gets under it with you.", "sky": "dawn", "land": "field", "fx": ["rays"], "cast": [{"k": "man", "x": 820}, {"k": "jesus", "x": 1000, "flip": true, "acts": [{"do": "reach", "at": 1.6}]}]},
+      {"say": "The God who said I AM at the burning bush describes himself here as gentle, and humble in heart. That is who is inviting you to rest tonight.", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "woman", "x": 880, "acts": [{"do": "kneel", "at": 0.8}]}]}
+     ]},
     {"title": "I Am He", "ref": "John 18:6",
      "beats": [
       {"say": "Earlier, by a well in Samaria, a woman said she knew the Messiah would come. Jesus saith unto her, I that speak unto thee am he. He told it first to an outcast.", "sky": "day", "land": "desert", "cast": [{"k": "well", "x": 960, "s": 1.0}, {"k": "woman", "x": 760}, {"k": "jesus", "x": 1180, "flip": true, "acts": [{"do": "reach", "at": 2.4}]}]},
       {"say": "And in the garden, when the soldiers came with lanterns and torches and weapons, Jesus went forth and asked: Whom seek ye? They answered him, Jesus of Nazareth.", "sky": "night", "land": "garden", "cast": [{"k": "fire", "x": 1300, "s": 0.8, "acts": [{"do": "flicker"}]}, {"k": "crowd", "x": 1220, "s": 0.9, "n": 7}, {"k": "jesus", "x": 760}]},
       {"say": "Jesus saith unto them, I am he. And as soon as he had said it, they went backward, and fell to the ground. Armed men, knocked flat by two words.", "sky": "night", "land": "garden", "fx": ["rays"], "cast": [{"k": "crowd", "x": 1260, "s": 0.9, "n": 7, "acts": [{"do": "vanish", "at": 2.4}]}, {"k": "jesus", "x": 800, "acts": [{"do": "raise", "at": 1.6}]}]},
-      {"say": "And then he let them take him. The great I am, who could not be arrested, chose to be. It was not weakness. It was love, walking toward the cross on purpose.", "sky": "night", "land": "garden", "cast": [{"k": "jesus", "x": 860, "acts": [{"do": "lower", "at": 1.0}, {"do": "walk", "to": 1100, "at": 2.0, "dur": 4}]}]}]},
-
+      {"say": "And then he let them take him. The great I am, who could not be arrested, chose to be. It was not weakness. It was love, walking toward the cross on purpose.", "sky": "night", "land": "garden", "cast": [{"k": "jesus", "x": 860, "acts": [{"do": "lower", "at": 1.0}, {"do": "walk", "to": 1100, "at": 2.0, "dur": 4}]}]}
+     ]},
+    {"title": "Be Not Afraid", "ref": "John 6:20",
+     "beats": [
+      {"say": "On the stormy sea, when the disciples saw him walking on the water, he said: It is I; be not afraid. In the language of the gospel it reads, quite literally: I am; be not afraid.", "sky": "night", "land": "sea", "fx": ["rain"], "cast": [{"k": "boat", "x": 760, "y": 800, "s": 1.2, "acts": [{"do": "rock", "amp": 5, "period": 2.2}]}, {"k": "jesus", "x": 1240, "y": 840, "flip": true, "acts": [{"do": "raise", "at": 1.6}]}]},
+      {"say": "Before Abraham was, I am. I am the bread, the light, the door, the shepherd, the life, the way, the vine. And in every storm: I am; be not afraid.", "sky": "dawn", "land": "sea", "fx": ["rays"], "cast": [{"k": "boat", "x": 760, "y": 800, "s": 1.2, "acts": [{"do": "rock", "amp": 1, "period": 4}]}, {"k": "jesus", "x": 1100, "y": 840, "flip": true, "acts": [{"do": "bless", "at": 1.0}]}]},
+      {"say": "And his last words in Matthew carry the same name: And, lo, I am with you alway, even unto the end of the world. Not I was. Not I will be. I am, with you, now.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "star", "x": 960, "y": 300, "s": 0.8}, {"k": "man", "x": 860, "acts": [{"do": "raise", "at": 2.0}]}]}
+     ]},
     {"title": "Alpha and Omega", "ref": "Revelation 1:8",
      "beats": [
       {"say": "Decades later, an old John, exiled on the island of Patmos, saw the risen Jesus in glory, and heard him speak once more in the same voice.", "sky": "night", "land": "sea", "fx": ["sparkle"], "cast": [{"k": "elder", "x": 900, "acts": [{"do": "kneel", "at": 2.0}]}]},
       {"say": "I am Alpha and Omega, the beginning and the ending, saith the Lord, which is, and which was, and which is to come, the Almighty.", "sky": "dawn", "land": "sea", "fx": ["rays"], "cast": [{"k": "jesus", "x": 960, "y": 820, "s": 1.7, "acts": [{"do": "raise", "at": 1.0}]}]},
       {"say": "And at the very end of the Bible: I am the root and the offspring of David, and the bright and morning star. The last I am in scripture is a promise of morning.", "sky": "dawn", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "star", "x": 960, "y": 280, "s": 1.1}]},
-      {"say": "Bread, light, door, shepherd, life, way, vine. Seven pictures of one person. Whatever you need most tonight, one of them is his answer, and all of them are his promise.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 880, "acts": [{"do": "kneel", "at": 1.0}, {"do": "raise", "at": 3.4}]}]}]},
-
+      {"say": "Bread, light, door, shepherd, life, way, vine. Seven pictures of one person. Whatever you need most tonight, one of them is his answer, and all of them are his promise.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 880, "acts": [{"do": "kneel", "at": 1.0}, {"do": "raise", "at": 3.4}]}]}
+     ]},
     {"title": "A Prayer to the Great I AM", "ref": "John 6:68",
      "beats": [
       {"say": "Let us pray. Lord Jesus, you are the bread of life. Feed the hunger in me that nothing else has filled.", "sky": "night", "land": "field", "cast": [{"k": "bread", "x": 1120, "s": 1.2}, {"k": "man", "x": 860, "acts": [{"do": "kneel", "at": 0.8}]}]},
       {"say": "You are the light of the world. Shine into the dark rooms I keep closed. You are the door. Lead me in and out, to pasture and to rest.", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1120, "s": 1.7, "acts": [{"do": "flicker"}]}, {"k": "woman", "x": 880, "acts": [{"do": "kneel", "at": 0.6}]}]},
       {"say": "You are the good shepherd. Find me when I wander, and carry me home. You are the resurrection and the life. Hold the ones I have lost, until we meet again.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "sheep", "x": 860}, {"k": "jesus", "x": 1100, "flip": true, "acts": [{"do": "bless", "at": 1.6}]}]},
       {"say": "You are the way, the truth, and the life. Keep me on your road. You are the vine. Let me stay close, and bear fruit that lasts.", "sky": "dawn", "land": "garden", "fx": ["rays"], "cast": [{"k": "tree", "x": 1120, "s": 0.8}, {"k": "man", "x": 860, "acts": [{"do": "raise", "at": 1.4}]}]},
-      {"say": "Lord, to whom shall we go? Thou hast the words of eternal life. Amen.", "sky": "dawn", "land": "hills", "fx": ["rays"], "cast": [{"k": "star", "x": 960, "y": 300, "s": 0.8}, {"k": "man", "x": 860, "acts": [{"do": "kneel"}]}, {"k": "woman", "x": 1060, "acts": [{"do": "kneel"}]}]}]}
+      {"say": "Lord, to whom shall we go? Thou hast the words of eternal life. Amen.", "sky": "dawn", "land": "hills", "fx": ["rays"], "cast": [{"k": "star", "x": 960, "y": 300, "s": 0.8}, {"k": "man", "x": 860, "acts": [{"do": "kneel"}]}, {"k": "woman", "x": 1060, "acts": [{"do": "kneel"}]}]}
+     ]}
   ]
 }

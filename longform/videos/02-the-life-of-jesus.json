@@ -66,6 +66,13 @@
       {"say": "No one touched lepers. But Jesus, moved with compassion, put forth his hand, and touched him, and saith unto him: I will; be thou clean.", "sky": "dawn", "land": "desert", "fx": ["rays"], "cast": [{"k": "man", "x": 860, "acts": [{"do": "kneel"}, {"do": "stand", "at": 4.4}]}, {"k": "jesus", "x": 1080, "flip": true, "acts": [{"do": "reach", "at": 2.4}]}]},
       {"say": "Jesus, you were never too busy to stop. Put your hand on the sick, the lonely, and the ones no one wants to touch. Begin with me. Amen.", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1120, "s": 1.7, "acts": [{"do": "flicker"}]}, {"k": "woman", "x": 880, "acts": [{"do": "kneel", "at": 0.8}]}]}
      ]},
+    {"title": "To Seek and to Save", "ref": "Luke 19:10",
+     "beats": [
+      {"say": "Passing through Jericho, Jesus was surrounded by crowds. A chief tax collector named Zacchaeus, rich and despised, and little of stature, ran ahead and climbed a sycamore tree just to see him.", "sky": "day", "land": "city", "cast": [{"k": "tree", "x": 1200, "s": 1.1}, {"k": "crowd", "x": 760, "s": 0.9, "n": 10}, {"k": "man", "x": 1180, "y": 560, "s": 1.1}]},
+      {"say": "Jesus stopped under the tree and looked up: Zacchaeus, make haste, and come down; for to day I must abide at thy house. And the crowd murmured.", "sky": "day", "land": "city", "cast": [{"k": "tree", "x": 1200, "s": 1.1}, {"k": "man", "x": 1180, "y": 560, "s": 1.1, "acts": [{"do": "climb", "at": 1.6, "to": 850, "dur": 2}]}, {"k": "jesus", "x": 900, "acts": [{"do": "reach", "at": 0.6}]}]},
+      {"say": "Zacchaeus stood: Behold, Lord, the half of my goods I give to the poor; and if I have taken any thing from any man by false accusation, I restore him fourfold. Grace changed him faster than any law.", "sky": "dusk", "land": "city", "fx": ["sparkle"], "cast": [{"k": "house", "x": 1300, "s": 1.0}, {"k": "man", "x": 900, "acts": [{"do": "raise", "at": 1.6}]}, {"k": "jesus", "x": 1100, "flip": true}]},
+      {"say": "For the Son of man is come to seek and to save that which was lost. Lord, look up into whatever tree I am hiding in, and call me down by name. Amen.", "sky": "night", "land": "city", "fx": ["rays"], "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 880, "acts": [{"do": "kneel", "at": 0.8}]}]}
+     ]},
     {"title": "In Remembrance of Me", "ref": "Luke 22:19",
      "beats": [
       {"say": "On his last night, he poured water into a basin, and began to wash the disciples' feet. The Master took the place of a servant.", "sky": "night", "land": "city", "cast": [{"k": "man", "x": 760}, {"k": "jesus", "x": 1000, "flip": true, "acts": [{"do": "kneel", "at": 1.2}, {"do": "reach", "at": 2.4}]}]},

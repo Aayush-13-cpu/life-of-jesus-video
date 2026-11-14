@@ -20,9 +20,10 @@ sys.path.insert(0, HERE)
 from build import music  # noqa: E402  the generated piano-and-pad bed, no licensed audio
 import lineart as art  # noqa: E402
 
-LEAD, TAIL, END = 0.5, 1.1, 1.6   # silence before/after each beat's narration; the hold at a chapter's end
+LEAD, TAIL, END = 0.6, 1.6, 1.6   # silence before/after each beat's narration (room to breathe); a chapter's end hold
 VOICE, SPEED = "af_heart", 0.94    # the Shorts' voice and pace
-WPS = 2.55                         # Kokoro's pace at SPEED, for length checks before any TTS runs
+WPS = 3.24                         # words per second at SPEED, measured on rendered chapters (the Shorts' 2.55 is
+                                   # a conservative guess); used to check 10-12 minutes before any TTS runs
 MIN_LEN, MAX_LEN = 600, 720        # every long video is 10-12 minutes
 
 

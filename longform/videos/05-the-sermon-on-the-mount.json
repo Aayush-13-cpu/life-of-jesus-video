@@ -1,6 +1,8 @@
 {
-  "id": "the-sermon-on-the-mount", "template": "tabor",
-  "title": "The Sermon on the Mount", "thumbnail": "The Sermon on the Mount",
+  "id": "the-sermon-on-the-mount",
+  "template": "tabor",
+  "title": "The Sermon on the Mount",
+  "thumbnail": "The Sermon on the Mount",
   "description": "The greatest sermon ever preached, walked through slowly: the Beatitudes, salt and light, loving your enemies, giving in secret, treasure in heaven, freedom from worry, judging others, asking, seeking and knocking, the golden rule and the narrow gate. Matthew chapters five to seven in the King James Version, with what each word asks of us today, ending in prayer.",
   "tags": ["#jesus", "#sermononthemount", "#beatitudes", "#bible", "#kjv", "#christian", "#faith"],
   "chapters": [
@@ -8,91 +10,99 @@
      "beats": [
       {"say": "And seeing the multitudes, he went up into a mountain: and when he was set, his disciples came unto him: And he opened his mouth, and taught them.", "sky": "dawn", "land": "mountain", "cast": [{"k": "crowd", "x": 760, "s": 0.95, "n": 12}, {"k": "jesus", "x": 1300, "flip": true, "acts": [{"do": "bless", "at": 3.0}]}]},
       {"say": "Three chapters of Matthew. About fifteen minutes to read aloud. And for two thousand years, people have been trying to live up to them.", "sky": "day", "land": "mountain", "fx": ["sparkle"], "cast": [{"k": "scroll", "x": 960, "s": 1.4}]},
-      {"say": "It is not a list of rules for earning heaven. It is a portrait of what life looks like when heaven has already come near. Let us sit on the hillside and listen.", "sky": "dusk", "land": "mountain", "cast": [{"k": "man", "x": 760, "acts": [{"do": "kneel", "at": 1.6}]}, {"k": "woman", "x": 900, "acts": [{"do": "kneel", "at": 2.0}]}, {"k": "jesus", "x": 1240, "flip": true}]}]},
-
+      {"say": "It is not a list of rules for earning heaven. It is a portrait of what life looks like when heaven has already come near. Let us sit on the hillside and listen.", "sky": "dusk", "land": "mountain", "cast": [{"k": "man", "x": 760, "acts": [{"do": "kneel", "at": 1.6}]}, {"k": "woman", "x": 900, "acts": [{"do": "kneel", "at": 2.0}]}, {"k": "jesus", "x": 1240, "flip": true}]}
+     ]},
     {"title": "Blessed Are the Poor in Spirit", "ref": "Matthew 5:3",
      "beats": [
       {"say": "He began with a surprise. Not blessed are the strong, the successful, the certain. Blessed are the poor in spirit: for theirs is the kingdom of heaven.", "sky": "day", "land": "mountain", "fx": ["rays"], "cast": [{"k": "man", "x": 900, "acts": [{"do": "kneel", "at": 1.4}]}, {"k": "jesus", "x": 1200, "flip": true, "acts": [{"do": "reach", "at": 3.0}]}]},
       {"say": "Blessed are they that mourn: for they shall be comforted. Grief is not a sign that God has left. It is the very place he has promised to come.", "sky": "dusk", "land": "garden", "cast": [{"k": "woman", "x": 860, "acts": [{"do": "kneel", "at": 0.6}]}, {"k": "jesus", "x": 1120, "flip": true, "acts": [{"do": "bless", "at": 2.4}]}]},
       {"say": "Blessed are the meek: for they shall inherit the earth. Meekness is not weakness. It is strength that has stopped needing to prove itself.", "sky": "day", "land": "field", "cast": [{"k": "child", "x": 900, "s": 1.6}, {"k": "sheep", "x": 1100}]},
-      {"say": "Blessed are they which do hunger and thirst after righteousness: for they shall be filled. Wanting to be good, wanting the world to be right, is a hunger God promises to satisfy.", "sky": "dawn", "land": "field", "fx": ["sparkle"], "cast": [{"k": "bread", "x": 1100, "s": 1.3}, {"k": "cup", "x": 1260, "s": 1.2}, {"k": "man", "x": 860, "acts": [{"do": "raise", "at": 2.0}]}]}]},
-
+      {"say": "Blessed are they which do hunger and thirst after righteousness: for they shall be filled. Wanting to be good, wanting the world to be right, is a hunger God promises to satisfy.", "sky": "dawn", "land": "field", "fx": ["sparkle"], "cast": [{"k": "bread", "x": 1100, "s": 1.3}, {"k": "cup", "x": 1260, "s": 1.2}, {"k": "man", "x": 860, "acts": [{"do": "raise", "at": 2.0}]}]}
+     ]},
     {"title": "Blessed Are the Merciful", "ref": "Matthew 5:7-9",
      "beats": [
       {"say": "Blessed are the merciful: for they shall obtain mercy. The mercy you give is the measure of the mercy you can receive.", "sky": "day", "land": "city", "cast": [{"k": "man", "x": 820, "acts": [{"do": "kneel"}]}, {"k": "man", "x": 1060, "flip": true, "acts": [{"do": "reach", "at": 1.4}]}]},
       {"say": "Blessed are the pure in heart: for they shall see God. Not perfect people. Undivided people, who want one thing more than everything else.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "woman", "x": 960, "acts": [{"do": "raise", "at": 1.6}]}]},
       {"say": "Blessed are the peacemakers: for they shall be called the children of God. Not peacekeepers who avoid conflict, but people who walk into it and build something whole.", "sky": "dusk", "land": "city", "cast": [{"k": "man", "x": 700, "flip": true}, {"k": "elder", "x": 960, "acts": [{"do": "bless", "at": 1.6}]}, {"k": "man", "x": 1220, "flip": true}]},
-      {"say": "Blessed are they which are persecuted for righteousness' sake. Rejoice, and be exceeding glad: for great is your reward in heaven. The world's verdict is not the final one.", "sky": "storm", "land": "hills", "fx": ["rays"], "cast": [{"k": "man", "x": 960, "acts": [{"do": "kneel"}, {"do": "raise", "at": 3.4}]}]}]},
-
+      {"say": "Blessed are they which are persecuted for righteousness' sake. Rejoice, and be exceeding glad: for great is your reward in heaven. The world's verdict is not the final one.", "sky": "storm", "land": "hills", "fx": ["rays"], "cast": [{"k": "man", "x": 960, "acts": [{"do": "kneel"}, {"do": "raise", "at": 3.4}]}]}
+     ]},
     {"title": "Salt and Light", "ref": "Matthew 5:14",
      "beats": [
       {"say": "Ye are the salt of the earth. Salt preserved food from rotting and brought out its flavour. A small amount changed everything around it.", "sky": "day", "land": "sea", "cast": [{"k": "crowd", "x": 860, "s": 0.85, "n": 9}, {"k": "jesus", "x": 1300, "flip": true, "acts": [{"do": "bless", "at": 1.6}]}]},
       {"say": "Ye are the light of the world. A city that is set on an hill cannot be hid. Neither do men light a candle, and put it under a bushel, but on a candlestick.", "sky": "night", "land": "city", "fx": ["sparkle"], "cast": [{"k": "lamp", "x": 960, "y": 760, "s": 2.0, "acts": [{"do": "flicker"}]}]},
-      {"say": "Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven. The point of the light is never the lamp. It is the Father.", "sky": "dawn", "land": "hills", "fx": ["rays"], "cast": [{"k": "woman", "x": 800, "acts": [{"do": "raise", "at": 1.4}]}, {"k": "man", "x": 1100, "acts": [{"do": "raise", "at": 2.0}]}]}]},
-
+      {"say": "Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven. The point of the light is never the lamp. It is the Father.", "sky": "dawn", "land": "hills", "fx": ["rays"], "cast": [{"k": "woman", "x": 800, "acts": [{"do": "raise", "at": 1.4}]}, {"k": "man", "x": 1100, "acts": [{"do": "raise", "at": 2.0}]}]}
+     ]},
     {"title": "Not to Destroy, but to Fulfil", "ref": "Matthew 5:17",
      "beats": [
       {"say": "Think not that I am come to destroy the law, or the prophets: I am not come to destroy, but to fulfil. Jesus did not lower the bar. He moved it inside us.", "sky": "day", "land": "mountain", "cast": [{"k": "scroll", "x": 760, "s": 1.2}, {"k": "jesus", "x": 1160, "flip": true, "acts": [{"do": "raise", "at": 3.0}]}]},
       {"say": "Ye have heard, Thou shalt not kill. But I say unto you, That whosoever is angry with his brother without a cause shall be in danger of the judgment. Murder starts long before a weapon.", "sky": "dusk", "land": "city", "cast": [{"k": "man", "x": 780, "acts": [{"do": "raise", "at": 1.6}]}, {"k": "man", "x": 1120, "flip": true}]},
       {"say": "Therefore if thou bring thy gift to the altar, and there rememberest that thy brother hath ought against thee; leave there thy gift before the altar, and go thy way; first be reconciled to thy brother.", "sky": "dawn", "land": "city", "fx": ["rays"], "cast": [{"k": "fire", "x": 700, "s": 1.0, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 900, "acts": [{"do": "walk", "to": 1100, "at": 1.4, "dur": 3}]}]},
-      {"say": "God would rather wait for your worship than receive it from a heart still at war. Is there a phone call you need to make before your next prayer?", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 880, "acts": [{"do": "kneel", "at": 1.0}]}]}]},
-
+      {"say": "God would rather wait for your worship than receive it from a heart still at war. Is there a phone call you need to make before your next prayer?", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 880, "acts": [{"do": "kneel", "at": 1.0}]}]}
+     ]},
     {"title": "The Other Cheek", "ref": "Matthew 5:44",
      "beats": [
       {"say": "Ye have heard that it hath been said, An eye for an eye. But I say unto you, That ye resist not evil: but whosoever shall smite thee on thy right cheek, turn to him the other also.", "sky": "dusk", "land": "city", "cast": [{"k": "man", "x": 800}, {"k": "man", "x": 1100, "flip": true, "acts": [{"do": "reach", "at": 2.4}]}]},
       {"say": "And whosoever shall compel thee to go a mile, go with him twain. A Roman soldier could force anyone to carry his pack one mile. Jesus said: carry it two.", "sky": "day", "land": "desert", "cast": [{"k": "man", "x": 600, "acts": [{"do": "walk", "to": 1100, "at": 0.4, "dur": 7}]}, {"k": "man", "x": 760, "acts": [{"do": "walk", "to": 1260, "at": 0.4, "dur": 7}]}]},
       {"say": "Love your enemies, bless them that curse you, do good to them that hate you, and pray for them which despitefully use you, and persecute you.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "man", "x": 900, "acts": [{"do": "kneel", "at": 0.6}, {"do": "raise", "at": 3.0}]}]},
-      {"say": "That ye may be the children of your Father which is in heaven: for he maketh his sun to rise on the evil and on the good. This is the hardest command in the sermon, and the most like God.", "sky": "dawn", "land": "field", "fx": ["rays"], "cast": [{"k": "man", "x": 760}, {"k": "man", "x": 1160, "flip": true}]}]},
-
+      {"say": "That ye may be the children of your Father which is in heaven: for he maketh his sun to rise on the evil and on the good. This is the hardest command in the sermon, and the most like God.", "sky": "dawn", "land": "field", "fx": ["rays"], "cast": [{"k": "man", "x": 760}, {"k": "man", "x": 1160, "flip": true}]}
+     ]},
     {"title": "In Secret", "ref": "Matthew 6:4",
      "beats": [
       {"say": "Take heed that ye do not your alms before men, to be seen of them. Some gave to the poor with a trumpet blowing, so everyone would know.", "sky": "day", "land": "city", "cast": [{"k": "elder", "x": 900, "acts": [{"do": "raise", "at": 1.0}]}, {"k": "crowd", "x": 1260, "s": 0.8, "n": 7}]},
       {"say": "But when thou doest alms, let not thy left hand know what thy right hand doeth: That thine alms may be in secret: and thy Father which seeth in secret himself shall reward thee openly.", "sky": "night", "land": "city", "fx": ["sparkle"], "cast": [{"k": "basket", "x": 1060, "s": 1.0}, {"k": "woman", "x": 860, "acts": [{"do": "reach", "at": 2.0}]}]},
-      {"say": "The same with prayer and fasting. When the applause is the reward, it is the only reward. Do something good this week that no one will ever find out about.", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 880, "acts": [{"do": "kneel", "at": 1.0}]}]}]},
-
+      {"say": "The same with prayer and fasting. When the applause is the reward, it is the only reward. Do something good this week that no one will ever find out about.", "sky": "night", "land": "hills", "cast": [{"k": "lamp", "x": 1120, "s": 1.6, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 880, "acts": [{"do": "kneel", "at": 1.0}]}]}
+     ]},
+    {"title": "When Ye Pray", "ref": "Matthew 6:8",
+     "beats": [
+      {"say": "But when ye pray, use not vain repetitions, as the heathen do: for they think that they shall be heard for their much speaking.", "sky": "day", "land": "mountain", "cast": [{"k": "crowd", "x": 760, "s": 0.9, "n": 10}, {"k": "jesus", "x": 1300, "flip": true, "acts": [{"do": "bless", "at": 1.6}]}]},
+      {"say": "Be not ye therefore like unto them: for your Father knoweth what things ye have need of, before ye ask him. Prayer is not informing God. It is trusting him.", "sky": "dusk", "land": "mountain", "fx": ["sparkle"], "cast": [{"k": "woman", "x": 900, "acts": [{"do": "kneel", "at": 0.8}]}]},
+      {"say": "And then he gave them words: Our Father which art in heaven, Hallowed be thy name. Thy kingdom come. Thy will be done in earth, as it is in heaven. Give us this day our daily bread.", "sky": "night", "land": "mountain", "fx": ["rays"], "cast": [{"k": "man", "x": 800, "acts": [{"do": "kneel", "at": 0.6}]}, {"k": "jesus", "x": 1140, "flip": true, "acts": [{"do": "raise", "at": 1.6}]}]},
+      {"say": "And forgive us our debts, as we forgive our debtors. For if ye forgive men their trespasses, your heavenly Father will also forgive you. The only line he explained afterward was the one about forgiving.", "sky": "dawn", "land": "mountain", "cast": [{"k": "man", "x": 820, "acts": [{"do": "reach", "at": 1.4}]}, {"k": "man", "x": 1100, "flip": true, "acts": [{"do": "reach", "at": 1.8}]}]}
+     ]},
     {"title": "Where Your Treasure Is", "ref": "Matthew 6:21",
      "beats": [
       {"say": "Lay not up for yourselves treasures upon earth, where moth and rust doth corrupt, and where thieves break through and steal.", "sky": "dusk", "land": "city", "cast": [{"k": "house", "x": 1200, "s": 1.0}, {"k": "man", "x": 860, "acts": [{"do": "reach", "at": 1.6}]}]},
       {"say": "But lay up for yourselves treasures in heaven, where neither moth nor rust doth corrupt. For where your treasure is, there will your heart be also.", "sky": "night", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "star", "x": 960, "y": 320, "s": 0.9}, {"k": "man", "x": 900, "acts": [{"do": "raise", "at": 2.4}]}]},
-      {"say": "No man can serve two masters. Ye cannot serve God and mammon. Your bank statement and your calendar will tell you honestly which one you are serving.", "sky": "day", "land": "city", "cast": [{"k": "scroll", "x": 1100, "s": 1.1}, {"k": "man", "x": 860}]}]},
-
+      {"say": "No man can serve two masters. Ye cannot serve God and mammon. Your bank statement and your calendar will tell you honestly which one you are serving.", "sky": "day", "land": "city", "cast": [{"k": "scroll", "x": 1100, "s": 1.1}, {"k": "man", "x": 860}]}
+     ]},
     {"title": "Take No Thought", "ref": "Matthew 6:33",
      "beats": [
       {"say": "Therefore I say unto you, Take no thought for your life, what ye shall eat, or what ye shall drink. Is not the life more than meat?", "sky": "day", "land": "field", "cast": [{"k": "jesus", "x": 1160, "flip": true, "acts": [{"do": "bless", "at": 1.4}]}, {"k": "crowd", "x": 760, "s": 0.85, "n": 7}]},
       {"say": "Behold the fowls of the air: for they sow not, neither do they reap, nor gather into barns; yet your heavenly Father feedeth them. Are ye not much better than they?", "sky": "day", "land": "field", "cast": [{"k": "birds", "x": 600, "y": 400, "s": 1.5, "acts": [{"do": "fly", "to": 1300, "toy": 300, "at": 0.4, "dur": 6}]}]},
       {"say": "Consider the lilies of the field, how they grow; they toil not, neither do they spin: And yet even Solomon in all his glory was not arrayed like one of these.", "sky": "dawn", "land": "field", "fx": ["rays"], "cast": [{"k": "tree", "x": 760, "s": 0.5, "acts": [{"do": "grow"}]}, {"k": "tree", "x": 1160, "s": 0.6, "acts": [{"do": "grow", "at": 0.6}]}]},
       {"say": "Which of you by taking thought can add one cubit unto his stature? Worry has never added an hour to a life. It has stolen plenty of them.", "sky": "night", "land": "field", "cast": [{"k": "man", "x": 900, "acts": [{"do": "kneel", "at": 0.8}]}]},
-      {"say": "But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you. Not instead of tomorrow. First, before it.", "sky": "dawn", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "man", "x": 860, "acts": [{"do": "kneel"}, {"do": "stand", "at": 2.0}, {"do": "raise", "at": 3.4}]}]}]},
-
+      {"say": "But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you. Not instead of tomorrow. First, before it.", "sky": "dawn", "land": "hills", "fx": ["sparkle"], "cast": [{"k": "man", "x": 860, "acts": [{"do": "kneel"}, {"do": "stand", "at": 2.0}, {"do": "raise", "at": 3.4}]}]}
+     ]},
     {"title": "Judge Not", "ref": "Matthew 7:3",
      "beats": [
       {"say": "Judge not, that ye be not judged. For with what judgment ye judge, ye shall be judged.", "sky": "day", "land": "city", "cast": [{"k": "elder", "x": 760, "acts": [{"do": "reach", "at": 1.0}]}, {"k": "man", "x": 1100, "flip": true}]},
       {"say": "And why beholdest thou the mote that is in thy brother's eye, but considerest not the beam that is in thine own eye? Jesus, the carpenter, picturing a plank of wood sticking out of someone's face.", "sky": "dusk", "land": "city", "cast": [{"k": "elder", "x": 820}, {"k": "man", "x": 1080, "flip": true}]},
-      {"say": "First cast out the beam out of thine own eye; and then shalt thou see clearly to cast out the mote out of thy brother's eye. Humility first. Then, and only then, help.", "sky": "night", "land": "hills", "cast": [{"k": "man", "x": 960, "acts": [{"do": "kneel", "at": 0.8}]}]}]},
-
+      {"say": "First cast out the beam out of thine own eye; and then shalt thou see clearly to cast out the mote out of thy brother's eye. Humility first. Then, and only then, help.", "sky": "night", "land": "hills", "cast": [{"k": "man", "x": 960, "acts": [{"do": "kneel", "at": 0.8}]}]}
+     ]},
     {"title": "Ask, Seek, Knock", "ref": "Matthew 7:7",
      "beats": [
       {"say": "Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you. Three verbs, each one more persistent than the last.", "sky": "night", "land": "city", "cast": [{"k": "house", "x": 1200, "s": 1.0}, {"k": "man", "x": 860, "acts": [{"do": "walk", "to": 1020, "at": 0.4, "dur": 2}, {"do": "reach", "at": 2.8}]}]},
       {"say": "What man is there of you, whom if his son ask bread, will he give him a stone? If ye then, being evil, know how to give good gifts unto your children, how much more shall your Father which is in heaven.", "sky": "dusk", "land": "field", "cast": [{"k": "bread", "x": 1100, "s": 1.2}, {"k": "elder", "x": 960, "acts": [{"do": "reach", "at": 2.0}]}, {"k": "child", "x": 760, "s": 1.6}]},
-      {"say": "Therefore all things whatsoever ye would that men should do to you, do ye even so to them: for this is the law and the prophets. The golden rule, in one sentence.", "sky": "day", "land": "city", "fx": ["sparkle"], "cast": [{"k": "man", "x": 820, "acts": [{"do": "reach", "at": 1.6}]}, {"k": "woman", "x": 1100, "flip": true, "acts": [{"do": "reach", "at": 2.0}]}]}]},
-
+      {"say": "Therefore all things whatsoever ye would that men should do to you, do ye even so to them: for this is the law and the prophets. The golden rule, in one sentence.", "sky": "day", "land": "city", "fx": ["sparkle"], "cast": [{"k": "man", "x": 820, "acts": [{"do": "reach", "at": 1.6}]}, {"k": "woman", "x": 1100, "flip": true, "acts": [{"do": "reach", "at": 2.0}]}]}
+     ]},
     {"title": "The Narrow Gate", "ref": "Matthew 7:14",
      "beats": [
       {"say": "Enter ye in at the strait gate: for wide is the gate, and broad is the way, that leadeth to destruction, and many there be which go in thereat.", "sky": "dusk", "land": "desert", "cast": [{"k": "crowd", "x": 700, "s": 0.85, "n": 10, "acts": [{"do": "walk", "to": 400, "at": 0.6, "dur": 6}]}]},
       {"say": "Because strait is the gate, and narrow is the way, which leadeth unto life, and few there be that find it.", "sky": "dawn", "land": "mountain", "fx": ["rays"], "cast": [{"k": "man", "x": 760, "acts": [{"do": "walk", "to": 1100, "at": 0.4, "dur": 5}]}]},
-      {"say": "When he finished, the people were astonished at his doctrine: For he taught them as one having authority, and not as the scribes. He did not quote experts. He spoke as the one who would judge the world.", "sky": "day", "land": "mountain", "cast": [{"k": "crowd", "x": 760, "s": 0.95, "n": 12}, {"k": "jesus", "x": 1300, "flip": true, "acts": [{"do": "raise", "at": 2.4}]}]}]},
-
+      {"say": "When he finished, the people were astonished at his doctrine: For he taught them as one having authority, and not as the scribes. He did not quote experts. He spoke as the one who would judge the world.", "sky": "day", "land": "mountain", "cast": [{"k": "crowd", "x": 760, "s": 0.95, "n": 12}, {"k": "jesus", "x": 1300, "flip": true, "acts": [{"do": "raise", "at": 2.4}]}]}
+     ]},
     {"title": "By Their Fruits", "ref": "Matthew 7:21",
      "beats": [
       {"say": "Ye shall know them by their fruits. Do men gather grapes of thorns, or figs of thistles? A life is known not by its labels but by what grows from it.", "sky": "day", "land": "field", "cast": [{"k": "tree", "x": 760, "s": 0.9}, {"k": "thorns", "x": 1160, "s": 1.2}]},
       {"say": "Not every one that saith unto me, Lord, Lord, shall enter into the kingdom of heaven; but he that doeth the will of my Father which is in heaven.", "sky": "dusk", "land": "mountain", "cast": [{"k": "crowd", "x": 760, "s": 0.9, "n": 10}, {"k": "jesus", "x": 1260, "flip": true, "acts": [{"do": "raise", "at": 2.4}]}]},
-      {"say": "It is a sobering line, and a freeing one. Faith is not a password. It is a way of living, and every day is another chance to bear good fruit.", "sky": "dawn", "land": "field", "fx": ["rays"], "cast": [{"k": "tree", "x": 960, "s": 0.8, "acts": [{"do": "grow", "at": 0.6}]}, {"k": "woman", "x": 760, "acts": [{"do": "raise", "at": 3.0}]}]}]},
-
+      {"say": "It is a sobering line, and a freeing one. Faith is not a password. It is a way of living, and every day is another chance to bear good fruit.", "sky": "dawn", "land": "field", "fx": ["rays"], "cast": [{"k": "tree", "x": 960, "s": 0.8, "acts": [{"do": "grow", "at": 0.6}]}, {"k": "woman", "x": 760, "acts": [{"do": "raise", "at": 3.0}]}]}
+     ]},
     {"title": "A Prayer from the Mountain", "ref": "Matthew 6:10",
      "beats": [
       {"say": "Let us pray. Lord Jesus, I am poor in spirit tonight. I come with nothing in my hands. Let your kingdom come to me.", "sky": "night", "land": "mountain", "cast": [{"k": "lamp", "x": 1120, "s": 1.7, "acts": [{"do": "flicker"}]}, {"k": "man", "x": 880, "acts": [{"do": "kneel", "at": 0.8}]}]},
       {"say": "Make me salt and light where you have put me. Teach me to give in secret, to forgive in public, and to love the people who are hardest to love.", "sky": "night", "land": "city", "fx": ["sparkle"], "cast": [{"k": "woman", "x": 900, "acts": [{"do": "kneel", "at": 0.6}, {"do": "raise", "at": 3.0}]}]},
       {"say": "Take the worry out of my tomorrow. I will seek your kingdom first, and trust you with the rest. Show me my own beam before I point at anyone's mote.", "sky": "night", "land": "field", "cast": [{"k": "birds", "x": 700, "y": 380, "s": 1.2, "acts": [{"do": "fly", "to": 1200, "toy": 300, "at": 1.0, "dur": 5}]}, {"k": "man", "x": 900, "acts": [{"do": "kneel"}]}]},
-      {"say": "Build my life on the rock of doing what you say, not only hearing it. Thy kingdom come, thy will be done, in earth, as it is in heaven. Amen.", "sky": "dawn", "land": "mountain", "fx": ["rays"], "cast": [{"k": "house", "x": 1240, "s": 0.9}, {"k": "man", "x": 900, "acts": [{"do": "kneel"}, {"do": "stand", "at": 2.4}]}, {"k": "jesus", "x": 1060, "flip": true, "acts": [{"do": "bless", "at": 1.0}]}]}]}
+      {"say": "Build my life on the rock of doing what you say, not only hearing it. Thy kingdom come, thy will be done, in earth, as it is in heaven. Amen.", "sky": "dawn", "land": "mountain", "fx": ["rays"], "cast": [{"k": "house", "x": 1240, "s": 0.9}, {"k": "man", "x": 900, "acts": [{"do": "kneel"}, {"do": "stand", "at": 2.4}]}, {"k": "jesus", "x": 1060, "flip": true, "acts": [{"do": "bless", "at": 1.0}]}]}
+     ]}
   ]
 }

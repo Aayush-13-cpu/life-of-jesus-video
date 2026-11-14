@@ -8,6 +8,7 @@ renders them on GitHub's computers (never this one), waits, and downloads the fi
   ./generate.py --long 1 --shorts 3
   ./generate.py --status           what has been made and what is left
   ./generate.py --dry-run          show the picks, change nothing
+  ./generate.py --redo ID [ID...]  forget that these were made, so the next run makes them again
 
 Needs git and the GitHub CLI (gh), logged in with a token that may push to this repo (fine-grained token:
 Contents and Workflows "Read and write", Actions "Read"). Python standard library only.
@@ -89,8 +90,18 @@ def main():
     ap.add_argument("--shorts", type=int, default=5)
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--redo", nargs="+", metavar="ID")
     a = ap.parse_args()
     if a.status:
+        return status()
+    if a.redo:
+        lines = open(STATE, encoding="utf-8").read().split("\n")
+        keep = [l for l in lines if not (l.split()[1:2] and l.split()[1] in a.redo and not l.startswith("#"))]
+        open(STATE, "w", encoding="utf-8").write("\n".join(keep))
+        sh("git", "add", "generated.txt")
+        sh("git", "commit", "-q", "-m", f"Redo: {', '.join(a.redo)} [skip ci]")
+        push()
+        print(f"The next ./generate.py will make again: {', '.join(a.redo)}")
         return status()
     longs, shorts = picks(a.long, a.shorts)
     if not longs and not shorts:
