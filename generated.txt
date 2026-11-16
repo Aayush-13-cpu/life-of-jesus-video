@@ -46,3 +46,10 @@ short mary-visits-elisabeth 2026-11-14
 short josephs-dream 2026-11-14
 short simeon-in-the-temple 2026-11-14
 short the-wise-mens-gifts 2026-11-14
+long the-parables-of-jesus 2026-11-16
+long the-miracles-of-jesus 2026-11-16
+short flight-into-egypt 2026-11-16
+short the-dove-descends 2026-11-16
+short tempted-in-the-wilderness 2026-11-16
+short calling-of-matthew 2026-11-16
+short under-the-fig-tree 2026-11-16
