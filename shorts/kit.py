@@ -20,9 +20,9 @@ SKIES = {  # top, middle, horizon colours, and an optional sun/moon (kind, x, y,
 
 
 SILHOUETTE = dict(ink=INK, skies=SKIES, c=dict(wave="#dfe8ff", sea="#3a4a6a", hole="#030206", rain="#c9d6ec",
-                 rays="#fff1c8", spark="#fff3c4", star="#fff", sun="#fff4d6", moon="#e9ecf5"))
+                 rays="#fff1c8", spark="#fff3c4", star="#fff", sun="#fff4d6", moon="#e9ecf5", rim="#ffe6b8"))
 PARCHMENT = dict(ink="#3b2414", c=dict(wave="#5a3a1e", sea="#bfa57c", hole="#2a170b", rain="#5a4630", rays="#fff6dc",
-                                       spark="#b8862b", star="#6b4a2a", sun="#d9a441", moon="#f6efe0"),
+                                       spark="#b8862b", star="#6b4a2a", sun="#d9a441", moon="#f6efe0", rim="#fbf2dc"),
                  skies={"day": ("#f4e9cf", "#ead7ad", "#dcc08a", ("sun", 820, 470, 58)),
                         "dawn": ("#f1e2c4", "#e9c79a", "#d9a978", ("sun", 760, 1170, 70)),
                         "dusk": ("#eedbb8", "#dcb184", "#c58f61", ("sun", 300, 1160, 110)),
@@ -174,8 +174,9 @@ PROPS = {
 }
 
 
-def person(pid, kind, p):
-    """A robed figure 190 units tall: body group -b (for bob/kneel/lie), arm groups -al / -ar (for gestures)."""
+def person(pid, kind, p, rim=True):
+    """A robed figure 190 units tall: body group -b (for bob/kneel/lie), arm groups -al / -ar (for gestures).
+    The thin rim light keeps overlapping silhouettes (a figure before a house, two people passing) apart as layers."""
     fill = "#fff3d0" if kind == "angel" else INK
     parts = []
     if kind == "angel":
@@ -191,7 +192,8 @@ def person(pid, kind, p):
     arm = '<path d="M-5 0 L5 0 L4 74 L-4 74 Z"/>'
     parts.append(f'<g id="{pid}-al" class="arm-l" transform="translate(-15,-146)">{arm}</g>'
                  f'<g id="{pid}-ar" class="arm-r" transform="translate(15,-146)">{arm}</g>')
-    return f'<g fill="{fill}" color="{fill}">{"".join(parts)}</g>'
+    edge = f' stroke="{C["rim"]}" stroke-width="1.8" stroke-opacity="0.55"' if rim else ""
+    return f'<g fill="{fill}" color="{fill}"{edge}>{"".join(parts)}</g>'
 
 
 SIZES = {"child": 0.62, "jesus": 1.06}
@@ -224,7 +226,7 @@ def crowd(pid, x, y, s, n, p, seed=9):
         fs = s * (0.85 + r() * 0.25)
         kind = "woman" if r() < 0.35 else ("child" if r() < 0.15 else "man")
         figs.append(f'<g transform="translate({fx:.0f},{y + r() * 14:.0f}) scale({fs * (0.62 if kind == "child" else 1):.2f})">'
-                    f'{person(f"{pid}-{i}", kind, p)}</g>')
+                    f'{person(f"{pid}-{i}", kind, p, rim=False)}</g>')
     return f'<g id="{pid}"><g id="{pid}-b" class="body" opacity="0.9">{"".join(figs)}</g></g>'
 
 

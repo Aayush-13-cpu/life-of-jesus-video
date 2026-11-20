@@ -2,7 +2,8 @@
 import json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import kit
-from build_short import all_stories, estimate, render_html, timings, chunks, TEMPLATE, MAX_TOTAL, WPS
+from build_short import (all_stories, estimate, render_html, timings, chunks, captions, depth_order, TEMPLATE, MAX_TOTAL,
+                         WPS, LEAD)
 
 ACTIONS = set(re.findall(r"^\s{6}(\w+): a =>", TEMPLATE, re.M))
 assert {"walk", "raise", "rock", "flash", "rain"} <= ACTIONS, ACTIONS
@@ -33,5 +34,15 @@ for st in stories:
     assert f'data-duration="{total}"' in page and 'window.__timelines["story-short"]' in page
     assert "letterSpacing" not in page
     assert ("#3b2414" in page) == (st.get("style") == "parchment"), sid  # the right palette is in use
+    assert page.count("<span class=w>") == sum(len(b["say"].split()) for b in st["beats"]), sid  # every word can light up
 assert chunks("Peace, be still. And the wind ceased") == ["Peace, be still.", "And the wind ceased"]
+# back to front: farther up the ground first, a crowd behind the near ground by default, children stay in their parent
+assert depth_order([{"k": "man"}, {"k": "crowd"}, {"k": "man", "y": 1300}, {"k": "man", "in": 0}], kit.FEET) == [2, 1, 0]
+assert "b.s + b.d -" not in TEMPLATE  # no beat fades out at its end (no dips to black between beats)
+# Whisper's word times drive the blocks: block 2 starts on its first spoken word, the last block holds to the beat's end,
+# and the speech-end marker never comes before the last word
+cap = captions({"beats": [{"say": "Peace, be still. And the wind ceased"}]}, [2.5], [(0.0, 5.0)],
+               [[0.1, 0.5, 0.9, 1.6, 2.0, 2.3, 2.6]])
+assert [c[0] for c in cap] == [round(LEAD + 0.1, 3), round(LEAD + 1.6, 3)] and cap[1][0] + cap[1][1] == 5.0, cap
+assert cap[1][3][-1] > cap[1][3][-2], cap
 print(f"ok: {len(stories)} stories, {min(estimate(s) for s in stories):.0f}-{max(estimate(s) for s in stories):.0f} s each")

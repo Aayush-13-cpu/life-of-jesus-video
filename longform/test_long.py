@@ -2,8 +2,8 @@
 import os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lineart as art
-from build_long import (videos, estimate, timings, render_html, chunks, description, stamp, TEMPLATE, END, WPS,
-                        MIN_LEN, MAX_LEN)
+from build_long import (videos, estimate, timings, render_html, chunks, description, stamp, depth_order, TEMPLATE, END,
+                        WPS, MIN_LEN, MAX_LEN)
 
 ACTIONS = set(re.findall(r"^\s{6}(\w+): a =>", TEMPLATE, re.M))
 assert {"walk", "raise", "kneel", "rays", "spin", "rise", "descend"} <= ACTIONS, ACTIONS
@@ -42,9 +42,13 @@ for v in vs:
         assert "letterSpacing" not in page and 'id="music"' not in page  # music is laid once, under the whole video
         assert page.count('pathLength="1"') > 20, where  # the scene is line art that draws itself in
         assert art.TEMPLATES[v["template"]]["line"] in page, where
+        assert page.count("<span class=w>") == sum(len(b["say"].split()) for b in ch["beats"]), where  # word highlight
+        assert ('class="d o"' in page) == any(b.get("cast") for b in ch["beats"]), where  # figures are cut-outs
     print(f"  {vid}: {len(v['chapters'])} chapters, ~{stamp(length)} ({v['template']})")
 
 assert chunks("Peace, be still. And the wind ceased") == ["Peace, be still.", "And the wind ceased"]
+assert depth_order([{"k": "man"}, {"k": "crowd"}, {"k": "man", "y": 700}, {"k": "man", "in": 0}]) == [2, 1, 0]
+assert "b.s + b.d -" not in TEMPLATE  # no beat fades out at its end (no dips to black between beats)
 assert stamp(0) == "0:00" and stamp(61.9) == "1:01" and stamp(3725) == "1:02:05"
 txt = description(vs[0], [0.0] + [70.0 * i for i in range(1, len(vs[0]["chapters"]))])
 assert "\n0:00 " in txt and "Chapters" in txt  # YouTube turns these into chapters only if the first is 0:00

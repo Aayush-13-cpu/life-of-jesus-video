@@ -11,6 +11,7 @@ W, H, HZ, GF = 1920, 1080, 760, 850
 D = 'class="d" pathLength="1"'      # traced in when the beat begins, with a faint fill
 N = 'class="d n" pathLength="1"'    # traced in, never filled (open lines)
 F = 'class="d f" pathLength="1"'    # traced in, then glowing solid (flames, the star)
+O = 'class="d o" pathLength="1"'    # traced in, then solid as the sky (--cut): a cut-out that hides the lines behind it
 
 # One template per video: its palette, its glow, and the moving light behind every scene.
 TEMPLATES = {
@@ -223,8 +224,8 @@ def person(pid, kind):
     if kind == "angel":
         parts.append(f'<path {N} d="M-10 -150 C-120 -230 -170 -120 -150 -40 C-110 -110 -60 -120 -10 -110"/>'
                      f'<path {N} d="M10 -150 C120 -230 170 -120 150 -40 C110 -110 60 -120 10 -110"/>')
-    parts.append(f'<path {D} d="M-30 0 C-28 -60 -24 -118 -17 -150 Q0 -160 17 -150 C24 -118 28 -60 30 0 Z"/>'
-                 f'<circle {D} cx="0" cy="-172" r="15"/>')
+    parts.append(f'<path {O} d="M-30 0 C-28 -60 -24 -118 -17 -150 Q0 -160 17 -150 C24 -118 28 -60 30 0 Z"/>'
+                 f'<circle {O} cx="0" cy="-172" r="15"/>')
     if kind in ("woman", "mary"):
         parts.append(f'<path {N} d="M-26 -136 L-18 -180 Q0 -204 18 -180 L26 -136"/>')
     if kind in ("shepherd", "elder"):
@@ -243,7 +244,7 @@ def place(pid, k, x, y, s, flip, inner, p):
         body = person(pid, k)
         s *= SIZES.get(k, 1.0)
     elif k in PROPS:
-        body = PROPS[k].replace("{pid}", pid).replace("{p}", p)
+        body = PROPS[k].replace("{pid}", pid).replace("{p}", p).replace(D, O)  # props stand as cut-outs too
     else:
         raise ValueError(f"unknown cast kind {k!r}")
     # Jesus (and angels) carry a soft light; it stays outside the body group so kneel/lie pivot at the feet.

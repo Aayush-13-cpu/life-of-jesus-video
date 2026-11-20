@@ -54,13 +54,17 @@ jobs:
         with:
           path: models
           key: kokoro-v1.0
+      - uses: actions/cache@v4  # Whisper base.en, for exact caption word timing (open source, MIT)
+        with:
+          path: models/whisper
+          key: whisper-base.en
       - name: Download Kokoro voice model (open source, Apache 2.0)
         run: |
           mkdir -p models
           base=https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0
           [ -f models/kokoro-v1.0.onnx ] || curl -fsSL --retry 5 -o models/kokoro-v1.0.onnx $base/kokoro-v1.0.onnx
           [ -f models/voices-v1.0.bin ] || curl -fsSL --retry 5 -o models/voices-v1.0.bin $base/voices-v1.0.bin
-      - run: pip install -q kokoro-onnx soundfile numpy
+      - run: pip install -q kokoro-onnx soundfile numpy faster-whisper
       - name: Self-check
         run: python shorts/test_shorts.py
       - name: Narrate and compose

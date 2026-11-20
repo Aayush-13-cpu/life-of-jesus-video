@@ -76,6 +76,52 @@ def music(total, out="assets/music.wav"):
                     "pan=stereo|c0=c0|c1=c0", out], check=True)
 
 
+def _spread(times, words, dur):
+    """Fill the words Whisper did not match, by character position between the matched words around them; strictly
+    increasing, so no caption block or highlight is ever zero-length."""
+    pos = [sum(len(w) + 1 for w in words[:k]) for k in range(len(words))]
+    pts = {0: 0.0, pos[-1] + len(words[-1]) + 1: dur}
+    pts.update({p: t for p, t in zip(pos, times) if t is not None})
+    xs = sorted(pts)
+    out, prev = [], -1.0
+    for p, t in zip(pos, times):
+        t = float(np.interp(p, xs, [pts[x] for x in xs])) if t is None else t
+        prev = max(t, prev + 0.02)
+        out.append(round(prev, 3))
+    return out
+
+
+def word_times(clips, sr, texts):
+    """When each word of each text is spoken, in seconds into its clip: Whisper's word timestamps (faster-whisper,
+    base.en, on the CPU) matched in order to the known script. None when faster-whisper is not installed, so callers
+    fall back to timing words by estimate."""
+    try:
+        from faster_whisper import WhisperModel
+    except ImportError:
+        print("::warning::faster-whisper is not installed (pip install faster-whisper); caption words are timed by estimate")
+        return None
+    import difflib
+    norm = lambda w: "".join(ch for ch in w.lower() if ch.isalnum())  # noqa: E731
+    out = []
+    try:  # a failed model download must not fail the render: the estimate is a working fallback
+        model = WhisperModel("base.en", device="cpu", compute_type="int8",
+                             download_root=os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "whisper"))
+        for clip, text in zip(clips, texts):
+            audio = np.interp(np.arange(0, len(clip), sr / 16000), np.arange(len(clip)), clip).astype(np.float32)  # 16 kHz
+            segs, _ = model.transcribe(audio, language="en", word_timestamps=True, initial_prompt=text)
+            heard = [(norm(w.word), w.start) for s in segs for w in s.words]
+            said = text.split()
+            times = [None] * len(said)
+            m = difflib.SequenceMatcher(None, [norm(w) for w in said], [h for h, _ in heard], autojunk=False)
+            for a, b, n in m.get_matching_blocks():
+                times[a:a + n] = [t for _, t in heard[b:b + n]]
+            out.append(_spread(times, said, len(clip) / sr))
+    except Exception as e:  # noqa: BLE001
+        print(f"::warning::Whisper word timing failed ({e}); caption words are timed by estimate")
+        return None
+    return out
+
+
 def icon_svg(name, sid):
     paths = "".join(f'<path pathLength="1" d="{d}"/>' for d in ICONS[name])
     return f'<svg id="{sid}-icon" class="icon" viewBox="0 0 100 100">{paths}</svg>'

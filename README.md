@@ -251,14 +251,19 @@ A story is a list of **beats**. Each beat is one sentence of narration plus the 
 
 1. **Narrate** every beat (`narrate`) and time the beats to the voice (`timings`).
 2. **Captions.** `chunks()` cuts each sentence into blocks of up to 5 words, breaking after punctuation, and
-   `captions()` spreads them across the narration in proportion to their length. Most Shorts are watched muted,
-   so captions carry the story.
+   `captions()` times every word with Whisper (`word_times()` in `build.py`: faster-whisper `base.en` on the CPU,
+   matched to the script; without `pip install faster-whisper` it falls back to timing by length). The word being
+   spoken lights up gold. Most Shorts are watched muted, so captions carry the story.
 3. **Scenes.** `compose_beat()` asks the kit for the sky, the ground, each cast member and the effects, and
    collects their *acts* as plain instructions with absolute times.
 4. **The page.** `render_html()` writes it all into `TEMPLATE`: the beat sections, the captions, a title card for
    the first 3 seconds, the verse reference on the last beat, the voice and the music.
-5. **Camera.** Every beat is framed about 25% tighter on the action and pushes in slowly (`scale 1.24 → 1.31`),
-   which keeps a static drawing feeling alive.
+5. **Camera and cuts.** Every beat is framed about 25% tighter on the action and gets a slow eased camera move
+   (push-in, pull-out and pans in turn). A new setting is a hard cut, the same setting dissolves over 0.3 s; there
+   is never a dip to black, and the first frame already shows the scene and title.
+6. **Depth.** The cast is drawn back to front (`depth_order()`), and figures carry a thin rim light, so a figure
+   in front of a house, or two people passing, stay separate layers instead of merging into one shape. A faint
+   static grain keeps the sky gradients from banding once compressed.
 
 ## 11. The silhouette kit
 
@@ -319,7 +324,9 @@ the Releases page and take the newest `shorts-N`.
 
 - **Look.** Divine glowing line art: every line of the sky, land, figures and props traces itself in when a beat
   begins (`pathLength="1"`, dash offset 1 → 0), inside a soft glow filter. Faces are never drawn; Jesus carries a
-  halo ring and a soft light.
+  halo ring and a soft light. Figures and props are cut-outs filled with the sky, drawn back to front, so the
+  lines behind them never show through. A new setting is a hard cut that draws itself in; the same setting
+  dissolves, keeps its land and unmoved figures drawn under one continuous camera, and draws in only what is new.
 - **One template per video.** `TEMPLATES` in `lineart.py` sets the palette and the moving light behind every scene:
   `sanctuary` (gold on midnight, slow-turning rays) and `dawnlight` (rose-gold on plum, rising embers and sunrise
   rings). A new video adds a new template; the test refuses two videos sharing one.

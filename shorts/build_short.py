@@ -10,10 +10,11 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
-from build import music  # the same generated piano-and-pad bed as the long video
+from build import music, word_times  # the same generated piano-and-pad bed as the long video; Whisper word timing
 import kit
 
 LEAD, TAIL, END = 0.35, 0.6, 1.2  # silence before/after each beat's narration; music-only ending
+XF = 0.3                            # the dissolve between two beats in the same setting (a new setting is a hard cut)
 VOICE, SPEED = "af_heart", 0.94
 MAX_TOTAL = 59.0                    # YouTube Shorts must stay under 60 s
 WPS = 2.55                          # measured-style estimate of Kokoro's pace at SPEED, for checks before TTS
@@ -61,7 +62,7 @@ def narrate(story, out_dir):
         i = int((start + LEAD) * sr)
         track[i:i + len(c)] = c
     sf.write(os.path.join(out_dir, "assets", "voice.wav"), track, sr)
-    return voice, slots, total
+    return voice, slots, total, word_times(clips, sr, [b["say"] for b in story["beats"]])
 
 
 def chunks(text, n=5):
@@ -79,19 +80,29 @@ def chunks(text, n=5):
     return out
 
 
-def captions(story, voice, slots):
-    """[(start, duration, text)], spread over each beat's narration in proportion to characters."""
+def captions(story, voice, slots, words=None):
+    """[(start, duration, text, word_times)]: short blocks over each beat's narration. word_times: when each word is
+    spoken (Whisper's timing from narrate(), else spread over the narration by characters), plus when the block's
+    speech ends, for the word-by-word highlight. A block shows until the next one starts; the last holds to the beat's end."""
     caps = []
-    for b, v, (start, dur) in zip(story["beats"], voice, slots):
-        cs = chunks(b["say"])
-        total = sum(len(c) for c in cs)
-        t = start + LEAD
+    for bi, (b, v, (start, dur)) in enumerate(zip(story["beats"], voice, slots)):
+        ws = b["say"].split()
+        at = words[bi] if words else [v * sum(len(w) + 1 for w in ws[:k]) / (len(b["say"]) + 1) for k in range(len(ws))]
+        at = [round(start + LEAD + t, 3) for t in at + [max(v, at[-1] + 0.05)]]  # speech ends after the last word
+        cs, k = chunks(b["say"]), 0
         for i, c in enumerate(cs):
-            d = v * len(c) / total
-            end = (start + dur) if i == len(cs) - 1 else t + d  # the last block holds to the beat's end
-            caps.append((round(t, 3), round(end - t, 3), c))
-            t += d
+            n = len(c.split())
+            end = start + dur if i == len(cs) - 1 else at[k + n]
+            caps.append((at[k], round(end - at[k], 3), c, at[k:k + n + 1]))
+            k += n
     return caps
+
+
+def depth_order(cast, feet):
+    """Indices of the top-level cast, back to front: whatever stands farther up the ground is drawn first, so a nearer
+    figure is never covered by a farther one (ties keep the story's order)."""
+    top = [j for j, c in enumerate(cast) if "in" not in c]
+    return sorted(top, key=lambda j: cast[j].get("y", feet - 40 if cast[j]["k"] == "crowd" else feet))
 
 
 def compose_beat(i, beat, start, dur):
@@ -120,7 +131,7 @@ def compose_beat(i, beat, start, dur):
                                  c.get("flip", False), "".join(inner[j]), p)
         if "in" in c:
             inner[c["in"]].insert(0, drawn[j])
-    parts += [drawn[j] for j in range(len(cast)) if "in" not in cast[j]]
+    parts += [drawn[j] for j in depth_order(cast, kit.FEET)]
     for name in beat.get("fx", []):
         m, a = kit.fx(p, name); parts.append(m); anims += [dict(x, at=0) for x in a]
     for x in anims:  # relative beat times -> absolute timeline times
@@ -143,21 +154,30 @@ CSS = {  # page-level colours per style (the scene colours live in kit.STYLES)
 }
 
 
-def render_html(story, voice, slots, total):
+def render_html(story, voice, slots, total, words=None):
     style = story.get("style", "silhouette")
     kit.use(style)
     e = html.escape
     sections, anims = [], []
-    for i, (b, (start, dur)) in enumerate(zip(story["beats"], slots)):
+    beats = story["beats"]
+    # A new setting is a hard cut. The same setting dissolves (XF s, scene over scene, never through black), so figures
+    # that moved do not jump; the outgoing beat stays on screen under the incoming one for that long.
+    setting = [(b.get("sky", "day"), b.get("ground", "hills")) for b in beats]
+    cont = [i > 0 and setting[i] == setting[i - 1] for i in range(len(beats))]
+    for i, (b, (start, dur)) in enumerate(zip(beats, slots)):
         svg, a = compose_beat(i, b, start, dur)
         anims += a
-        sections.append(f'<section id="beat-{i}" class="clip" data-start="{start}" data-duration="{dur}" data-track-index="1">'
-                        f'<div class="scene" id="beat-{i}-in">{svg}</div></section>')
+        # the last scene holds under the closing verse instead of cutting to black
+        clip = round(total - start if i + 1 == len(beats) else dur + (XF if cont[i + 1] else 0), 3)
+        sections.append(f'<section id="beat-{i}" class="clip" data-start="{start}" data-duration="{clip}" '
+                        f'data-track-index="{1 if i % 2 == 0 else 4}"><div class="scene" id="beat-{i}-in">{svg}</div></section>')
+    cl = captions(story, voice, slots, words)
     caps = "".join(f'<div id="cap-{i}" class="clip cap" data-start="{s}" data-duration="{d}" data-track-index="2">'
-                   f'<span id="cap-{i}-t">{e(t)}</span></div>' for i, (s, d, t) in enumerate(captions(story, voice, slots)))
+                   f'<span id="cap-{i}-t">{" ".join(f"<span class=w>{e(w)}</span>" for w in t.split())}</span></div>'
+                   for i, (s, d, t, _) in enumerate(cl))
     last = slots[-1][0]
-    plan = {"beats": [{"id": f"beat-{i}", "s": s, "d": d} for i, (s, d) in enumerate(slots)],
-            "anims": anims, "caps": len(captions(story, voice, slots)), "total": total, "last": last}
+    plan = {"beats": [{"id": f"beat-{i}", "s": s, "d": d, "x": cont[i]} for i, (s, d) in enumerate(slots)], "xf": XF,
+            "anims": anims, "caps": [w for *_, w in cl], "total": total, "last": last}
     return TEMPLATE.format(
         title=e(story["title"]), total=total, sections="\n".join(sections), caps=caps, plan=json.dumps(plan),
         ref=e(story["ref"]), last=last, lastdur=round(total - last, 3), W=kit.W, H=kit.H, **CSS[style])
@@ -179,8 +199,12 @@ TEMPLATE = """<!doctype html>
   .stage {{ position: absolute; inset: 0; width: 100%; height: 100%; }}
   #vignette {{ position: absolute; inset: 0; z-index: 3; pointer-events: none;
               background: {vignette}; }}
+  /* faint static grain (soft-light: about +-1-2 levels from dark sky to mid-tones) so smooth gradients do not band
+     into steps once compressed; it sits under the captions */
+  #grain {{ position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: 0.2; mix-blend-mode: soft-light;
+           background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }}
   .cap {{ z-index: 5; display: flex; justify-content: center; align-items: flex-start; }}
-  .cap span {{ margin-top: 470px; max-width: 900px; text-align: center; color: {cap_color}; font: 600 84px/1.1 "Cormorant", serif;
+  .cap > span {{ margin-top: 470px; max-width: 900px; text-align: center; color: {cap_color}; font: 600 84px/1.1 "Cormorant", serif;
               text-shadow: {cap_shadow}; }}
   #title {{ z-index: 6; }}
   #title-t {{ position: absolute; top: 250px; left: 0; right: 0; text-align: center; font: 38px "Cinzel", serif;
@@ -194,6 +218,7 @@ TEMPLATE = """<!doctype html>
 <div id="root" data-composition-id="story-short" data-start="0" data-duration="{total}" data-width="{W}" data-height="{H}">
 {sections}
   <div id="vignette"></div>
+  <div id="grain"></div>
 {caps}
   <div id="title" class="clip" data-start="0" data-duration="3.2" data-track-index="3"><div id="title-t">{title}</div></div>
   <div id="verse" class="clip" data-start="{last}" data-duration="{lastdur}" data-track-index="3"><div id="verse-t">{ref} · KJV</div></div>
@@ -224,7 +249,9 @@ TEMPLATE = """<!doctype html>
       kneel: a => tl.to(a.t + "-b", {{ scaleY: 0.68, duration: 0.7, ease: "power2.out" }}, a.s),
       stand: a => tl.to(a.t + "-b", {{ scaleY: 1, rotation: 0, duration: 0.9, ease: "power2.out" }}, a.s),
       lie: a => tl.set(a.t + "-b", {{ rotation: -90 }}, a.b0),
-      appear: a => {{ tl.set(a.t, {{ opacity: 0 }}, a.b0); tl.to(a.t, {{ opacity: 1, duration: 0.8, ease: "power1.out" }}, a.s); }},
+      // a paper cut-out standing up from the ground, not a fade
+      appear: a => {{ tl.set(a.t, {{ opacity: 0 }}, a.b0); tl.set(a.t, {{ opacity: 1 }}, a.s);
+                     tl.fromTo(a.t + "-b", {{ scaleY: 0 }}, {{ scaleY: 1, duration: 0.55, ease: "power3.out", immediateRender: false }}, a.s); }},
       vanish: a => tl.to(a.t, {{ opacity: 0, duration: 1.0, ease: "power1.in" }}, a.s),
       rock: a => tl.fromTo(a.t + "-b", {{ rotation: -(a.amp || 4) }}, {{ rotation: a.amp || 4, duration: (a.period || 2.4) / 2,
                   repeat: n(a.d, (a.period || 2.4) / 2), yoyo: true, ease: "sine.inOut", immediateRender: false }}, a.s),
@@ -250,17 +277,26 @@ TEMPLATE = """<!doctype html>
       sparkle: a => {{ tl.to(a.t, {{ opacity: 1, duration: 0.8 }}, a.s + 0.4);
                       tl.to(a.t, {{ opacity: 0.4, duration: 0.6, repeat: n(a.d - 1.2, 0.6), yoyo: true }}, a.s + 1.2); }},
     }};
-    PLAN.beats.forEach(b => {{
-      tl.fromTo("#" + b.id + "-in", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.35, immediateRender: false }}, b.s);
-      tl.to("#" + b.id + "-in", {{ opacity: 0, duration: 0.3 }}, b.s + b.d - 0.3);
-      tl.fromTo("#" + b.id + "-in", {{ scale: 1.24 }}, {{ scale: 1.31, duration: b.d, ease: "none", transformOrigin: "50% 72%", immediateRender: false }}, b.s);
+    // Never a dip to black: a new setting cuts, the same setting dissolves scene over scene (b.x). Each shot gets a
+    // slow eased camera move, alternating push-in, pull-out and pans; pans stay inside the zoom's overflow.
+    const CAM = [[1.24, 1.30, 0, 0], [1.31, 1.25, 0, 0], [1.28, 1.28, -48, 48], [1.28, 1.28, 48, -48]];
+    PLAN.beats.forEach((b, i) => {{
+      const [s0, s1, x0, x1] = CAM[i % CAM.length];
+      tl.fromTo("#" + b.id + "-in", {{ scale: s0, x: x0 }}, {{ scale: s1, x: x1, duration: b.d, ease: "sine.inOut", transformOrigin: "50% 72%",
+                immediateRender: false }}, b.s);
+      if (b.x) tl.fromTo("#" + b.id + "-in", {{ opacity: 0 }}, {{ opacity: 1, duration: PLAN.xf, ease: "none", immediateRender: false }}, b.s);
     }});
     PLAN.anims.forEach(a => F[a.do](a));
-    for (let i = 0; i < PLAN.caps; i++)
-      tl.fromTo("#cap-" + i + "-t", {{ opacity: 0, y: 18 }}, {{ opacity: 1, y: 0, duration: 0.25, ease: "power2.out", immediateRender: false }},
-                Number(document.getElementById("cap-" + i).dataset.start));
-    tl.fromTo("#title-t", {{ opacity: 0, y: 14 }}, {{ opacity: 1, y: 0, duration: 0.6, immediateRender: false }}, 0.1);
-    tl.to("#title-t", {{ opacity: 0, duration: 0.5 }}, 2.6);
+    // captions pop in per block, and the word being spoken lights up
+    PLAN.caps.forEach((w, i) => {{
+      tl.fromTo("#cap-" + i + "-t", {{ opacity: 0, y: 18 }}, {{ opacity: 1, y: 0, duration: 0.2, ease: "power2.out", immediateRender: false }}, w[0]);
+      document.querySelectorAll("#cap-" + i + "-t .w").forEach((el, k) => {{
+        tl.set(el, {{ color: "{gold}" }}, w[k]);
+        tl.set(el, {{ color: "{cap_color}" }}, w[k + 1]);
+      }});
+    }});
+    // the title is on screen from the very first frame (the hook), then lifts away
+    tl.to("#title-t", {{ opacity: 0, y: -12, duration: 0.4, ease: "power2.in" }}, 2.7);
     tl.fromTo("#verse-t", {{ opacity: 0, y: 14 }}, {{ opacity: 1, y: 0, duration: 0.8, immediateRender: false }}, {last} + 0.4);
     window.__timelines = window.__timelines || {{}};
     window.__timelines["story-short"] = tl;
@@ -276,11 +312,11 @@ def main(story_id):
     out = os.path.join(HERE, "build", story_id)
     os.makedirs(os.path.join(out, "assets"), exist_ok=True)
     shutil.copytree(os.path.join(ROOT, "fonts"), os.path.join(out, "fonts"), dirs_exist_ok=True)
-    voice, slots, total = narrate(story, out)
+    voice, slots, total, words = narrate(story, out)
     if total > MAX_TOTAL:
         sys.exit(f"{story_id}: {total:.1f} s is over the {MAX_TOTAL} s Shorts limit; trim its narration")
     music(total, os.path.join(out, "assets", "music.wav"))
-    open(os.path.join(out, "index.html"), "w", encoding="utf-8").write(render_html(story, voice, slots, total))
+    open(os.path.join(out, "index.html"), "w", encoding="utf-8").write(render_html(story, voice, slots, total, words))
     print(f"{story_id}: {len(slots)} beats, {total:.1f} s -> {out}")
 
 
