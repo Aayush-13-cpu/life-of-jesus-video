@@ -1,8 +1,8 @@
 # Story ids to render (from shorts/stories.json and stories_parchment.json), one per line.
 # Pushing a change here starts a render; each run becomes one release you can download anywhere.
-# queued 2026-11-16 07:45:31 UTC
-flight-into-egypt
-the-dove-descends
-tempted-in-the-wilderness
-calling-of-matthew
-under-the-fig-tree
+# queued 2026-11-22 04:04:26 UTC
+the-centurions-faith
+crumbs-from-the-table
+pool-of-bethesda
+born-blind
+ephphatha
