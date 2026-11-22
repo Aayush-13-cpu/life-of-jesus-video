@@ -53,3 +53,10 @@ short the-dove-descends 2026-11-16
 short tempted-in-the-wilderness 2026-11-16
 short calling-of-matthew 2026-11-16
 short under-the-fig-tree 2026-11-16
+long the-sermon-on-the-mount 2026-11-22
+long the-birth-of-jesus 2026-11-22
+short the-centurions-faith 2026-11-22
+short crumbs-from-the-table 2026-11-22
+short pool-of-bethesda 2026-11-22
+short born-blind 2026-11-22
+short ephphatha 2026-11-22
