@@ -1,8 +1,8 @@
 # Story ids to render (from shorts/stories.json and stories_parchment.json), one per line.
 # Pushing a change here starts a render; each run becomes one release you can download anywhere.
-# queued 2026-11-22 04:04:26 UTC
-the-centurions-faith
-crumbs-from-the-table
-pool-of-bethesda
-born-blind
-ephphatha
+# queued 2026-11-27 13:51:02 UTC
+the-withered-hand
+legion
+coin-in-the-fish
+the-transfiguration
+peters-mother-in-law
