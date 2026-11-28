@@ -1,7 +1,4 @@
 # Long video ids to render (from longform/videos.json), one per line.
 # Pushing a change under longform/ starts a render; each run becomes one release you can download anywhere.
-# queued 2026-11-27 13:51:02 UTC
+# queued 2026-11-28 07:57:46 UTC
 the-i-am-sayings
-women-who-met-jesus
-the-twelve
-the-passion-week
