@@ -36,6 +36,9 @@ function paperScenes(tl, PLAN) {
     tl.to(t + "-al", { rotation: 10, duration: 0.6, ease: "back.out(2.2)" }, s + d);
     tl.to(t + "-ar", { rotation: -10, duration: 0.6, ease: "back.out(2.2)" }, s + d);
   };
+  // a holy figure's sunburst (centred 128 units above the feet) goes down with the head when the figure sits or kneels
+  const halo = (a, k, d) => { if (document.querySelector(a.t + "-glow"))
+    tl.to(a.t + "-glow", { y: 128 * (1 - k), duration: d, ease: "back.out(1.6)" }, a.s); };
   const F = {
     walk: a => { tl.to(a.t, { x: a.to, duration: a.d, ease: "sine.inOut" }, a.s); bob(a.t, a.s, a.d, 0.62, 9);
                  waddle(a.t, a.s, a.d, 0.62, 3); swing(a.t, a.s, a.d, 0.62, 16); },
@@ -46,9 +49,9 @@ function paperScenes(tl, PLAN) {
     bless: a => arms(a.t, null, -125, a.s, 0.8),
     reach: a => arms(a.t, null, -78, a.s, 0.7),
     lower: a => arms(a.t, 10, -10, a.s, 0.8),
-    kneel: a => tl.to(a.t + "-b", { scaleY: 0.68, duration: 0.6, ease: "back.out(1.6)" }, a.s),
-    sit: a => tl.to(a.t + "-b", { scaleY: 0.58, duration: 0.7, ease: "back.out(1.6)" }, a.s),
-    stand: a => tl.to(a.t + "-b", { scaleY: 1, rotation: 0, duration: 0.7, ease: "back.out(1.8)" }, a.s),
+    kneel: a => { tl.to(a.t + "-b", { scaleY: 0.68, duration: 0.6, ease: "back.out(1.6)" }, a.s); halo(a, 0.68, 0.6); },
+    sit: a => { tl.to(a.t + "-b", { scaleY: 0.58, duration: 0.7, ease: "back.out(1.6)" }, a.s); halo(a, 0.58, 0.7); },
+    stand: a => { tl.to(a.t + "-b", { scaleY: 1, rotation: 0, duration: 0.7, ease: "back.out(1.8)" }, a.s); halo(a, 1, 0.7); },
     lie: a => tl.set(a.t + "-b", { rotation: -90 }, a.b0),
     bow: a => tl.to(a.t + "-b", { rotation: 28, duration: 0.8, repeat: 1, repeatDelay: 0.6, yoyo: true, ease: "power2.inOut" }, a.s),
     // a piece that arrives later in the beat stands up off the page; one that leaves folds down flat
@@ -60,6 +63,10 @@ function paperScenes(tl, PLAN) {
     // a paper strip sliding to and fro in its slot (clouds, waves)
     drift: a => tl.fromTo(a.t, { x: -(a.amp || 40) }, { x: a.amp || 40, duration: (a.period || 3) / 2,
                  repeat: n(a.d, (a.period || 3) / 2), yoyo: true, ease: "sine.inOut", immediateRender: false }, a.s),
+    // a great bird soaring on the wind: it crosses on a slow curve and tilts, its wings held still
+    glide: a => { tl.to(a.t, { x: a.to, y: a.toy === undefined ? a.y0 : a.toy, duration: a.d, ease: "sine.inOut" }, a.s);
+                  tl.fromTo(a.t + "-b", { rotation: -4 }, { rotation: 4, duration: 2.2, repeat: n(a.d, 2.2), yoyo: true, ease: "sine.inOut",
+                            immediateRender: false }, a.s); },
     fly: a => { tl.to(a.t, { x: a.to, y: a.toy === undefined ? a.y0 : a.toy, duration: a.d, ease: "none" }, a.s);
                 tl.to(a.t + "-b", { scaleY: 0.55, duration: 0.18, repeat: n(a.d, 0.18), yoyo: true }, a.s); },
     grow: a => { tl.set(a.t + "-b", { scale: 0 }, a.b0); tl.to(a.t + "-b", { scale: 1, duration: a.grow || 2.4, ease: "back.out(1.4)" }, a.s); },
@@ -150,7 +157,9 @@ function paperScenes(tl, PLAN) {
     // the next beat is a new setting: fold everything flat, front first, before its page turns over
     if (b.o) { const g = Math.min(0.03, 0.12 / Math.max(1, pieces.length));
       pieces.slice().reverse().forEach((el, j) => tl.to(el, { scaleY: 0, duration: 0.3, ease: "power2.in", transformOrigin: hinge(el) },
-                                                       b.s + b.d - 0.42 + j * g)); }
+                                                       b.s + b.d - 0.42 + j * g));
+      // light and weather (rays, sparkle, rain...) go out with the page rather than hang over the turn
+      if (document.querySelector("#" + b.p + "-fx")) tl.to("#" + b.p + "-fx", { opacity: 0, duration: 0.3, ease: "power2.in" }, b.s + b.d - 0.42); }
   });
   PLAN.anims.forEach(a => F[a.do](a));
 }

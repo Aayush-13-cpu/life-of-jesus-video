@@ -19,7 +19,7 @@ import math
 FRAMES = {"short": dict(W=1080, H=1920, HZ=1300, GF=1390, s=1.6, cy=-40, cs=0.9,
                         clouds=[(0.2, 0.47, 1.0), (0.8, 0.55, 0.8)]),
           "long": dict(W=1920, H=1080, HZ=760, GF=850, s=1.5, cy=-20, cs=0.8,
-                       clouds=[(0.14, 0.2, 1.0), (0.5, 0.32, 0.8), (0.74, 0.16, 0.7)])}
+                       clouds=[(0.12, 0.4, 0.9), (0.46, 0.44, 0.7), (0.7, 0.38, 0.65)])}  # below the title band
 W, H, HZ, GF = 1080, 1920, 1300, 1390
 FR = FRAMES["short"]
 WORLD = "asia"
@@ -69,7 +69,7 @@ PAPER = dict(wood="#a0673a", woodd="#70441f", trunk="#8d5a2b", stone="#a9a395", 
              flame="#ff8a2a", flame2="#ffe066", cloth="#d9534f", cream="#f6ecd6", white="#fbf7ee", water="#4aa3c8",
              leaf="#4caf50", leafd="#2e7d32", leafl="#8bc34a", roof="#c8553d", wall="#f2d6a8", pink="#f48fb1",
              blue="#5c8fd6", clay="#c8703a", ink="#2b2433", grey="#8f8a96", straw="#e2bb62", bronze="#c9963a",
-             wool="#f4efe6")
+             wool="#f4efe6", feather="#8a5a32", grape="#7b4aa0")
 ROBES = {  # kind: robe, sleeve (the robe's shade), accent (sash, scarf, hat, turban)
     "master": ("#e8772e", "#c95f1f", "#f4c542"), "seeker": ("#2f9e9a", "#237a77", "#f2d6a8"),
     "monk": ("#a33b3b", "#7f2a2a", "#e8772e"), "nun": ("#4f5678", "#3c4260", "#fbf7ee"),
@@ -424,12 +424,72 @@ PROPS = {
               '<path d="M-96 -60 L-70 -90 L-40 -64 L-10 -96 L20 -64 L50 -92 L96 -60 Z" fill="{straw}"/>',
     "tomb": '<path d="M-260 0 C-250 -250 250 -270 280 0 Z" fill="{stoned}"/><path d="M-70 0 V-120 A70 70 0 0 1 70 -120 V0 Z" fill="{ink}"/>'
             '<circle cx="150" cy="-80" r="80" fill="{stone}"/>',
+    # animals face right (flip for left); two or four paper legs, no faces beyond a dot of an eye
+    "eagle": '<path d="M-6 -118 C-60 -180 -150 -196 -214 -156 C-170 -150 -130 -132 -110 -112 C-142 -110 -162 -90 -170 -68 '
+             'C-118 -88 -64 -90 -10 -76 Z" fill="{woodd}"/><path d="M6 -118 C60 -180 150 -196 214 -156 C170 -150 130 -132 110 -112 '
+             'C142 -110 162 -90 170 -68 C118 -88 64 -90 10 -76 Z" fill="{feather}"/>'
+             '<path d="M-22 -44 L0 -6 L22 -44 Z" fill="{white}"/><ellipse cx="0" cy="-82" rx="34" ry="52" fill="{feather}"/>'
+             '<rect x="-14" y="-36" width="7" height="36" fill="{gold}"/><rect x="7" y="-36" width="7" height="36" fill="{gold}"/>'
+             '<circle cx="4" cy="-142" r="24" fill="{white}"/><path d="M22 -150 L46 -138 L22 -128 Z" fill="{gold}"/>'
+             '<circle cx="12" cy="-148" r="3.5" fill="{ink}"/>',
+    "hen": '<path d="M-38 -58 C-74 -90 -80 -116 -62 -124 C-56 -100 -44 -86 -26 -76 Z" fill="{woodd}"/>'
+           '<ellipse cx="-4" cy="-50" rx="46" ry="34" fill="{cream}"/><path d="M-30 -54 C-10 -76 20 -70 24 -50 C6 -38 -16 -38 -30 -54 Z" fill="{straw}"/>'
+           '<path d="M18 -68 C22 -90 30 -104 42 -104 C56 -102 56 -86 46 -72 Z" fill="{cream}"/>'
+           '<path d="M32 -108 q4 -14 10 -4 q4 -14 10 -2 q8 -8 8 8 Z" fill="{cloth}"/><path d="M54 -98 L68 -92 L54 -86 Z" fill="{gold}"/>'
+           '<ellipse cx="52" cy="-80" rx="4" ry="7" fill="{cloth}"/><circle cx="46" cy="-96" r="3" fill="{ink}"/>'
+           '<rect x="-16" y="-20" width="5" height="20" fill="{gold}"/><rect x="6" y="-20" width="5" height="20" fill="{gold}"/>',
+    "frog": '<ellipse cx="-34" cy="-18" rx="32" ry="18" fill="{leafd}"/><path d="M-52 -6 C-58 -50 -22 -78 14 -74 C48 -70 62 -40 54 -6 Z" fill="{leaf}"/>'
+            '<ellipse cx="20" cy="-24" rx="26" ry="15" fill="{leafl}"/><path d="M34 -10 L58 -2 L30 0 Z M-4 -8 L-22 0 L4 0 Z" fill="{leafd}"/>'
+            '<circle cx="4" cy="-76" r="14" fill="{leaf}"/><circle cx="36" cy="-72" r="14" fill="{leaf}"/>'
+            '<circle cx="7" cy="-78" r="5" fill="{ink}"/><circle cx="39" cy="-74" r="5" fill="{ink}"/>',
+    "wolf": '<path d="M-82 -104 C-124 -112 -146 -82 -136 -58 C-114 -80 -98 -86 -76 -86 Z" fill="{grey}"/>'
+            + "".join(f'<rect x="{x}" y="-74" width="13" height="74" fill="{{stoned}}"/>' for x in (-66, -40, 34, 58))
+            + '<ellipse cx="-6" cy="-102" rx="84" ry="36" fill="{grey}"/>'
+              '<path d="M50 -126 L78 -158 L104 -166 L156 -146 L152 -134 L108 -126 L84 -98 Z" fill="{grey}"/>'
+              '<path d="M80 -158 L86 -192 L102 -164 Z" fill="{stoned}"/><path d="M-40 -124 Q0 -140 46 -126 Q0 -118 -40 -124 Z" fill="{stoned}"/>'
+              '<circle cx="114" cy="-150" r="3.5" fill="{ink}"/>',
+    "oxen": "",  # drawn by _prop(): two oxen under one yoke
+    "vine": '<rect x="-170" y="-310" width="14" height="310" fill="{woodd}"/><rect x="156" y="-310" width="14" height="310" fill="{woodd}"/>'
+            '<rect x="-190" y="-322" width="380" height="16" fill="{wood}"/>'
+            '<path d="M-8 0 C-34 -80 30 -150 0 -230 C-20 -270 -80 -296 -150 -300 M0 -230 C30 -272 90 -294 160 -300" fill="none" '
+            'stroke="{trunk}" stroke-width="13" stroke-linecap="round"/>'
+            + "".join(f'<path d="M{x} {y} q-30 -26 -8 -50 q10 16 30 8 q8 26 -22 42 Z" fill="{{{c}}}" transform="rotate({a} {x} {y})"/>'
+                      for x, y, a, c in [(-120, -296, -20, "leaf"), (-60, -282, 10, "leafd"), (70, -284, -10, "leaf"), (130, -300, 20, "leafd"),
+                                         (-20, -150, -40, "leafl"), (16, -100, 30, "leaf"), (-30, -240, 0, "leafd"), (30, -250, 40, "leafl")])
+            + "".join(f'<g fill="{{grape}}">' + "".join(f'<circle cx="{gx + dx}" cy="{gy + dy}" r="10"/>' for dx, dy in
+                      [(-10, 0), (10, 0), (0, 0), (-5, 16), (5, 16), (0, 31), (-16, -2), (16, -2)]) + '</g>'
+                      for gx, gy in [(-96, -276), (100, -276), (-36, -196), (36, -170)]),
+    "bucket": '<path d="M-30 -64 Q0 -120 30 -64" fill="none" stroke="{woodd}" stroke-width="5"/><path d="M-34 -64 L34 -64 L26 0 L-26 0 Z" fill="{wood}"/>'
+              '<rect x="-33" y="-56" width="66" height="7" fill="{bronze}"/><rect x="-29" y="-18" width="58" height="7" fill="{bronze}"/>'
+              '<ellipse id="{pid}-liq" cx="0" cy="-64" rx="33" ry="8" fill="{water}"/><circle cx="8" cy="-64" r="5" fill="#f6efc6"/>',
+    "fold": "".join(f'<rect x="{a}" y="-100" width="{b - a}" height="100" fill="{{stone}}"/>'
+                    + "".join(f'<ellipse cx="{x}" cy="{y}" rx="26" ry="14" fill="{{stoned}}"/>' for x in range(a + 30, b - 10, 62)
+                              for y in (-74, -26))
+                    + f'<rect x="{a - 6}" y="-112" width="{b - a + 12}" height="16" fill="{{stoned}}"/>' for a, b in [(-340, -64), (64, 340)]),
+    "bush": '<g fill="{leafd}"><circle cx="-70" cy="-60" r="56"/><circle cx="70" cy="-62" r="58"/><circle cx="0" cy="-90" r="72"/></g>'
+            '<path id="{pid}-flame" d="M-80 -70 C-96 -170 -40 -190 -30 -260 C-6 -200 12 -220 0 -290 C46 -230 50 -200 40 -160 '
+            'C60 -190 76 -200 84 -230 C108 -160 96 -100 80 -70 Z" fill="{flame}"/>'
+            '<path d="M-44 -76 C-50 -130 -20 -150 -10 -190 C10 -150 30 -150 30 -190 C56 -140 50 -110 44 -76 Z" fill="{flame2}"/>'
+            '<g fill="{leaf}"><circle cx="-40" cy="-40" r="40"/><circle cx="46" cy="-38" r="42"/></g>',
 }
+
+
+def _ox(x, y, hide, horn):
+    """One ox (facing right) at (x, y), in the card colour hide."""
+    legs = "".join(f'<rect x="{x + lx}" y="{y - 80}" width="16" height="80" fill="{hide}"/>' for lx in (-80, -50, 46, 74))
+    return (legs + f'<ellipse cx="{x}" cy="{y - 120}" rx="104" ry="52" fill="{hide}"/>'
+            f'<path d="M{x - 104} {y - 126} Q{x - 126} {y - 100} {x - 118} {y - 60}" fill="none" stroke="{hide}" stroke-width="7"/>'
+            f'<path d="M{x + 80} {y - 150} L{x + 150} {y - 150} L{x + 168} {y - 100} L{x + 132} {y - 90} L{x + 84} {y - 110} Z" fill="{hide}"/>'
+            f'<path d="M{x + 118} {y - 148} Q{x + 110} {y - 186} {x + 90} {y - 192} Q{x + 124} {y - 190} {x + 132} {y - 150} Z" fill="{horn}"/>')
 
 
 def _prop(k, pid):
     if k == "pagoda":
         return _pagoda(T["cream"], T["roof"])
+    if k == "oxen":  # the far ox a shade darker, one wooden yoke across both necks
+        return (_ox(-20, -44, mix(T["clay"], T["ink"], 0.3), T["cream"]) + _ox(20, 0, T["clay"], T["cream"])
+                + f'<path d="M84 -208 L110 -128" stroke="{T["woodd"]}" stroke-width="18" stroke-linecap="round"/>'
+                  f'<path d="M100 -138 Q90 -100 110 -96" fill="none" stroke="{T["woodd"]}" stroke-width="7"/>')
     return PROPS[k].replace("{pid}", pid).format(**T)
 
 
@@ -666,7 +726,7 @@ def scene(i, beat, sky, ground, start, dur, kept=(), branch=True):
         x["s"] = round(start + x.pop("at", 0), 3)
         x["d"] = round(x.pop("dur", start + dur - x["s"] - 0.05), 3)
         x["b0"] = start
-    layers = [back, ground_m, figures + effects, near]
+    layers = [back, ground_m, figures + (f'<g id="{p}-fx">{effects}</g>' if effects else ""), near]  # paper.js folds -fx away
     return (f'<svg id="{p}-svg" class="stage" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">'
             + "".join(f'<g id="{p}-L{k}">{m}</g>' for k, m in enumerate(layers)) + '</svg>'), anims
 

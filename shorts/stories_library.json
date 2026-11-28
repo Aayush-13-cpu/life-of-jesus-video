@@ -252,7 +252,7 @@
   {"id": "workers-in-the-vineyard", "genre": "parable", "title": "The Last Shall Be First", "ref": "Matthew 20:16",
    "beats": [
     {"say": "A householder went out early in the morning to hire labourers into his vineyard, for a penny a day.", "sky": "dawn", "ground": "field",
-     "cast": [{"k": "plant", "x": 760, "s": 1.6}, {"k": "plant", "x": 900, "s": 1.4}, {"k": "elder", "x": 520, "s": 1.6, "flip": true, "acts": [{"do": "reach", "at": 1.6}]},
+     "cast": [{"k": "vine", "x": 850, "s": 1.0}, {"k": "elder", "x": 520, "s": 1.6, "flip": true, "acts": [{"do": "reach", "at": 1.6}]},
               {"k": "man", "x": 160, "s": 1.5, "acts": [{"do": "walk", "to": 320, "at": 0.4, "dur": 2}]}]},
     {"say": "At the eleventh hour he found more: Why stand ye here all the day idle? Because no man hath hired us.", "sky": "dusk", "ground": "city",
      "cast": [{"k": "man", "x": 300, "s": 1.5}, {"k": "man", "x": 420, "s": 1.5}, {"k": "elder", "x": 760, "s": 1.6, "flip": true, "acts": [{"do": "reach", "at": 2.6}]}]},
@@ -266,7 +266,7 @@
     {"say": "A certain man made a great supper, and bade many. And they all with one consent began to make excuse.", "sky": "dusk", "ground": "city",
      "cast": [{"k": "table", "x": 540, "s": 1.4}, {"k": "elder", "x": 800, "s": 1.6, "flip": true, "acts": [{"do": "lower", "at": 2.4}]}]},
     {"say": "A field to see. Oxen to try. A new marriage. Everyone was busy.", "sky": "day", "ground": "field",
-     "cast": [{"k": "man", "x": 260, "s": 1.5, "flip": true, "acts": [{"do": "walk", "to": 80, "at": 0.4, "dur": 2}]}, {"k": "man", "x": 760, "s": 1.5, "acts": [{"do": "walk", "to": 980, "at": 0.8, "dur": 2}]}]},
+     "cast": [{"k": "oxen", "x": 540, "s": 0.7}, {"k": "man", "x": 260, "s": 1.5, "flip": true, "acts": [{"do": "walk", "to": 80, "at": 0.4, "dur": 2}]}, {"k": "man", "x": 760, "s": 1.5, "acts": [{"do": "walk", "to": 980, "at": 0.8, "dur": 2}]}]},
     {"say": "Go out quickly into the streets and lanes of the city, and bring in hither the poor, and the maimed, and the halt, and the blind.", "sky": "dusk", "ground": "city",
      "cast": [{"k": "crowd", "x": 540, "y": 1380, "s": 0.95, "n": 9, "acts": [{"do": "appear", "at": 1.0}]}]},
     {"say": "Go out into the highways and hedges, and compel them to come in, that my house may be filled. There is still a seat with your name.", "sky": "night", "ground": "city", "fx": ["sparkle"],
@@ -333,12 +333,12 @@
     {"say": "A certain man had two sons; and he came to the first, and said: Son, go work to day in my vineyard.", "sky": "day", "ground": "field",
      "cast": [{"k": "elder", "x": 760, "s": 1.6, "flip": true, "acts": [{"do": "reach", "at": 1.6}]}, {"k": "man", "x": 360, "s": 1.5}]},
     {"say": "He answered and said: I will not. But afterward he repented, and went.", "sky": "day", "ground": "field",
-     "cast": [{"k": "plant", "x": 800, "s": 1.5}, {"k": "man", "x": 360, "s": 1.5, "flip": true, "acts": [{"do": "walk", "to": 160, "at": 0.4, "dur": 1.6}]},
+     "cast": [{"k": "vine", "x": 840, "s": 0.95}, {"k": "man", "x": 360, "s": 1.5, "flip": true, "acts": [{"do": "walk", "to": 160, "at": 0.4, "dur": 1.6}]},
               {"k": "man", "x": 160, "s": 1.5, "acts": [{"do": "appear", "at": 2.4}, {"do": "walk", "to": 640, "at": 2.6, "dur": 2.4}]}]},
     {"say": "The second said: I go, sir. And went not.", "sky": "dusk", "ground": "field",
      "cast": [{"k": "man", "x": 520, "s": 1.5, "acts": [{"do": "bless", "at": 0.4}, {"do": "walk", "to": 120, "at": 1.6, "dur": 2}]}]},
     {"say": "Which of the two did the will of his father? A late yes beats an empty one. It is not too late to go.", "sky": "dawn", "ground": "field", "fx": ["rays"],
-     "cast": [{"k": "plant", "x": 760, "s": 1.6}, {"k": "man", "x": 480, "s": 1.5, "acts": [{"do": "raise", "at": 1.6}]}]}]},
+     "cast": [{"k": "vine", "x": 800, "s": 1.0}, {"k": "man", "x": 480, "s": 1.5, "acts": [{"do": "raise", "at": 1.6}]}]}]},
 
   {"id": "sheep-and-goats", "genre": "teaching", "title": "Unto the Least of These", "ref": "Matthew 25:40",
    "beats": [
@@ -541,7 +541,7 @@
   {"id": "the-good-shepherd", "genre": "teaching", "title": "The Good Shepherd", "ref": "John 10:11",
    "beats": [
     {"say": "When the wolf comes, the hired hand runs. He seeth the wolf coming, and leaveth the sheep, and fleeth.", "sky": "storm", "ground": "hills",
-     "cast": [{"k": "sheep", "x": 380, "s": 1.0}, {"k": "sheep", "x": 560, "s": 1.0, "flip": true}, {"k": "man", "x": 700, "s": 1.5, "acts": [{"do": "run", "to": 1000, "at": 0.8, "dur": 2}]}]},
+     "cast": [{"k": "wolf", "x": -40, "s": 0.9, "acts": [{"do": "walk", "to": 170, "at": 0.4, "dur": 2.4}]}, {"k": "sheep", "x": 380, "s": 1.0}, {"k": "sheep", "x": 560, "s": 1.0, "flip": true}, {"k": "man", "x": 700, "s": 1.5, "acts": [{"do": "run", "to": 1000, "at": 0.8, "dur": 2}]}]},
     {"say": "I am the good shepherd: the good shepherd giveth his life for the sheep.", "sky": "dusk", "ground": "hills", "fx": ["rays"],
      "cast": [{"k": "sheep", "x": 360, "s": 1.0}, {"k": "sheep", "x": 520, "s": 1.0, "flip": true}, {"k": "jesus", "x": 760, "s": 1.6, "flip": true, "acts": [{"do": "raise", "at": 1.0}]}]},
     {"say": "My sheep hear my voice, and I know them, and they follow me.", "sky": "dawn", "ground": "field",

@@ -146,7 +146,16 @@ def main():
             sys.exit(f"The {kind} render failed: {repo}/actions/runs/{rid} (open it to read the error). Nothing was marked done.")
         tag = f"{kind}-{num}"
         os.makedirs(os.path.join(out, kind), exist_ok=True)
-        sh("gh", "release", "download", tag, "-D", os.path.join(out, kind), "--clobber")
+        sizes = dict(l.rsplit(" ", 1) for l in sh("gh", "release", "view", tag, "--json", "assets", "-q",
+                                                     '.assets[] | "\\(.name) \\(.size)"', out=True).splitlines())
+        for attempt in (1, 2):  # a dropped connection once left a long video at 157 of 534 MB: check every byte count
+            sh("gh", "release", "download", tag, "-D", os.path.join(out, kind), "--clobber")
+            short = [n for n, b in sizes.items() if os.path.getsize(os.path.join(out, kind, n)) != int(b)]
+            if not short:
+                break
+        else:
+            sys.exit(f"Download of {tag} came out incomplete twice ({', '.join(short)}). Run: gh release download {tag} "
+                     f"-D {os.path.join(out, kind)} --clobber. Nothing was marked done.")
         print(f"  {kind}: downloaded release {tag} -> {os.path.join(out, kind)}")
 
     today = datetime.date.today().isoformat()
