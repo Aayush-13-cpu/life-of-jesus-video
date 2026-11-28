@@ -56,7 +56,7 @@ def mix(a, b, t):
 # The light of each sky: the page's backdrop, a paler horizon strip, the clouds, the sun or moon (kind, x and y as
 # fractions of the frame, y None = just above the far hills; radius), and the tint that every colour is mixed toward.
 SKIES = {
-    "day": dict(top="#7cc8ec", band="#b6e3f4", cloud="#ffffff", orb=("sun", 0.84, 0.17, 58), tint=("#ffffff", 0.0)),
+    "day": dict(top="#7cc8ec", band="#b6e3f4", cloud="#ffffff", orb=("sun", 0.84, 0.3, 58), tint=("#ffffff", 0.0)),
     "dawn": dict(top="#f3a49f", band="#fbd2b0", cloud="#fff0e2", orb=("sun", 0.72, None, 70), tint=("#7a4a7a", 0.2)),
     "dusk": dict(top="#ec7a48", band="#f8b65e", cloud="#fbd08c", orb=("sun", 0.26, None, 100), tint=("#6a2a4a", 0.3)),
     "night": dict(top="#1d2858", band="#2c3d78", cloud="#3c4f8e", orb=("moon", 0.76, 0.2, 52), tint=("#0e1640", 0.55)),
