@@ -6,8 +6,8 @@ This repository makes narrated, animated Bible videos with **free, open-source t
 **GitHub's computers instead of yours**. It contains:
 
 - **The Life of Jesus**: a 2-minute horizontal timeline video (`script.json`, `build.py`).
-- **40 story Shorts**: vertical 30–40 second animations in two visual styles (`shorts/`).
-- **Long videos**: horizontal 10–12 minute videos of Jesus' life and his prayers, in glowing line art (`longform/`).
+- **40 story Shorts**: vertical 30–40 second animations in a colourful paper pop-up style (`shorts/`).
+- **Long videos**: horizontal 10–12 minute videos of Jesus' life and his prayers, in the same paper pop-up style (`longform/`).
   See [The long videos](#the-long-videos).
 
 **Running the channel (one command):**
@@ -47,7 +47,7 @@ comes from this repository, so you can open the file and see it in context.
 8. [The map of files](#8-the-map-of-files)
 9. [The timeline video, step by step](#9-the-timeline-video-step-by-step)
 10. [The story Shorts, step by step](#10-the-story-shorts-step-by-step)
-11. [The silhouette kit](#11-the-silhouette-kit)
+11. [The paper pop-up kit](#11-the-paper-pop-up-kit)
 12. [The animation interpreter](#12-the-animation-interpreter)
 13. [The cloud pipeline](#13-the-cloud-pipeline)
 
@@ -153,7 +153,7 @@ For that to work, a page has to follow a small contract:
 - **The timeline is registered** under the composition's id, *after* every tween is added.
 - **Determinism.** HyperFrames may photograph frames in any order, so frame 412 must look the same every time.
   That means: no clock (`Date.now()`), no unseeded `Math.random()`, no infinite repeats, nothing loading in the
-  middle. This project uses a seeded random generator (`kit.rng`) for stars and raindrops for exactly this reason.
+  middle. This project uses a seeded random generator (`paper.rng`) for stars and raindrops for exactly this reason.
 - **Two commands check a page:** `npx hyperframes lint` (rules, instant) and `npx hyperframes render` (the video).
 
 ## 5. A voice from text: Kokoro
@@ -199,18 +199,18 @@ The finished videos are attached to a **GitHub Release**, a downloads page anyon
 ```
 script.json                 the timeline video's 13 scenes (year, title, verse, icon, narration)
 build.py                    narrates script.json and writes its HyperFrames page
+paper.py                    the paper pop-up kit for every video: skies, grounds, props, people, effects, scene()
+paper.js                    the paper pop-up motion: page turns, pop-ups, camera, and every verb (copied next to each page)
 test_build.py               checks for the timeline video
 shorts/
-  stories.json              20 stories, silhouette style
-  stories_parchment.json    20 stories, illuminated-parchment style
-  kit.py                    the drawing kit: skies, landscapes, props, figures, effects, styles
-  build_short.py            narrates one story and writes its HyperFrames page (+ the animation interpreter)
+  stories.json              20 stories
+  stories_parchment.json    20 more stories (their old "style" field is no longer used)
+  build_short.py            narrates one story and writes its HyperFrames page
   test_shorts.py            checks every story before any rendering
   render.txt                which story ids the next cloud run renders
   fetch.py                  downloads a finished batch to shorts/output/ (optional)
 longform/
   videos.json               the long videos: chapters of beats, one template per video
-  lineart.py                the glowing line-art kit: templates, skies, lands, figures, props, effects
   build_long.py             narrates a chapter and writes its page; joins chapters into the finished video
   test_long.py              checks every video (10-12 minutes, own template, valid staging) before rendering
   render.txt                which video ids the next cloud run renders
@@ -254,41 +254,37 @@ A story is a list of **beats**. Each beat is one sentence of narration plus the 
    `captions()` times every word with Whisper (`word_times()` in `build.py`: faster-whisper `base.en` on the CPU,
    matched to the script; without `pip install faster-whisper` it falls back to timing by length). The word being
    spoken lights up gold. Most Shorts are watched muted, so captions carry the story.
-3. **Scenes.** `compose_beat()` asks the kit for the sky, the ground, each cast member and the effects, and
-   collects their *acts* as plain instructions with absolute times.
+3. **Scenes.** `compose_beat()` asks `paper.scene()` for the page: the sky, the ground, each cast member and the
+   effects as paper cut-outs, and their *acts* as plain instructions with absolute times.
 4. **The page.** `render_html()` writes it all into `TEMPLATE`: the beat sections, the captions, a title card for
    the first 3 seconds, the verse reference on the last beat, the voice and the music.
-5. **Camera and cuts.** Every beat is framed about 25% tighter on the action and gets a slow eased camera move
-   (push-in, pull-out and pans in turn). A new setting is a hard cut, the same setting dissolves over 0.3 s; there
-   is never a dip to black, and the first frame already shows the scene and title.
-6. **Depth.** The cast is drawn back to front (`depth_order()`), and figures carry a thin rim light, so a figure
-   in front of a house, or two people passing, stay separate layers instead of merging into one shape. A faint
-   static grain keeps the sky gradients from banding once compressed.
+5. **Pop-up, strictly.** Every scene is a page of a pop-up book (`paper.js`). Each piece (the sun, each cloud,
+   every strip of land, each figure and prop) is flat card with a soft shadow; when its page opens it stands up off
+   the page, back to front, hinged at its base with a springy overshoot. Before a new setting the pieces fold flat
+   and the next page turns over onto the last one; the same setting dissolves and only new figures pop up. The
+   opening page already stands on the first frame. No glows, no gradients, no traced lines, never a dip to black.
+6. **Camera and puppets.** A multiplane camera over the diorama (sky, land, figures and a branch move at different
+   rates). Figures are paper dolls: they rock a hair on their tab, waddle and hop when they walk, and swing their
+   arms on gold paper fasteners.
 
-## 11. The silhouette kit
+## 11. The paper pop-up kit
 
-`shorts/kit.py` draws everything. A few ideas make it work:
+`paper.py` draws everything, for both frames (`paper.frame("short" | "long", "levant")`); it is the same file as in
+the TapoBhumi repo, where `world` is "asia". A few ideas make it work:
 
 - **Everything stands on the ground line.** Each figure and prop is drawn around the point where it touches the
-  ground, `(0, 0)`. Near characters stand at `y = 1390` (`FEET`), the horizon is at `1300` (`HZ`).
-- **Two groups per character.** `place()` wraps each drawing twice:
-
-  ```
-  <g id="b2-c3"   transform="translate(x,y) scale(s)">   ← outer: moves across the screen (walk, run, climb)
-     <g id="b2-c3-b" class="body"> … </g>                ← inner: bends in place (kneel, lie, rock, grow)
-  </g>
-  ```
-
-  Splitting "where it is" from "how it bends" keeps the two kinds of motion from fighting each other.
-- **Arms are their own groups** (`-al`, `-ar`) rotating at the shoulder, so a figure can raise, reach or bless.
-- **Nesting.** `"in": 0` draws a figure *inside* cast member 0, so people in a boat rock with the boat.
-- **Faces are never drawn.** Jesus is a figure surrounded by a soft light (`-glow`), never an invented face.
-- **Styles.** `kit.use("parchment")` swaps the whole palette: skies, ink colour, rain, rays and the rest. The page
-  colours (captions, vignette) live in `CSS` in `build_short.py`.
+  ground, `(0, 0)`. Near characters stand at `GF` (1390 in a Short, 850 in a long video), the horizon is at `HZ`.
+- **Colour.** Bright card stock (`PAPER`, `ROBES`); each sky sets the page colour and tints every piece toward its
+  light (night pieces turn deep blue, dawn ones rose). The Levant village has flat roofs, domes and a palm.
+- **Three groups per character.** `place()` wraps each drawing: the outer group moves (walk, climb), the body
+  `-b` bends about the feet (kneel, lie, rock, grow), the drawing `-s` rocks on its tab. Arms (`-al`, `-ar`) rotate
+  at the shoulder. `"in": 0` draws a figure *inside* cast member 0, so people in a boat rock with the boat.
+- **Faces are never drawn.** Heads are plain paper ovals. Jesus stands before a paper sunburst (`-glow`), never an
+  invented face.
 
 ## 12. The animation interpreter
 
-Stories don't contain JavaScript. They contain *verbs*: `walk`, `kneel`, `rock`, `grow`, `tint`… The page holds
+Stories don't contain JavaScript. They contain *verbs*: `walk`, `kneel`, `rock`, `grow`, `tint`… `paper.js` holds
 a small dictionary `F` that turns each verb into GSAP calls:
 
 ```js
@@ -322,14 +318,9 @@ the Releases page and take the newest `shorts-N`.
 `longform/` is its own format, separate from the Shorts (it imports nothing from `shorts/`), with the same voice
 (Kokoro `af_heart`, same speed) and the same captions (Cormorant, five-word blocks), set at the bottom of a 16:9 frame.
 
-- **Look.** Divine glowing line art: every line of the sky, land, figures and props traces itself in when a beat
-  begins (`pathLength="1"`, dash offset 1 → 0), inside a soft glow filter. Faces are never drawn; Jesus carries a
-  halo ring and a soft light. Figures and props are cut-outs filled with the sky, drawn back to front, so the
-  lines behind them never show through. A new setting is a hard cut that draws itself in; the same setting
-  dissolves, keeps its land and unmoved figures drawn under one continuous camera, and draws in only what is new.
-- **One template per video.** `TEMPLATES` in `lineart.py` sets the palette and the moving light behind every scene:
-  `sanctuary` (gold on midnight, slow-turning rays) and `dawnlight` (rose-gold on plum, rising embers and sunrise
-  rings). A new video adds a new template; the test refuses two videos sharing one.
+- **Look.** The Shorts' paper pop-up pages (`paper.py`, `paper.js`) in the wide frame: the same pieces, page turns,
+  pop-ups and puppets, with gentler camera moves. (The `template` field in each video is left from the line-art days
+  and no longer used.)
 - **Chapters.** A video is a list of chapters, each a title, a verse reference and beats written like the Shorts'
   (`say`, `sky`, `land`, `cast`, `fx`) but in the frame's own 1920×1080 coordinates (ground line at y 850).
   Lands: `hills field desert city sea garden mountain river`; effects: `rain lightning rays sparkle dove`.
@@ -372,11 +363,11 @@ the Releases page and take the newest `shorts-N`.
 
 ## 15. Add a prop, an action or a style
 
-- **A prop:** add an entry to `PROPS` in `kit.py`, drawn around `(0, 0)` with `0` at the ground, in SVG path
-  language. Use `{pid}` in an id if an action needs to find a part (see `jar` and its `-liq` liquid).
-- **An action:** add one line to `F` in the page script in `build_short.py`. The test discovers it automatically.
-- **A style:** add a palette to `STYLES` in `kit.py` and a matching entry to `CSS` in `build_short.py`, then set
-  `"style": "<name>"` on a story.
+- **A prop:** add an entry to `PROPS` in `paper.py`, drawn around `(0, 0)` with `0` at the ground, with `{colour}`
+  names from `PAPER`. Use `{pid}` in an id if an action needs to find a part (see `jar` and its `-liq` liquid).
+  Copy `paper.py` and `paper.js` to the TapoBhumi repo too: both channels share them.
+- **An action:** add one line to `F` in `paper.js`, at the same indentation. The test discovers it automatically.
+  Keep it paper: things stand up, fold, slide, rock and swing; nothing glows or fades in.
 
 ## 16. Checking your work
 

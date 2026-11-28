@@ -12,8 +12,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(ROOT, "longform"))
 sys.path.insert(0, os.path.join(ROOT, "shorts"))
-import lineart, build_long  # noqa: E402
-import kit, build_short     # noqa: E402
+import build_long, build_short  # noqa: E402
+import paper                     # noqa: E402  (on the path through the builders)
 
 TITLE = "The Life of Jesus Video Machine"
 SUB = "A complete guide, from your first terminal command to building your own automated video channel"
@@ -24,8 +24,10 @@ def stamp(t):
     return f"{int(t // 60)}:{int(t % 60):02d}"
 
 
-def verbs(template):
-    return sorted(set(re.findall(r"^\s{6}(\w+): a =>", template, re.M)))
+def verbs():
+    """Every verb paper.js knows (one engine for the Shorts and the long videos)."""
+    js = open(os.path.join(ROOT, "paper.js"), encoding="utf-8").read()
+    return sorted(set(re.findall(r"^\s{4}(\w+): a =>", js, re.M)))
 
 
 def appendices():
@@ -33,25 +35,17 @@ def appendices():
     out = []
 
     # B: the vocabulary of a scene
-    lv, sv = verbs(build_long.TEMPLATE), verbs(build_short.TEMPLATE)
-    out.append("## Appendix B — Scene Vocabulary\n\nGenerated from the code of this version.\n")
-    out.append("### Long videos (`longform/`)\n")
+    out.append("## Appendix B — Scene Vocabulary\n\nGenerated from the code of this version. The Shorts and the long videos "
+               "share one paper pop-up engine (`paper.py` draws, `paper.js` moves), so they share one vocabulary; "
+               "a long beat names its ground `land`, a Short's `ground`.\n")
     out.append("| What | Allowed values |\n|---|---|")
-    out.append(f"| skies (`sky`) | {' '.join(f'`{s}`' for s in lineart.SKIES)} |")
-    out.append(f"| lands (`land`) | {' '.join(f'`{s}`' for s in lineart.LANDS)} |")
-    out.append(f"| people (`k`) | {' '.join(f'`{s}`' for s in sorted(lineart.PEOPLE))} |")
-    out.append(f"| props (`k`) | {' '.join(f'`{s}`' for s in sorted(lineart.PROPS))} |")
+    out.append(f"| skies (`sky`) | {' '.join(f'`{s}`' for s in paper.SKIES)} |")
+    out.append(f"| grounds (`ground` / `land`) | {' '.join(f'`{s}`' for s in paper.GROUNDS)} |")
+    out.append(f"| people (`k`) | {' '.join(f'`{s}`' for s in sorted(paper.PEOPLE))} |")
+    out.append(f"| props (`k`) | {' '.join(f'`{s}`' for s in sorted(paper.PROPS))} |")
     out.append("| groups (`k`) | `crowd` (with `n`, the number of people) |")
-    out.append(f"| effects (`fx`) | {' '.join(f'`{s}`' for s in sorted(lineart.FX))} |")
-    out.append(f"| verbs (`do`) | {' '.join(f'`{s}`' for s in lv)} |\n")
-    out.append("### Shorts (`shorts/`)\n")
-    out.append("| What | Allowed values |\n|---|---|")
-    out.append(f"| skies (`sky`) | {' '.join(f'`{s}`' for s in kit.SKIES)} |")
-    out.append("| grounds (`ground`) | `hills` `field` `desert` `city` `sea` `garden` |")
-    out.append(f"| people (`k`) | {' '.join(f'`{s}`' for s in sorted(kit.PEOPLE))} |")
-    out.append(f"| props (`k`) | {' '.join(f'`{s}`' for s in sorted(kit.PROPS))} |")
-    out.append("| effects (`fx`) | `lightning` `rain` `rays` `sparkle` |")
-    out.append(f"| verbs (`do`) | {' '.join(f'`{s}`' for s in sv)} |\n")
+    out.append(f"| effects (`fx`) | {' '.join(f'`{s}`' for s in sorted(paper.FX))} |")
+    out.append(f"| verbs (`do`) | {' '.join(f'`{s}`' for s in verbs())} |\n")
     out.append("""### What the main verbs do
 
 | Verb | Needs | Effect |
@@ -62,7 +56,7 @@ def appendices():
 | `roll` | `to` (x), optional `deg` | move and spin (a stone rolled away) |
 | `raise`, `bless`, `reach`, `lower` | — | arm gestures: both arms up, right arm up, right arm forward, arms down |
 | `kneel`, `stand`, `lie` | — | bend the body: kneel, stand back up, lie flat |
-| `appear`, `vanish` | — | fade in, fade out |
+| `appear`, `vanish` | — | stand up off the page, fold down flat |
 | `rock`, `drift` | optional `amp`, `period` | tilt or slide back and forth (boats, waves) |
 | `grow` | — | grow from nothing (a tree, a plant) |
 | `flicker` | — | a flame flickers (lamps, fires) |
@@ -71,20 +65,16 @@ def appendices():
 Every act may have `at` (seconds into the beat, default 0) and `dur` (seconds; default: until the beat ends).
 """)
 
-    # C: the templates
-    out.append('<div class="page-break"></div>\n\n## Appendix C — The Twenty Templates\n')
-    out.append("Each long video uses one template: a line colour, a glow, five sky gradients and a moving motif. "
-               "A template in use is marked with its video.\n")
-    used = {v["template"]: v["title"] for v in build_long.videos()}
-    rows = ['<table class="swatches"><tr><th>Template</th><th>Line</th><th>Glow</th><th>Night</th><th>Dawn</th>'
-            '<th>Dusk</th><th>Day</th><th>Storm</th><th>Motif</th><th>Used by</th></tr>']
-    for name, t in lineart.TEMPLATES.items():
-        sw = lambda c: f'<td><span class="chip" style="background:{c}"></span></td>'
-        sky = lambda s: (f'<td><span class="chip" style="background:linear-gradient({t["skies"][s][0]},'
-                         f'{t["skies"][s][1]})"></span></td>')
-        rows.append(f'<tr><td><code>{name}</code></td>{sw(t["line"])}{sw(t["glow"])}'
-                    + "".join(sky(s) for s in lineart.SKIES)
-                    + f'<td>{t["motif"]}</td><td>{e(used.get(name, "free"))}</td></tr>')
+    # C: the paper
+    out.append('<div class="page-break"></div>\n\n## Appendix C — The Paper\n')
+    out.append("Every scene is a page of a pop-up book: flat card in these colours, each piece with a soft shadow. "
+               "A sky sets the page and tints every piece on it (night pieces are deep blue card, dawn ones rose).\n")
+    sw = lambda c: f'<td><span class="chip" style="background:{c}"></span></td>'
+    rows = ['<table class="swatches"><tr><th>Sky</th><th>Page</th><th>Horizon</th><th>Clouds</th><th>Tint</th></tr>']
+    rows += [f'<tr><td><code>{n}</code></td>{sw(t["top"])}{sw(t["band"])}{sw(t["cloud"])}{sw(t["tint"][0])}</tr>'
+             for n, t in paper.SKIES.items()]
+    rows += ['</table>\n<table class="swatches"><tr><th>Figure</th><th>Robe</th><th>Sleeves</th><th>Sash, scarf or hat</th></tr>']
+    rows += [f'<tr><td><code>{k}</code></td>{"".join(sw(c) for c in cs)}</tr>' for k, cs in sorted(paper.ROBES.items())]
     out.append("\n".join(rows) + "</table>\n")
 
     # D: the library
@@ -95,7 +85,7 @@ Every act may have `at` (seconds into the beat, default 0) and `dur` (seconds; d
         t = sum(build_long.estimate(c) for c in v["chapters"])
         beats = sum(len(c["beats"]) for c in v["chapters"])
         chs = " · ".join(e(c["title"]) for c in v["chapters"])
-        out.append(f"**{i}. {e(v['title'])}** — `{v['id']}`, template `{v['template']}`, "
+        out.append(f"**{i}. {e(v['title'])}** — `{v['id']}`, "
                    f"{len(v['chapters'])} chapters, {beats} beats, about {stamp(t)}  \n<span class=\"small\">{chs}</span>\n")
     lib = json.load(open(os.path.join(ROOT, "shorts", "stories_library.json"), encoding="utf-8"))
     out.append("### The Shorts library (`shorts/stories_library.json`), in order\n")

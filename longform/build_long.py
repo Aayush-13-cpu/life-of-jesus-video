@@ -1,5 +1,5 @@
 """longform/videos.json -> 16:9 (1920x1080) long videos, 10-12 minutes each, of Jesus' life and his prayers, in
-divine glowing line art. Self-contained: shorts/ is not used (only the generated music bed comes from build.py).
+a paper pop-up book (paper.py, paper.js). Self-contained: shorts/ is not used (only the generated music bed comes from build.py).
 
 The voice and captions match the Shorts (Kokoro af_heart at the same speed; Cormorant captions in short blocks).
 Each chapter renders as its own HyperFrames page, all chapters in parallel on GitHub Actions; `finish` joins them,
@@ -18,10 +18,11 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
 sys.path.insert(0, HERE)
 from build import music, word_times  # noqa: E402  the generated piano-and-pad bed; Whisper word timing
-import lineart as art  # noqa: E402
+import paper  # noqa: E402  the paper pop-up pages, shared by every video (paper.py, paper.js)
 
 LEAD, TAIL, END = 0.6, 1.6, 1.6   # silence before/after each beat's narration (room to breathe); a chapter's end hold
-XF = 0.5                           # the dissolve between two beats in the same setting (a new setting is a hard cut)
+XF = 0.5                           # the dissolve between two beats in the same setting (a new setting turns the page)
+WORLD = "levant"                   # paper.py village architecture: flat roofs, domes and palms
 VOICE, SPEED = "af_heart", 0.94    # the Shorts' voice and pace
 WPS = 3.24                         # words per second at SPEED, measured on rendered chapters (the Shorts' 2.55 is
                                    # a conservative guess); used to check 10-12 minutes before any TTS runs
@@ -108,87 +109,41 @@ def captions(ch, voice, slots, words=None):
     return caps
 
 
-def depth_order(cast):
-    """Indices of the top-level cast, back to front: whatever stands farther up the ground is drawn first, so a nearer
-    figure's cut-out covers a farther one, never the other way round (ties keep the script's order)."""
-    top = [j for j, c in enumerate(cast) if "in" not in c]
-    return sorted(top, key=lambda j: cast[j].get("y", art.GF - 20 if cast[j]["k"] == "crowd" else art.GF))
-
-
-def placement(c):
-    """A cast entry without its actions: two beats with the same placement show the same figure in the same spot."""
-    return json.dumps({k: v for k, v in c.items() if k != "acts"}, sort_keys=True)
-
-
 def compose_beat(i, beat, start, dur, kept=()):
-    """One beat's line-art scene plus its absolute-timed anims. `kept`: placements already on screen from the
-    previous beat in the same setting; they stay drawn, and only what is new (class fg) traces itself in."""
-    p = f"b{i}"
-    m, anims = art.background(p, beat.get("sky", "night"))
-    parts = [m]
-    lines = []
-    g, a = art.land(p, beat.get("land", "hills")); lines.append(g); anims += a
-    cast = beat.get("cast", [])
-    inner = {j: [] for j in range(len(cast))}
-    drawn = {}
-    for j, c in enumerate(cast):
-        pid = f"{p}-c{j}"
-        drawn[j] = (art.crowd(pid, c.get("x", 960), c.get("y", art.GF - 20), c.get("s", 0.8), c.get("n", 12))
-                    if c["k"] == "crowd" else None)
-        for act in c.get("acts", []):
-            anims.append(dict(act, t=f"#{pid}", x0=c.get("x", 960), y0=c.get("y", art.GF)))
-        if c["k"] in ("jesus", "angel"):
-            anims.append({"t": f"#{pid}-glow", "do": "glow"})
-    for j in reversed(range(len(cast))):  # children are drawn inside their parent and move with it (people in a boat)
-        c = cast[j]
-        if drawn[j] is None:
-            drawn[j] = art.place(f"{p}-c{j}", c["k"], c.get("x", 960), c.get("y", art.GF), c.get("s", 1.5),
-                                 c.get("flip", False), "".join(inner[j]), p)
-        if "in" in c:
-            inner[c["in"]].insert(0, drawn[j])
-    lines += [drawn[j] if placement(cast[j]) in kept else f'<g class="fg">{drawn[j]}</g>' for j in depth_order(cast)]
-    for fx in beat.get("fx", []):
-        m, a = art.fx(p, fx); lines.append(f'<g class="fg">{m}</g>'); anims += a
-    parts.append(f'<g filter="url(#{p}-glow)">{"".join(lines)}</g>')  # the divine glow on every line of the scene
-    for x in anims:  # beat-relative times -> absolute timeline times
-        x["s"] = round(start + x.pop("at", 0), 3)
-        x["d"] = round(x.pop("dur", start + dur - x["s"] - 0.05), 3)
-        x["b0"] = start
-    cut = art._mix(art.T["skies"][beat.get("sky", "night")][1], art.T["line"], 0.06)  # the cut-outs' fill: the sky
-    return (f'<svg id="{p}-svg" class="stage" style="--cut: {cut}" viewBox="0 0 {art.W} {art.H}" '
-            f'xmlns="http://www.w3.org/2000/svg">{"".join(parts)}</svg>'), anims
+    """One beat's paper pop-up page (paper.scene) plus its absolute-timed anims. `kept`: placements already standing
+    from the previous beat in the same setting; they stay up, and only what is new pops up."""
+    return paper.scene(i, beat, beat.get("sky", "night"), beat.get("land", "hills"), start, dur, kept)
+
+
+GOLD, CREAM = "#ffd54a", "#fffaf0"  # title and spoken-word gold; caption cream (a dark cut-paper shadow under both)
 
 
 def render_html(v, n, ch, voice, slots, total, words=None):
-    art.use(v["template"])
-    t = art.TEMPLATES[v["template"]]
+    paper.frame("long", WORLD)
     e = html.escape
     sections, anims = [], []
     beats = ch["beats"]
-    # A new setting is a hard cut and draws itself in. The same setting carries on: the outgoing beat dissolves (XF s)
-    # under the incoming one, the land and unmoved figures stay drawn, and only new figures trace in.
+    # A new setting turns the page. The same setting carries on: the outgoing beat dissolves (XF s) under the
+    # incoming one, what was standing stays, and only new figures pop up (paper.js).
     setting = [(b.get("sky", "night"), b.get("land", "hills")) for b in beats]
     cont = [i > 0 and setting[i] == setting[i - 1] for i in range(len(beats))]
-    for i, (b, (start, dur)) in enumerate(zip(beats, slots)):
-        kept = {placement(c) for c in beats[i - 1].get("cast", [])} if cont[i] else set()
+    for i, (b, (start, dur), clip) in enumerate(zip(beats, slots, paper.clips(slots, cont, total, XF))):
+        kept = {paper.placement(c) for c in beats[i - 1].get("cast", [])} if cont[i] else set()
         svg, a = compose_beat(i, b, start, dur, kept)
         anims += a
-        # the last scene holds under the closing verse instead of cutting to black
-        clip = round(total - start if i + 1 == len(beats) else dur + (XF if cont[i + 1] else 0), 3)
-        sections.append(f'<section id="beat-{i}" class="clip" data-start="{start}" data-duration="{clip}" '
-                        f'data-track-index="{1 if i % 2 == 0 else 4}"><div class="scene" id="beat-{i}-in">{svg}</div></section>')
+        sections.append(paper.section(i, start, clip, svg))
     cl = captions(ch, voice, slots, words)
     caps = "".join(f'<div id="cap-{i}" class="clip cap" data-start="{s}" data-duration="{d}" data-track-index="2">'
                    f'<span id="cap-{i}-t">{" ".join(f"<span class=w>{e(w)}</span>" for w in c.split())}</span></div>'
                    for i, (s, d, c, _) in enumerate(cl))
     last = slots[-1][0]
-    plan = {"beats": [{"id": f"beat-{i}", "s": s, "d": d, "x": cont[i]} for i, (s, d) in enumerate(slots)], "xf": XF,
+    plan = {"cfg": paper.cfg("long"), "beats": paper.plan_beats(beats, slots, cont), "xf": XF,
             "anims": anims, "caps": [w for *_, w in cl], "last": last}
     return TEMPLATE.format(
         title=e(ch["title"]), kicker=e(f"Chapter {n}" if n else ("" if ch["title"] == v["title"] else v["title"])), total=total,
         sections="\n".join(sections), caps=caps, plan=json.dumps(plan), ref=e(ch["ref"]), last=last,
-        lastdur=round(total - last, 3), W=art.W, H=art.H, line=t["line"], glow=t["glow"],
-        bg=t["skies"]["night"][0])
+        lastdur=round(total - last, 3), W=paper.W, H=paper.H, line=GOLD, glow=GOLD, cream=CREAM, bg="#2a1a10",
+        paper_css=paper.CSS)
 
 
 TEMPLATE = """<!doctype html>
@@ -197,6 +152,7 @@ TEMPLATE = """<!doctype html>
 <meta charset="UTF-8" />
 <title>{title}</title>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="paper.js"></script>
 <style>
   @font-face {{ font-family: "Cormorant"; src: url("fonts/CormorantGaramond.ttf"); }}
   @font-face {{ font-family: "Cinzel"; src: url("fonts/Cinzel.ttf"); }}
@@ -204,31 +160,19 @@ TEMPLATE = """<!doctype html>
   #root {{ position: relative; width: {W}px; height: {H}px; overflow: hidden; isolation: isolate; background: {bg}; }}
   .clip, .scene, .stage {{ position: absolute; inset: 0; }}
   .stage {{ width: 100%; height: 100%; }}
-  /* line art: every stroke traces itself in (pathLength=1, dash offset 1 -> 0) */
-  .d {{ fill: {line}; fill-opacity: 0.05; stroke: {line}; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;
-        stroke-dasharray: 1; stroke-dashoffset: 1; }}
-  .d.n {{ fill: none; }}
-  .d.f {{ fill: {glow}; fill-opacity: 0.9; }}
-  /* figures and props are cut-outs: filled with the sky as they draw in, so lines behind them never show through */
-  .d.o {{ fill: var(--cut); fill-opacity: 0; }}
-  #vignette {{ position: absolute; inset: 0; z-index: 3; pointer-events: none;
-              background: radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.6) 100%); }}
-  /* faint static grain (soft-light: about +-1-2 levels from dark sky to mid-tones) so smooth gradients do not band
-     into steps once compressed; it sits under the captions */
-  #grain {{ position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: 0.2; mix-blend-mode: soft-light;
-           background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }}
+  {paper_css}
   /* captions: the Shorts' captions, set for a wide frame (bottom centre) */
   .cap {{ z-index: 5; display: flex; justify-content: center; align-items: flex-end; }}
-  .cap > span {{ margin-bottom: 64px; max-width: 1500px; text-align: center; color: #fff8ec; font: 600 64px/1.1 "Cormorant", serif;
-              text-shadow: 0 0 18px rgba(0,0,0,0.85), 0 4px 6px rgba(0,0,0,0.7); }}
+  .cap > span {{ margin-bottom: 64px; max-width: 1500px; text-align: center; color: {cream}; font: 600 64px/1.1 "Cormorant", serif;
+              text-shadow: 0 4px 0 rgba(40,20,5,0.85), 0 0 18px rgba(20,10,0,0.8); }}
   #title {{ z-index: 6; }}
   #title-k {{ position: absolute; top: 74px; left: 0; right: 0; text-align: center; font: 24px "Cinzel", serif;
-             letter-spacing: 9px; color: {line}; text-transform: uppercase; text-shadow: 0 0 14px rgba(0,0,0,0.9); }}
+             letter-spacing: 9px; color: {line}; text-transform: uppercase; text-shadow: 0 3px 0 rgba(40,20,5,0.85), 0 0 14px rgba(20,10,0,0.9); }}
   #title-t {{ position: absolute; top: 112px; left: 0; right: 0; text-align: center; font: 54px "Cinzel", serif;
-             letter-spacing: 4px; color: #fff3dc; text-shadow: 0 0 22px {glow}, 0 0 8px rgba(0,0,0,0.8); }}
+             letter-spacing: 4px; color: {cream}; text-shadow: 0 4px 0 rgba(40,20,5,0.85), 0 0 16px rgba(20,10,0,0.8); }}
   #verse {{ z-index: 6; }}
   #verse-t {{ position: absolute; top: 74px; left: 0; right: 0; text-align: center; font: 28px "Cinzel", serif;
-             letter-spacing: 7px; color: {line}; text-shadow: 0 0 14px rgba(0,0,0,0.9); }}
+             letter-spacing: 7px; color: {line}; text-shadow: 0 3px 0 rgba(40,20,5,0.85), 0 0 14px rgba(20,10,0,0.9); }}
 </style>
 </head>
 <body>
@@ -245,80 +189,13 @@ TEMPLATE = """<!doctype html>
   const PLAN = {plan};
   Promise.all([document.fonts.load('600 64px "Cormorant"'), document.fonts.load('54px "Cinzel"')]).then(() => {{
     const tl = gsap.timeline({{ paused: true }});
-    const n = (d, p) => Math.max(0, Math.round(d / p) - 1);   // finite repeats only (deterministic render)
-    tl.set(".arm-l", {{ rotation: 10, transformOrigin: "50% 0%" }}, 0);
-    tl.set(".arm-r", {{ rotation: -10, transformOrigin: "50% 0%" }}, 0);
-    tl.set(".body", {{ transformOrigin: "50% 100%" }}, 0);
-    const arms = (t, l, r, s, d) => {{
-      if (l !== null) tl.to(t + "-al", {{ rotation: l, duration: d, ease: "power2.inOut" }}, s);
-      if (r !== null) tl.to(t + "-ar", {{ rotation: r, duration: d, ease: "power2.inOut" }}, s);
-    }};
-    const bob = (t, s, d, p, h) => tl.to(t + "-b", {{ y: -h, duration: p / 2, repeat: n(d, p / 2), yoyo: true, ease: "sine.inOut" }}, s);
-    const F = {{
-      walk: a => {{ tl.to(a.t, {{ x: a.to, duration: a.d, ease: "sine.inOut" }}, a.s); bob(a.t, a.s, a.d, 0.62, 7); }},
-      climb: a => tl.to(a.t, {{ y: a.to, duration: a.d, ease: "power1.inOut" }}, a.s),
-      raise: a => arms(a.t, 140, -140, a.s, 0.8),
-      bless: a => arms(a.t, null, -125, a.s, 0.8),
-      reach: a => arms(a.t, null, -78, a.s, 0.7),
-      lower: a => arms(a.t, 10, -10, a.s, 0.8),
-      kneel: a => tl.to(a.t + "-b", {{ scaleY: 0.68, duration: 0.7, ease: "power2.out" }}, a.s),
-      stand: a => tl.to(a.t + "-b", {{ scaleY: 1, rotation: 0, duration: 0.9, ease: "power2.out" }}, a.s),
-      lie: a => tl.set(a.t + "-b", {{ rotation: -90 }}, a.b0),
-      appear: a => {{ tl.set(a.t, {{ opacity: 0 }}, a.b0); tl.to(a.t, {{ opacity: 1, duration: 0.8, ease: "power1.out" }}, a.s); }},
-      vanish: a => tl.to(a.t, {{ opacity: 0, duration: 1.0, ease: "power1.in" }}, a.s),
-      rock: a => tl.fromTo(a.t + "-b", {{ rotation: -(a.amp || 4) }}, {{ rotation: a.amp || 4, duration: (a.period || 2.4) / 2,
-                  repeat: n(a.d, (a.period || 2.4) / 2), yoyo: true, ease: "sine.inOut", immediateRender: false }}, a.s),
-      drift: a => tl.fromTo(a.t, {{ x: -(a.amp || 40) }}, {{ x: a.amp || 40, duration: (a.period || 3) / 2,
-                   repeat: n(a.d, (a.period || 3) / 2), yoyo: true, ease: "sine.inOut", immediateRender: false }}, a.s),
-      fly: a => tl.to(a.t, {{ x: a.to, y: a.toy === undefined ? a.y0 : a.toy, duration: a.d, ease: "none" }}, a.s),
-      grow: a => {{ tl.set(a.t + "-b", {{ scale: 0 }}, a.b0); tl.to(a.t + "-b", {{ scale: 1, duration: a.grow || 2.4, ease: "power2.out" }}, a.s); }},
-      roll: a => {{ tl.to(a.t, {{ x: a.to, duration: a.d, ease: "power2.inOut" }}, a.s);
-                   tl.to(a.t + "-b", {{ rotation: a.deg || 200, duration: a.d, ease: "power2.inOut" }}, a.s); }},
-      flicker: a => tl.to(a.t + "-flame", {{ scaleY: 0.82, transformOrigin: "50% 100%", duration: 0.16, repeat: n(a.d, 0.16), yoyo: true }}, a.s),
-      glow: a => tl.fromTo(a.t, {{ opacity: 0.5 }}, {{ opacity: 0.95, duration: 1.4, repeat: n(a.d, 1.4), yoyo: true, ease: "sine.inOut", immediateRender: false }}, a.s),
-      twinkle: a => tl.fromTo(a.t, {{ opacity: 0.6 }}, {{ opacity: 1, duration: 1.1, repeat: n(a.d, 1.1), yoyo: true, ease: "sine.inOut", immediateRender: false }}, a.s),
-      spin: a => tl.fromTo(a.t, {{ rotation: 0 }}, {{ rotation: a.deg, duration: a.d, ease: "none", svgOrigin: a.ox + " " + a.oy, immediateRender: false }}, a.s),
-      pulse: a => tl.fromTo(a.t, {{ scale: 1 }}, {{ scale: 1.06, duration: 3, repeat: n(a.d, 3), yoyo: true, ease: "sine.inOut",
-                  svgOrigin: a.ox + " " + a.oy, immediateRender: false }}, a.s),
-      rise: a => tl.fromTo(a.t, {{ y: 0 }}, {{ y: -a.by, duration: a.d, ease: "none", immediateRender: false }}, a.s),
-      descend: a => tl.fromTo(a.t, {{ opacity: 0, y: 40 }}, {{ opacity: 1, y: 40 + a.by, duration: 3.4, ease: "power1.out", immediateRender: false }}, a.s + 0.6),
-      rain: a => tl.fromTo(a.t, {{ y: -{H} }}, {{ y: 0, duration: 0.7, repeat: n(a.d, 0.7), ease: "none", immediateRender: false }}, a.s),
-      flash: a => [0.6, 2.3, 3.4].filter(o => o < a.d - 0.4).forEach(o => {{
-        tl.to([a.t, a.bolt], {{ opacity: 0.85, duration: 0.05 }}, a.s + o);
-        tl.to([a.t, a.bolt], {{ opacity: 0, duration: 0.4 }}, a.s + o + 0.05); }}),
-      rays: a => {{ tl.to(a.t, {{ opacity: 0.5, duration: 1.4, ease: "power1.out" }}, a.s + 0.3);
-                   tl.to(a.t, {{ opacity: 0.25, duration: 1.6, repeat: n(a.d - 1.7, 1.6), yoyo: true, ease: "sine.inOut" }}, a.s + 1.7); }},
-      sparkle: a => {{ tl.to(a.t, {{ opacity: 1, duration: 0.8 }}, a.s + 0.4);
-                      tl.to(a.t, {{ opacity: 0.4, duration: 0.6, repeat: n(a.d - 1.2, 0.6), yoyo: true }}, a.s + 1.2); }},
-    }};
-    // cut-outs (.o) fill in with their outline; every other line keeps the fill its CSS gives it
-    const fo = end => (i, el) => el.classList.contains("o") ? end : getComputedStyle(el).fillOpacity;
-    // camera framings [scale, x]; |x| stays inside the zoom's overflow (960 * (scale - 1)) at every point of a move
-    const CAM = [[1.05, 0], [1.0, 0], [1.03, -24], [1.03, 24]];
-    let cam = CAM[2];
-    PLAN.beats.forEach((b, i) => {{
-      const sc = "#" + b.id + "-in", to = CAM[i % CAM.length], from = b.x ? cam : CAM[(i + 2) % CAM.length];
-      cam = to;
-      // a new setting: hard cut, a fresh framing, and the whole scene draws itself (land first, then figures).
-      // the same setting: one continuous camera, a dissolve over the outgoing beat, and only new figures draw in.
-      tl.fromTo(sc, {{ scale: from[0], x: from[1] }}, {{ scale: to[0], x: to[1], duration: b.d, ease: "sine.inOut", transformOrigin: "50% 62%",
-                immediateRender: false }}, b.s);
-      const still = sc + " .d:not(.fg .d)", draw = b.x ? sc + " .fg .d" : sc + " .d";
-      if (b.x) {{
-        tl.fromTo(sc, {{ opacity: 0 }}, {{ opacity: 1, duration: PLAN.xf, ease: "none", immediateRender: false }}, b.s);
-        if (document.querySelector(still)) tl.set(still, {{ strokeDashoffset: 0, fillOpacity: fo(1) }}, b.s);
-      }}
-      if (document.querySelector(draw))
-        tl.fromTo(draw, {{ strokeDashoffset: 1, fillOpacity: fo(0) }}, {{ strokeDashoffset: 0, fillOpacity: fo(1), duration: 2.2,
-                  ease: "power2.inOut", stagger: {{ amount: b.x ? 1.0 : 1.6 }}, immediateRender: false }}, b.s + 0.1);
-    }});
-    PLAN.anims.forEach(a => F[a.do](a));
+    paperScenes(tl, PLAN);  // the pages, their pop-ups and every figure's motion (paper.js)
     // captions rise in per block, and the word being spoken lights up
     PLAN.caps.forEach((w, i) => {{
       tl.fromTo("#cap-" + i + "-t", {{ opacity: 0, y: 18 }}, {{ opacity: 1, y: 0, duration: 0.25, ease: "power2.out", immediateRender: false }}, w[0]);
       document.querySelectorAll("#cap-" + i + "-t .w").forEach((el, k) => {{
         tl.set(el, {{ color: "{glow}" }}, w[k]);
-        tl.set(el, {{ color: "#fff8ec" }}, w[k + 1]);
+        tl.set(el, {{ color: "{cream}" }}, w[k + 1]);
       }});
     }});
     tl.fromTo("#title-k", {{ opacity: 0, y: 12 }}, {{ opacity: 1, y: 0, duration: 0.8, immediateRender: false }}, 0.2);
@@ -362,6 +239,7 @@ def chapter(vid, n):
     out = os.path.join(HERE, "build", name(vid, n))
     os.makedirs(os.path.join(out, "assets"), exist_ok=True)
     shutil.copytree(os.path.join(ROOT, "fonts"), os.path.join(out, "fonts"), dirs_exist_ok=True)
+    shutil.copy(os.path.join(ROOT, "paper.js"), out)
     voice, slots, total, words = narrate(ch, out)
     open(os.path.join(out, "index.html"), "w", encoding="utf-8").write(render_html(v, n, ch, voice, slots, total, words))
     print(f"{name(vid, n)}: {ch['title']}, {len(slots)} beats, {total:.1f} s -> {out}")

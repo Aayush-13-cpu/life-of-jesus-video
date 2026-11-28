@@ -1,20 +1,32 @@
 """Self-check for every long-form video, without TTS or rendering: python longform/test_long.py  (must print ok)"""
 import os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import lineart as art
-from build_long import (videos, estimate, timings, render_html, chunks, description, stamp, depth_order, TEMPLATE, END,
-                        WPS, MIN_LEN, MAX_LEN)
+from build_long import (videos, estimate, timings, render_html, chunks, description, stamp, TEMPLATE, END,
+                        WPS, MIN_LEN, MAX_LEN, WORLD)
+import paper as art
 
-ACTIONS = set(re.findall(r"^\s{6}(\w+): a =>", TEMPLATE, re.M))
-assert {"walk", "raise", "kneel", "rays", "spin", "rise", "descend"} <= ACTIONS, ACTIONS
+ENGINE = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "paper.js"), encoding="utf-8").read()
+ACTIONS = set(re.findall(r"^\s{4}(\w+): a =>", ENGINE, re.M))
+assert {"walk", "raise", "kneel", "rays", "descend"} <= ACTIONS, ACTIONS
 KINDS = set(art.PROPS) | art.PEOPLE | {"crowd"}
+
+# every prop, person, land and effect draws as paper under every sky, in the wide frame
+art.frame("long", WORLD)
+for t in art.SKIES:
+    art.use(t)
+    art.backdrop("b0", t)
+    for k in sorted(set(art.PROPS) | art.PEOPLE):
+        assert f'id="t-{k}"' in art.place(f"t-{k}", k, 960, art.GF, 1.0, False, ""), k
+    for g in art.LANDS:
+        art.land("b0", g)
+    for f in art.FX:
+        art.fx("b0", f)
 
 vs = videos()
 assert len({v["id"] for v in vs}) == len(vs) and all("--" not in v["id"] for v in vs)
 assert len({v["template"] for v in vs}) == len(vs), "every long video has its own template"
 for v in vs:
     vid = v["id"]
-    assert v["template"] in art.TEMPLATES, vid
     assert len(v["chapters"]) >= 3, f"{vid}: YouTube chapters need at least 3"
     length = sum(estimate(c) for c in v["chapters"])
     # the estimate runs a little long or short of the real voice; keep a margin inside 10-12 minutes
@@ -40,14 +52,14 @@ for v in vs:
         assert len(ids) == len(set(ids)), (where, sorted({i for i in ids if ids.count(i) > 1})[:5])
         assert f'data-duration="{total}"' in page and 'window.__timelines["long-chapter"]' in page
         assert "letterSpacing" not in page and 'id="music"' not in page  # music is laid once, under the whole video
-        assert page.count('pathLength="1"') > 20, where  # the scene is line art that draws itself in
-        assert art.TEMPLATES[v["template"]]["line"] in page, where
+        assert page.count('class="pp') > 4 and "paperScenes(tl, PLAN)" in page, where  # pages of pop-up paper
+        assert "Gradient" not in page and "pathLength" not in page, where  # strictly paper: no glows, no traced lines
         assert page.count("<span class=w>") == sum(len(b["say"].split()) for b in ch["beats"]), where  # word highlight
-        assert ('class="d o"' in page) == any(b.get("cast") for b in ch["beats"]), where  # figures are cut-outs
+        assert ('class="pp new"' in page) == any(b.get("cast") for b in ch["beats"]), where  # figures pop up
     print(f"  {vid}: {len(v['chapters'])} chapters, ~{stamp(length)} ({v['template']})")
 
 assert chunks("Peace, be still. And the wind ceased") == ["Peace, be still.", "And the wind ceased"]
-assert depth_order([{"k": "man"}, {"k": "crowd"}, {"k": "man", "y": 700}, {"k": "man", "in": 0}]) == [2, 1, 0]
+assert art.depth_order([{"k": "man"}, {"k": "crowd"}, {"k": "man", "y": 700}, {"k": "man", "in": 0}]) == [2, 1, 0]
 assert "b.s + b.d -" not in TEMPLATE  # no beat fades out at its end (no dips to black between beats)
 assert stamp(0) == "0:00" and stamp(61.9) == "1:01" and stamp(3725) == "1:02:05"
 txt = description(vs[0], [0.0] + [70.0 * i for i in range(1, len(vs[0]["chapters"]))])
